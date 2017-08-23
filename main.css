@@ -61,3 +61,11 @@ a:hover{
     text-decoration: underline;
     opacity: 1;
 }
+.tel{
+    display: inline;
+    position: fixed;
+    top: 0;
+    line-height: 2em;
+    right: 0;
+    padding-right:.5em;
+}
