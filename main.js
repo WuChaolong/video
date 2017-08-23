@@ -63,7 +63,7 @@ function panc(key){
 
 
     function getVideos(key){
-        var url = encodeURI("http://charon-node.herokuapp.com/cross?api=https://www.panc.cc/s/"+key+"/td_1");
+        var url = encodeURI("//charon-node.herokuapp.com/cross?api=https://www.panc.cc/s/"+key+"/td_1");
         try{
             var videos = parseHref(load(url),".a_url");
         }catch(e){
