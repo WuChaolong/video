@@ -1,0 +1,53 @@
+.baidu-video {
+    width: 100%;
+    height: 420px;
+    overflow: hidden;
+/*     border-left: 1px inset; */
+}
+.baidu-video iframe{
+    width: 100%;
+    height: 610px;
+    margin-top: -200px;
+    margin-left: -2px;
+}
+iframe{
+    border: 0;
+}
+body{
+    max-width: 751px;
+    margin:auto;
+    padding: 8px;
+}
+form{
+    margin-top: 2em;
+    margin-bottom: 2em;
+    /* height: 50%; */
+    /* padding-top: 5em; */
+    box-sizing: border-box;
+    text-align: center;
+}
+input,button{line-height: 2em;}
+input{
+    width: 60%;
+}
+.none{
+    text-align:center;
+}
+#loading{
+    display:none;
+    text-align:center;
+}
+.title{
+    margin-top:2em;
+    margin-bottom:1em;
+    opacity: .6;
+    font-weight: normal;
+    display: inline-block;
+    color: inherit;
+    text-decoration: none;
+}
+.title:hover{
+    color: -webkit-link;
+    text-decoration: underline;
+    opacity: 1;
+}
