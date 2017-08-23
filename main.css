@@ -33,9 +33,17 @@ input{
 .none{
     text-align:center;
 }
+.none span{
+    display: inline-block;
+    line-height: 420px;
+}
 #loading{
     display:none;
     text-align:center;
+    background-image: url("https://m.popkey.co/163fce/Llgbv_s-200x150.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 5em;
 }
 .title{
     margin-top:2em;

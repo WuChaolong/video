@@ -3,14 +3,13 @@
 <link href="https://yun.baidu.com/res/static/images/favicon.ico" rel="shortcut icon">
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="stylesheet" href="main.css" />
-<script type="text/javascript" src="main.js"></script>
 </head>
 <body>
 
 <form>
     <input name="search" autofocus/><button type="submit">Search</button>
 </form>       
-<div id="loading">loading</div>
+<div id="loading" class="baidu-video"></div>
 </body>
 <script id="videoTemplate" type="text/html">
 <a class="title"></a>
@@ -20,7 +19,8 @@
 </div>
 </script>
 <script id="noneTemplate" type="text/html">
-<div class="none">
-    没有找到这个资源
+<div class="baidu-video none">
+    <span>没有找到这个资源</span>
 </div>
 </script>
+<script type="text/javascript" src="main.js"></script>
