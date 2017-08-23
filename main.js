@@ -31,7 +31,8 @@ function loading(is){
 function panc(key){
     loading(true);
     var api = "https://www.panc.cc/s/"+key+"/td_1";
-    var url = encodeURI("//charon-node.herokuapp.com/cross?api="+api);
+    var url = encodeURI("//charon-node.herokuapp.com/fetch");
+    var data = JSON.stringify({crossUrl:api});
     try{
         var error = function(){
             var videos = [];
@@ -44,7 +45,7 @@ function panc(key){
             window.videos = videos;
             loading(false);
             setIframe(videos);
-        },error,"PUT",null);
+        },error,"POST",data);
 
     }catch(e){
         error();
