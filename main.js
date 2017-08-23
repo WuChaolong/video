@@ -45,7 +45,9 @@ function setIframe(videos) {
         a.innerHTML=videos[i].name;
         a.href=videos[i].url;
         var div= wrapper.children[1];
-        div.firstElementChild.src=videos[i].url;
+        var url = videos[i].url;
+        url = url.substr(url.indexOf("http:")+5);
+        div.firstElementChild.src=url;
         document.body.append(wrapper);
     }
 }
