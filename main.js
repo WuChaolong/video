@@ -20,43 +20,18 @@ function locationParameterChanged() {
         return;
     }
     document.getElementsByTagName("input")[0].value=key;
-    loading(true);
+    
     panc(key);
 }
 function loading(is){           
     var loadingDoc = document.getElementById("loading");
     loadingDoc.style.display=is?"block":"none";
 }
-function setIframe(videos) {
-    var template = document.getElementById("videoTemplate").innerHTML;
-    if(!videos||!videos.length){
-        template = document.getElementById("noneTemplate").innerHTML
 
-        var wrapper= document.createElement('div');
-        wrapper.innerHTML= template;
-
-        document.body.append(wrapper);
-        return;
-    }
-    for(var i=0;i<videos.length;i++){
-        var wrapper= document.createElement('div');
-        wrapper.innerHTML= template;
-        a = wrapper.children[0];
-        a.innerHTML=videos[i].name;
-        a.href=videos[i].url;
-        var div= wrapper.children[1];
-        var url = videos[i].url;
-        url = url.substr(url.indexOf("http:")+5);
-        div.firstElementChild.dataset.src=url;
-        if(i==0){
-            div.firstElementChild.src=url;
-        }
-        addVideosHandler(div.firstElementChild);
-        document.body.append(wrapper);
-    }
-}
 function panc(key){
-    var url = encodeURI("//charon-node.herokuapp.com/cross?api=https://www.panc.cc/s/"+key+"/td_1");
+    loading(true);
+    var api = "https://www.panc.cc/s/"+key+"/td_1";
+    var url = encodeURI("//charon-node.herokuapp.com/cross?api="+api);
     try{
         var error = function(){
             var videos = [];
@@ -74,7 +49,45 @@ function panc(key){
     }catch(e){
         error();
     }
+    function setIframe(videos) {
+        var template = document.getElementById("videoTemplate").innerHTML;
+        if(!videos||!videos.length){
+            template = document.getElementById("noneTemplate").innerHTML
 
+            var wrapper= document.createElement('div');
+            wrapper.innerHTML= template;
+
+            document.body.append(wrapper);
+            return;
+        }
+        for(var i=0;i<videos.length;i++){
+            var wrapper= document.createElement('div');
+            wrapper.innerHTML= template;
+            a = wrapper.children[0];
+            a.innerHTML=videos[i].name;
+            a.href=videos[i].url;
+            var div= wrapper.children[1];
+            var url = videos[i].url;
+            url = url.substr(url.indexOf("http:")+5);
+            div.firstElementChild.dataset.src=url;
+            if(i==0){
+                div.firstElementChild.src=url;
+            }
+            addVideosHandler(div.firstElementChild);
+            document.body.append(wrapper);
+        }
+        if(videos.length>=10){
+            insetMore(api);
+        }
+    }
+    function insetMore(url){
+            var template = document.getElementById("adTemplate").innerHTML;
+            var wrapper= document.createElement('div');
+            wrapper.innerHTML= template;
+            wrapper.children[0].firstElementChild.firstElementChild.href = url;
+            
+            document.body.append(wrapper);
+    }
 
     function getVideos(key){
         var url = encodeURI("//charon-node.herokuapp.com/cross?api=https://www.panc.cc/s/"+key+"/td_1");
