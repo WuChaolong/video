@@ -17,6 +17,8 @@ body{
     max-width: 751px;
     margin:auto;
     padding: 8px;
+    position: relative;
+    padding-bottom: 5em;
 }
 form{
     margin-top: 2em;
@@ -63,9 +65,12 @@ a:hover{
 }
 .tel{
     display: inline;
-    position: fixed;
-    top: 0;
+    position: absolute;
+    bottom: 0;
     line-height: 2em;
+    left: 0;
+    padding: 0 .5em;
+    width: 12em;
+    margin: auto;
     right: 0;
-    padding-right:.5em;
 }
