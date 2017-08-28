@@ -16,7 +16,7 @@ iframe{
 body{
     max-width: 751px;
     margin:auto;
-    padding: 8px;
+    /* padding: 8px; */
     position: relative;
     padding-bottom: 5em;
 }
@@ -64,13 +64,17 @@ a:hover{
     opacity: 1;
 }
 .tel{
-    display: inline;
+    /* display: inline; */
     position: absolute;
     bottom: 0;
     line-height: 2em;
-    left: 0;
-    padding: 0 .5em;
-    width: 12em;
+    /* left: 0; */
+    /* padding: 0 .5em; */
+    width: 100%;
     margin: auto;
-    right: 0;
+    /* right: 0; */
+    text-align: center;
+}
+.tel a{
+    margin-right:1em;
 }

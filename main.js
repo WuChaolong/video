@@ -30,7 +30,9 @@ function loading(is){
 
 function panc(key){
     loading(true);
-    var api = "https://www.panc.cc/s/"+key+"/td_1";
+//     var api = "https://www.panc.cc/s/"+key+"/td_1";
+    
+    var api = "https://www.panc.cc/s/"+key;
     var url = encodeURI("//charon-node.herokuapp.com/fetch");
 //     var url = encodeURI("http://127.0.0.1:8888/fetch");
     var data = JSON.stringify({crossUrl:api});
@@ -190,7 +192,7 @@ function ajax(uri,fn,error,method,data){
         }
     };
     request.onerror = error;
-    request.timeout = 6000; // time in milliseconds
+    request.timeout = 8000; // time in milliseconds
     request.ontimeout = function (e) {
       // XMLHttpRequest timed out. Do something here.
       request.abort();
