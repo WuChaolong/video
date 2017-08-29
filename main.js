@@ -22,86 +22,69 @@ function locationParameterChanged() {
     document.getElementsByTagName("input")[0].value=key;
     
     panc(key);
+    panduoduo(key);
 }
-function loading(is){           
-    var loadingDoc = document.getElementById("loading");
+function loading(is,id){           
+    var loadingDoc = document.getElementById(id?id:"pancLoading");
     loadingDoc.style.display=is?"block":"none";
 }
 
-function panc(key){
-    loading(true);
-//     var api = "https://www.panc.cc/s/"+key+"/td_1";
-    
-    var api = "https://www.panc.cc/s/"+key;
-    var url = encodeURI("//charon-node.herokuapp.com/fetch");
-//     var url = encodeURI("http://127.0.0.1:8888/fetch");
-    var data = JSON.stringify({crossUrl:api});
-    try{
-        var error = function(){
+function panduoduo(key){
+    var host = "panduoduo";
+    var success = function(html){
+        var videos = parseList(html,"a[href^='/r/']");
+        window[host] = videos;
+        loading(false,host+"Loading");
+
+        function parseList(html,select){
             var videos = [];
-            window.videos = videos;
-            loading(false);
-            setIframe(videos);
-        }
-        ajax(url,function(html){
-            var videos = parseHref(html,".a_url");
-            window.videos = videos;
-            loading(false);
-            setIframe(videos);
-        },error,"POST",data);
+            var el = document.createElement( 'html' );
+            el.innerHTML = html;
 
-    }catch(e){
-        error();
-    }
-    function setIframe(videos) {
-        var template = document.getElementById("videoTemplate").innerHTML;
-        if(!videos||!videos.length){
-            template = document.getElementById("noneTemplate").innerHTML
+            var as = el.querySelectorAll(select);
+            el = null;
+            for(var i = 0;i<as.length;i++){
+                if(i>10){
+                    break;
+                }
+                var video = {ref:host,name:as[i].innerHTML,url:"http://www.panduoduo.net"+as[i].pathname};
+                videos.push(video);
+                fetchDetal(video,i);
 
-            var wrapper= document.createElement('div');
-            wrapper.innerHTML= template;
-
-            document.body.append(wrapper);
-            return;
-        }
-        for(var i=0;i<videos.length;i++){
-            var wrapper= document.createElement('div');
-            wrapper.innerHTML= template;
-            a = wrapper.children[0];
-            a.innerHTML=videos[i].name;
-            a.href=videos[i].url;
-            var div= wrapper.children[1];
-            var url = videos[i].url;
-            url = url.substr(url.indexOf("http:")+5);
-            div.firstElementChild.dataset.src=url;
-            if(i==0){
-                div.firstElementChild.src=url;
             }
-            addVideosHandler(div.firstElementChild);
-            document.body.append(wrapper);
+            return videos;
         }
-        if(videos.length>=10){
-            insetMore(api);
-        }
-    }
-    function insetMore(url){
-            var template = document.getElementById("adTemplate").innerHTML;
-            var wrapper= document.createElement('div');
-            wrapper.innerHTML= template;
-            wrapper.children[0].firstElementChild.firstElementChild.href = url;
-            
-            document.body.append(wrapper);
-    }
+        function fetchDetal(video,i){
+            var success = function(html){
 
-    function getVideos(key){
-        var url = encodeURI("//charon-node.herokuapp.com/cross?api=https://www.panc.cc/s/"+key+"/td_1");
-        try{
-            var videos = parseHref(load(url),".a_url");
-        }catch(e){
-            return [];
+                video["url"] = parseDetail(html,"a.dbutton2");
+                loading(false,host+"Loading");
+                function parseDetail(html,select){
+                    var href = html.substring(html.indexOf('"dbutton2" href="')+'"dbutton2" href="'.length,html.indexOf('" rel="nofollow">点击去百度云盘下载资源</a>'));
+                    var url = getURLParameter("url",href);
+                    return url;
+                }
+                setIframe([video],i===0);
+            }
+            fetch("panduoduo",video.url,success);
+
         }
-        return videos;
+    };
+    fetch(host,"http://www.panduoduo.net/s/comb/n-"+key+"&ty-bd&f-f4",success);
+    
+}
+function panc(key){
+
+    var host = "panc";
+    var success = function(html){
+        var videos = parseHref(html,".a_url");
+        window[host] = videos;
+        loading(false,host+"Loading");
+        setIframe(videos,true,true);
     }
+    fetch(host,"https://www.panc.cc/s/"+key+"/td_1",success);
+
+
     function parseHref(html,select){
         var videos = [];
         var el = document.createElement( 'html' );
@@ -115,6 +98,57 @@ function panc(key){
 
 }
 
+function fetch(host,api,success){
+    loading(true,host+"Loading");
+    var url = encodeURI("//charon-node.herokuapp.com/fetch");
+//     var url = encodeURI("http://127.0.0.1:8888/fetch");
+    var data = JSON.stringify({crossUrl:api});
+    try{
+        var error = function(){
+            var videos = [];
+            loading(false,host+"Loading");
+            setIframe(videos,true,true);
+        }
+        ajax(url,success,error,"POST",data);
+
+    }catch(e){
+        error();
+    }
+}
+
+
+
+function setIframe(videos,isSrc,isNone) {
+    var template = document.getElementById("videoTemplate").innerHTML;
+    if(isNone&&(!videos||!videos.length)){
+        template = document.getElementById("noneTemplate").innerHTML
+
+        var wrapper= document.createElement('div');
+        wrapper.innerHTML= template;
+
+        document.body.append(wrapper);
+        return;
+    }
+    var dataBox =  document.getElementById("data");
+    for(var i=0;i<videos.length;i++){
+        var wrapper= document.createElement('div');
+        wrapper.innerHTML= template;
+        a = wrapper.children[0];
+        a.innerHTML=videos[i].name;
+        a.href=videos[i].url;
+        var div= wrapper.children[1];
+        var url = videos[i].url;
+        url = url.substr(url.indexOf("http:")+5);
+        div.firstElementChild.dataset.src=url;
+        if(isSrc&&i==0){
+            div.firstElementChild.src=url;
+        }
+        addVideosHandler(div.firstElementChild);
+        dataBox.append(wrapper);
+    }
+}
+
+
 function load(uri,fn){
     var request = new XMLHttpRequest();
     request.open('PUT', uri, false); 
@@ -124,8 +158,8 @@ function load(uri,fn){
     }
 }
 
-function getURLParameter(name) {
-  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+function getURLParameter(name,url) {
+  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(url?url:location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
 }
 
 
@@ -192,7 +226,7 @@ function ajax(uri,fn,error,method,data){
         }
     };
     request.onerror = error;
-    request.timeout = 8000; // time in milliseconds
+    request.timeout = 20000; // time in milliseconds
     request.ontimeout = function (e) {
       // XMLHttpRequest timed out. Do something here.
       request.abort();
