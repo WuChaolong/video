@@ -9,9 +9,8 @@
 <form>
     <input name="search" autofocus/><button type="submit">Search</button>
 </form>
-<div id="data"></div>       
-<div id="pancLoading" class="loading baidu-video"></div>
-<div id="panduoduoLoading" class="loading baidu-video"></div>
+<div id="data"></div>
+<div id="confirm"></div>      
 
 <div class="tel"><a href="https://movie.douban.com/top250" target="_blank">豆瓣Top</a>客服冷线：<a href="sms://+13006248103">13006248103</a></div>
 </body>
@@ -22,16 +21,23 @@
     ></iframe>
 </div>
 </script>
+<script id="loadingTemplate" type="text/html">
+<div class="loading baidu-video"></div>
+
+</script>
 <script id="noneTemplate" type="text/html">
 <div class="baidu-video none">
     <span>None!</span>
 </div>
 </script>
-<script id="adTemplate" type="text/html">
-<div class="baidu-video none">
-    <span><a>更多</a></span>
+<script id="moreTemplate" type="text/html">
+<a href="javascript:return void()">
+<div id="more" class="baidu-video none more" onclick="ShowMore();">
+    <span>More</span>
 </div>
+</a>
 </script>
+
 <script type="text/javascript" src="main.js"></script>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

@@ -40,7 +40,7 @@ input{
     line-height: 420px;
 }
 .loading{
-    display:none;
+    /* display:none; */
     text-align:center;
     background-image: url("https://m.popkey.co/163fce/Llgbv_s-200x150.gif");
     background-repeat: no-repeat;
@@ -77,4 +77,14 @@ a:hover{
 }
 .tel a{
     margin-right:1em;
+}
+.hide{
+    display:none;
+}
+.more{
+
+    opacity: .6;
+}
+.more:hover{
+    opacity: 1;
 }
