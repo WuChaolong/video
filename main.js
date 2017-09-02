@@ -62,8 +62,8 @@ function panduoduo(key){
         confirm("moreTemplate");
         if(!window.showVideos){
             window.showVideos = [];
-            panduoduoSetIframe(window[host+"Videos"],3,window.showVideos)
         }
+        panduoduoSetIframe(window[host+"Videos"],3,window.showVideos);
         
     };
     fetch(host,"http://www.panduoduo.net/s/comb/n-"+key+"&ty-bd&f-f4",success);
@@ -143,8 +143,8 @@ function panc(key){
 //         setIframe(videos,true,true);
         if(!window.showVideos){
             window.showVideos = [];
-            pancSetIframe(window[host+"Videos"],3,window.showVideos);
         }
+            pancSetIframe(window[host+"Videos"],3,window.showVideos);
     }
     fetch(host,"https://www.panc.cc/s/"+key+"/td_1",success);
 
