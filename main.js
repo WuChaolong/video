@@ -20,7 +20,7 @@ function locationParameterChanged() {
         return;
     }
     document.getElementsByTagName("input")[0].value=key;
-    
+    document.getElementsByTagName("title")[0].innerText=key+" in pan.baidu.com sharing";
     panc(key);
     panduoduo(key);
 }
@@ -59,12 +59,11 @@ function panduoduo(key){
             return;
         }
         window[host+"Videos"] = videos;
-        confirm("moreTemplate");
         if(!window.showVideos){
             window.showVideos = [];
         }
         panduoduoSetIframe(window[host+"Videos"],3,window.showVideos);
-        
+//         setTimeout('confirm("moreTemplate");',5000);
     };
     fetch(host,"http://www.panduoduo.net/s/comb/n-"+key+"&ty-bd&f-f4",success);
     
@@ -138,13 +137,12 @@ function panc(key){
             return;
         }
         window[host+"Videos"] = videos;
-        
-        confirm("moreTemplate");
 //         setIframe(videos,true,true);
         if(!window.showVideos){
             window.showVideos = [];
         }
-            pancSetIframe(window[host+"Videos"],3,window.showVideos);
+        pancSetIframe(window[host+"Videos"],3,window.showVideos);
+        confirm("moreTemplate"); 
     }
     fetch(host,"https://www.panc.cc/s/"+key+"/td_1",success);
 

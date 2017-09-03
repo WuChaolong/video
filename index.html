@@ -1,5 +1,5 @@
 <head>
-<title>Video in pan.baidu.com sharing</title>
+<title>Videos in pan.baidu.com sharing</title>
 <link href="https://yun.baidu.com/res/static/images/favicon.ico" rel="shortcut icon">
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="stylesheet" href="main.css" />
@@ -12,7 +12,7 @@
 <div id="data"></div>
 <div id="confirm"></div>      
 
-<div class="tel"><a href="https://movie.douban.com/top250" target="_blank">豆瓣Top</a>客服冷线：<a href="sms://+13006248103">13006248103</a></div>
+<div class="tel"><a href="https://movie.douban.com/top250" target="_blank" class="icon-douban">Top</a>✆客服：<a href="sms://+13006248103">13006248103</a></div>
 </body>
 <script id="videoTemplate" type="text/html">
 <a class="title" target="_blank"></a>
@@ -22,18 +22,22 @@
 </div>
 </script>
 <script id="loadingTemplate" type="text/html">
-<div class="loading baidu-video"></div>
+<div class="confirm loading port">
+    
+    <span><i class="icon-loading"></i>Loading..</span>
+</div>
 
 </script>
 <script id="noneTemplate" type="text/html">
-<div class="baidu-video none">
+<div class="confirm none">
+    <span>☹</span>
     <span>None!</span>
 </div>
 </script>
 <script id="moreTemplate" type="text/html">
-<a href="javascript:return void()">
-<div id="more" class="baidu-video none more" onclick="ShowMore();">
-    <span>More</span>
+<a href="javascript:return void()" class="a-more">
+<div id="more" class="confirm more" onclick="ShowMore();">
+    <span>More</span><i>﹀</i>
 </div>
 </a>
 </script>

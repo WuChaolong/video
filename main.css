@@ -28,25 +28,41 @@ form{
     box-sizing: border-box;
     text-align: center;
 }
-input,button{line-height: 2em;}
+input,button{line-height: 2em;font-size: 1em;}
 input{
     width: 60%;
 }
+.confirm{
+    text-align:center;
+    padding: 200px 0;
+}
+.confirm span{
+    display: block;
+    /* line-height: 420px; */
+}
+.confirm i{
+    /* display: block; */
+    font-size: 1.2em;
+}
 .none{
-    text-align:center;
+    /* color:yellow; */
 }
-.none span{
-    display: inline-block;
-    line-height: 420px;
+.more i{
+    font-style: normal;
 }
-.loading{
-    /* display:none; */
-    text-align:center;
-    background-image: url("https://m.popkey.co/163fce/Llgbv_s-200x150.gif");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 5em;
+.a-more{
+
+    text-decoration: none;
 }
+.a-more:hover{
+    
+    text-decoration: none;
+}
+.more{ opacity: .6; }
+.more:hover{
+    opacity: 1;
+}
+
 .title{
     margin-top:2em;
     margin-bottom:1em;
@@ -83,10 +99,26 @@ a:hover{
 .hide{
     display:none;
 }
-.more{
-
-    opacity: .6;
+.icon-douban:before,.icon-loading:before{
+    content:" ";
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto 100%;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align:middle;
 }
-.more:hover{
-    opacity: 1;
+.icon-loading{
+/*     display:block; */
+}
+.icon-loading:before{
+    background-image: url("https://m.popkey.co/163fce/Llgbv_s-200x150.gif");
+    
+    width: 2em;
+    height: 2em;
+}
+.icon-douban:before{
+    background-image: url("https://img3.doubanio.com/favicon.ico");
+    vertical-align: text-top;
 }
