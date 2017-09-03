@@ -16,6 +16,7 @@ function changeHash(form){
 }
 function locationParameterChanged() {
     var key = getURLParameter("search");
+
     if(!key){
         return;
     }
@@ -197,6 +198,10 @@ function setIframe(videos,isSrc,isNone) {
         a.href=videos[i].url;
         var div= wrapper.children[1];
         var url = videos[i].url;
+        if(isDisableScript(url)){
+            div.firstElementChild.sandbox="allow-same-origin allow-popups allow-forms allow-pointer-lock";
+        }
+
         url = url.substr(url.indexOf("http:")+5);
         div.firstElementChild.dataset.src=url;
         if(isSrc&&i==0){
@@ -206,7 +211,12 @@ function setIframe(videos,isSrc,isNone) {
         dataBox.append(wrapper);
     }
 }
-
+function isDisableScript(url){
+    if(url.indexOf("pan.baidu.com/pcloud/album/file")>0){
+        return true;
+    }
+    return false;
+}
 
 function load(uri,fn){
     var request = new XMLHttpRequest();

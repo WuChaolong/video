@@ -34,7 +34,7 @@ input{
 }
 .confirm{
     text-align:center;
-    padding: 200px 0;
+    padding: 12em 0;
 }
 .confirm span{
     display: block;
@@ -99,6 +99,9 @@ a:hover{
 .hide{
     display:none;
 }
+.loading{
+    padding:11.5em 0;
+}
 .icon-douban:before,.icon-loading:before{
     content:" ";
     background-repeat: no-repeat;
@@ -110,7 +113,7 @@ a:hover{
     vertical-align:middle;
 }
 .icon-loading{
-/*     display:block; */
+    display:block;
 }
 .icon-loading:before{
     background-image: url("https://m.popkey.co/163fce/Llgbv_s-200x150.gif");
@@ -121,4 +124,7 @@ a:hover{
 .icon-douban:before{
     background-image: url("https://img3.doubanio.com/favicon.ico");
     vertical-align: text-top;
+}
+iframe[sandbox="allow-same-origin allow-popups allow-forms allow-pointer-lock"]{
+    opacity:.1;
 }
