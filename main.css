@@ -83,15 +83,15 @@ a:hover{
     /* display: inline; */
     position: absolute;
     bottom: 0;
-/*     line-height: 2em; */
+    line-height: 2em;
     /* left: 0; */
     /* padding: 0 .5em; */
     width: 100%;
     margin: auto;
     /* right: 0; */
     text-align: center;
-    margin-top: 2em;
-    margin-bottom: 2em;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 .tel a{
     margin-right:1em;
@@ -102,7 +102,7 @@ a:hover{
 .loading{
     padding:11.5em 0;
 }
-.icon-douban:before,.icon-loading:before{
+.icon-douban:before,.icon-loading:before,.icon-pan:before{
     content:" ";
     background-repeat: no-repeat;
     background-position: center;
@@ -125,6 +125,15 @@ a:hover{
     background-image: url("https://img3.doubanio.com/favicon.ico");
     vertical-align: text-top;
 }
+.icon-pan:before{
+    background-image: url("https://yun.baidu.com/res/static/images/favicon.ico");
+}
 iframe[sandbox="allow-same-origin allow-popups allow-forms allow-pointer-lock"]{
     opacity:.1;
+}
+#data{
+    padding:0 .5em;
+}
+code{
+    word-break: break-all;
 }
