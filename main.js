@@ -245,7 +245,7 @@ function setIframe(videos,isSrc,isNone,templateId) {
             div.firstElementChild.innerHTML = url;
         }
         
-        dataBox.append(wrapper);
+        dataBox.appendChild(wrapper);
     }
 }
 function isExist(url,videos){
