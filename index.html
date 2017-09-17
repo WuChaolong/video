@@ -7,7 +7,7 @@
 <body>
 
 <form>
-    <input name="search" autofocus/><button type="submit">Search</button>
+    <input required name="search"/><button type="submit">Search</button>
 </form>
 <div id="data"></div>
 <div id="confirm"></div>      
@@ -17,13 +17,21 @@
   <a target="_blank" href="https://movie.douban.com/top250" class="icon-douban">Top</a>
   ✆客服<a target="_blank"  href="sms://+13006248103">13006248103</a></div>
 </body>
-<script id="videoTemplate" type="text/html">
+
+<code style="display:none" id="videoTemplate" type="text/html">
 <a class="title" target="_blank"></a>
 <div class="baidu-video">
-    <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock" scrolling="no" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"
+    <iframe seamless sandbox="allow-modals allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock" scrolling="no" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"
     ></iframe>
 </div>
-</script>
+</code>
+<!-- <script id="videoTemplate" type="text/html">
+<a class="title" target="_blank"></a>
+<div class="baidu-video">
+    <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock " scrolling="no" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"
+    ></iframe>
+</div>
+</script> -->
 <script id="magnetTemplate" type="text/html">
 <a class="title" target="_blank"></a>
 <div>

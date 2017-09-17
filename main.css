@@ -18,24 +18,41 @@ iframe{
     border: 0;
 }
 body{
-    max-width: 751px;
+    /* max-width: 751px; */
     margin:auto;
     /* padding: 8px; */
     position: relative;
     /* padding-bottom: 5em; */
 }
 form{
-    padding-top: 2em;
-    padding-bottom: 2em;
+    /* padding-top: 2em; */
+    /* padding-bottom: 2em; */
     /* height: 50%; */
     /* padding-top: 5em; */
     box-sizing: border-box;
     text-align: center;
     margin: 0;
+    position: relative;
 }
-input,button{line-height: 2em;font-size: 1em;}
+input{font-size: 1.5em;padding: 0 5px;}
+
 input{
-    width: 60%;
+    width: 100%;
+    height: 15%;
+    transition: font-size .2s, height .2s;
+    /* text-align: center; */
+    min-height: 2em;
+}
+button{
+    position: absolute;
+    /* left: 0; */
+    right: .5em;
+    bottom: -.75em;
+    margin: auto;
+    font-size: 1.5em;
+    /* float: left; */
+    width: 5em;
+    line-height:1.5em;
 }
 .confirm{
     text-align:center;
@@ -143,7 +160,20 @@ iframe[sandbox="allow-same-origin allow-popups allow-forms allow-pointer-lock"]{
 }
 #data{
     padding:0 .5em;
+    max-width: 751px;
+    margin: auto;
 }
 code{
     word-break: break-all;
+}
+
+
+@media screen and (min-width:751px){
+    input{
+        text-align: center;
+    }
+    button{
+        left: 0;
+        right: 0;
+    }
 }

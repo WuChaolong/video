@@ -1,9 +1,26 @@
 window.onload = function(){
+    
 }
 
     locationParameterChanged();
 
+function setHeight(input,height){
+        input.style.height = height;
+}
 
+function setFontSize(input,maxLength,fontSize){
+    function min(x,y){
+        return x-y<0?x:y;
+    }
+    function max(x,y){
+        return x-y<0?y:x;
+    }
+    if(!fontSize){
+        var fontSize = max(min(window.innerWidth,window.innerHeight)/maxLength,16)+"px";
+
+    }
+    input.style.fontSize = fontSize;
+}
 
 function changeHash(form){
     if(location.hash.substr(1)==form.search.value){
@@ -16,11 +33,24 @@ function changeHash(form){
 }
 function locationParameterChanged() {
     var key = getURLParameter("search");
-
+    var input = document.getElementsByTagName("input")[0];
+    input.oninput = function(){
+//          setFontSize(input,input.value.length>8?input.value.length+2:8+2);
+    }
+    input.onfocus = function(){
+         setHeight(input,"50%");
+//          setFontSize(input,10);
+    }
+    document.getElementsByTagName("form")[0].onsubmit = function(){
+         setHeight(input,"15%");
+//          setFontSize(input,100,"1.5em");
+    }
     if(!key){
+        input.focus();
         return;
     }
-    document.getElementsByTagName("input")[0].value=key;
+
+    input.value=key;
     document.getElementsByTagName("title")[0].innerText=key+" in pan.baidu.com sharing";
     panc(key);
     panduoduo(key);
@@ -69,8 +99,8 @@ function panduoduo(key){
         window[host+"Videos"] = videos;
         if(!window.showVideos){
             window.showVideos = [];
+            panduoduoSetIframe(window[host+"Videos"],1,window.showVideos);
         }
-        panduoduoSetIframe(window[host+"Videos"],3,window.showVideos);
 //         setTimeout('confirm("moreTemplate");',5000);
     };
     fetch(host,"http://www.panduoduo.net/s/comb/n-"+key+"&ty-bd&f-f4",success);
@@ -158,8 +188,8 @@ function panc(key){
 //         setIframe(videos,true,true);
         if(!window.showVideos){
             window.showVideos = [];
+            pancSetIframe(window[host+"Videos"],1,window.showVideos);
         }
-        pancSetIframe(window[host+"Videos"],3,window.showVideos);
         confirm("moreTemplate"); 
     }
     fetch(host,"https://www.panc.cc/s/"+key+"/td_1",success);
@@ -375,8 +405,9 @@ function thepiratebay(key){
         window[host+"Videos"] = videos;
         if(!window.showVideos){
             window.showVideos = [];
+            thepiratebaySetIframe(window[host+"Videos"],1,window.showVideos);
         }
-        thepiratebaySetIframe(window[host+"Videos"],3,window.showVideos);
+        
 //         setTimeout('confirm("moreTemplate");',5000);
     };
     if(isEnglish(key)){
