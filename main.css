@@ -4,14 +4,14 @@ html,body{
 }
 .baidu-video {
     width: 100%;
-    height: 420px;
+    height: 610px;
     overflow: hidden;
 /*     border-left: 1px inset; */
 }
 .baidu-video iframe{
     width: 100%;
     height: 610px;
-    margin-top: -200px;
+/*     margin-top: -200px; */
     margin-left: -2px;
 }
 iframe{
@@ -22,7 +22,8 @@ body{
     margin:auto;
     /* padding: 8px; */
     position: relative;
-    /* padding-bottom: 5em; */
+    padding-bottom: 5em;
+    box-sizing: border-box;
 }
 form{
     /* padding-top: 2em; */
@@ -176,4 +177,59 @@ code{
         left: 0;
         right: 0;
     }
+    #progressGroup {
+        text-align: center;
+    }
+    .baidu-video {
+        height: 420px;
+    }
+    .baidu-video iframe{
+        margin-top: -200px;
+    }
+}
+
+progress{
+    -webkit-appearance: none;
+    height: .5em;
+    width: 5em;
+    vertical-align: middle;
+}
+progress::-webkit-progress-bar {
+    background-color: inherit;
+}
+progress::-webkit-progress-value{
+  
+    background-color: darkgray;
+}
+progress.success::-webkit-progress-value{
+    background-color: green;
+}
+progress.error::-webkit-progress-value{
+    background-color: red;
+}
+progress.none::-webkit-progress-value{
+    background-color: yellow;
+}
+#progressGroup{
+    display:none;
+    text-align: left;
+    margin-top:3em;
+    transform: rotate(90deg);
+    -ms-transform: rotate(90deg);  /* IE 9 */
+    -moz-transform: rotate(90deg);  /* Firefox */
+    -webkit-transform: rotate(90deg); /* Safari 和 Chrome */
+    -o-transform: rotate(90deg);  /* Opera */
+}
+#progressGroup li{
+    text-align: left;
+}
+#progressGroup a{
+    
+    display:none;
+}
+#progressGroup.show{
+    display: inline-block;
+}
+#progressGroupDiv{
+    text-align:center;
 }

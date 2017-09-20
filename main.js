@@ -90,12 +90,16 @@ function confirm(id,isImportant){
 function panduoduo(key){
     var host = "panduoduo";
     window[host+"Videos"] = [];
+    var fetchUrl = "http://www.panduoduo.net/s/comb/n-"+key+"&ty-bd&f-f4";
+    var progress = innerProgress(host,fetchUrl);
     var success = function(html){
         var videos = parseList(html,"a[href^='/r/']");
         if(!videos||videos.length===0){
+            progress.none();
             confirm("noneTemplate");
             return;
         }
+        progress.success(videos.length);
         window[host+"Videos"] = videos;
         if(!window.showVideos){
             window.showVideos = [];
@@ -103,7 +107,7 @@ function panduoduo(key){
         }
 //         setTimeout('confirm("moreTemplate");',5000);
     };
-    fetch(host,"http://www.panduoduo.net/s/comb/n-"+key+"&ty-bd&f-f4",success);
+    fetch(host,fetchUrl,success);
     
     function parseList(html,select){
         var videos = [];
@@ -174,16 +178,21 @@ function ShowMore(){
         confirm("noneTemplate",true);
     }
 }
+
 function panc(key){
 
     var host = "panc";
     window[host+"Videos"] = [];
+    var fetchUrl = "https://www.panc.cc/s/"+key+"/td_1";
+    var progress = innerProgress(host,fetchUrl);
     var success = function(html){
         var videos = parseHref(html,".a_url");
         if(!videos||videos.length===0){
+            progress.none();
             confirm("noneTemplate");
             return;
         }
+        progress.success(videos.length);
         window[host+"Videos"] = videos;
 //         setIframe(videos,true,true);
         if(!window.showVideos){
@@ -192,7 +201,7 @@ function panc(key){
         }
         confirm("moreTemplate"); 
     }
-    fetch(host,"https://www.panc.cc/s/"+key+"/td_1",success);
+    fetch(host,fetchUrl,success);
 
     window.pancSetIframe = function (pancVideos,length){
         var videos = pancVideos.splice(0,length);
@@ -214,7 +223,7 @@ function panc(key){
 
 function fetch(host,api,success){
 
-    confirm("loadingTemplate");
+//     confirm("loadingTemplate");
     var url = encodeURI("//charon-node.herokuapp.com/fetch");
 //     var url = encodeURI("http://127.0.0.1:8888/fetch");
     var data = JSON.stringify({crossUrl:api});
@@ -222,6 +231,7 @@ function fetch(host,api,success){
         var error = function(){
             var videos = [];
             confirm("noneTemplate");
+            progress(host+'Progress').error();
 //             setIframe(videos,true,true);
         }
         ajax(url,success,error,"POST",data);
@@ -232,12 +242,13 @@ function fetch(host,api,success){
 }
 function cross(host,api,success){
 
-    confirm("loadingTemplate");
+//     confirm("loadingTemplate");
     var url = encodeURI("//charon-node.herokuapp.com/cross?api="+api);
     try{
         var error = function(){
             var videos = [];
             confirm("noneTemplate");
+            progress(host+'Progress').error();
 //             setIframe(videos,true,true);
         }
         ajax(url,success,error);
@@ -394,27 +405,29 @@ function isEnglish(string){
 function thepiratebay(key){
     var host = "thepiratebay";
     window[host+"Videos"] = [];
-    
-    var success = function(html){
-
-        var videos = parseList(html);
-        if(!videos||videos.length===0){
-            confirm("noneTemplate");
-            return;
-        }
-        window[host+"Videos"] = videos;
-        if(!window.showVideos){
-            window.showVideos = [];
-            thepiratebaySetIframe(window[host+"Videos"],1,window.showVideos);
-        }
-        
-//         setTimeout('confirm("moreTemplate");',5000);
-    };
     if(isEnglish(key)){
-        cross(host,"https://thepiratebay.org/search/"+key+"/0/99/0",success);
+        var crossUrl = "https://thepiratebay.org/search/"+key+"/0/99/0";
+        var progress = innerProgress(host,crossUrl);
+        var success = function(html){
+
+            var videos = parseList(html);
+            if(!videos||videos.length===0){
+                confirm("noneTemplate");
+                progress.none();
+                return;
+            }
+            progress.success(videos.length);
+            window[host+"Videos"] = videos;
+            if(!window.showVideos){
+                window.showVideos = [];
+                thepiratebaySetIframe(window[host+"Videos"],1,window.showVideos);
+            }
+
+    //         setTimeout('confirm("moreTemplate");',5000);
+        };
+        cross(host,crossUrl,success);
 
     }
-    
     function parseList(html){
 
         var videos = [];
@@ -454,4 +467,52 @@ function importScript (sSrc, fOnload) {
   if (fOnload) { oScript.onload = fOnload; }
   document.currentScript.parentNode.insertBefore(oScript, document.currentScript);
   oScript.src = sSrc;
+}
+
+function progress(id){
+
+    var _progress = document.getElementById(id);
+    if(_progress.is_progress){
+        return _progress;
+    }
+    _progress.is_progress = true;
+    _progress.interval=setInterval(frame, 10);
+    _progress.success=function(length){
+        _progress.classList.add("success");
+        clearInterval(_progress.interval);
+        if(length){
+            appendHTML(_progress.nextSibling,"<em>("+length+")</em>");
+        }
+    };
+    _progress.none = function(){
+        _progress.classList.add("none");
+        clearInterval(_progress.interval);
+    }
+    _progress.error = function(){
+        _progress.classList.add("error");
+        clearInterval(_progress.interval);
+    }
+
+    function frame() {
+        if (_progress.value >= 20000) {
+            clearInterval(_progress.interval);
+            _progress.error();
+        } else {
+            _progress.value  = _progress.value + 10;
+        }
+    }
+    return _progress;
+}
+
+function innerProgress(host,fetchUrl){
+    var progressGroup = document.getElementById("progressGroup");
+    progressGroup.classList.add("show");
+    var html = '<li><progress max="20000" id="'+host+'Progress"></progress><a target="_blank" href="'+fetchUrl+'">'+host+'</a>';
+    appendHTML(progressGroup,html)
+    return progress(host+'Progress');
+}
+function appendHTML(d,html){
+    var wrapper= document.createElement('div');
+        wrapper.innerHTML= html;
+        d.appendChild(wrapper.children[0]);
 }
