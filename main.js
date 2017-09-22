@@ -281,7 +281,7 @@ function setIframe(videos,isSrc,isNone,templateId) {
                 div.firstElementChild.sandbox="allow-same-origin allow-popups allow-forms allow-pointer-lock";
             }
 
-            url = url.substr(url.indexOf("http:")+5);
+            url = url.substr(url.indexOf("//"));
             div.firstElementChild.dataset.src=url;
             if(isSrc&&i==0){
                 div.firstElementChild.src=url;
