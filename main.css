@@ -58,6 +58,8 @@ button{
 .confirm{
     text-align:center;
     padding: 12em 0;
+    max-width: 751px;
+    margin: auto;
 }
 .confirm span{
     display: block;
@@ -174,8 +176,8 @@ code{
         text-align: center;
     }
     button{
-        left: 0;
-        right: 0;
+/*         left: 0; */
+/*         right: 0; */
     }
     #progressGroup {
         text-align: center;

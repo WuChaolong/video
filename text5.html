@@ -1,9 +1,7 @@
 <!doctype html>
 <html>
   <body>
-    <link rel="stylesheet" href="video.css" />
-
-<!--     <h1>Download files using the WebTorrent protocol (BitTorrent over WebRTC).</h1>
+    <h1>Download files using the WebTorrent protocol (BitTorrent over WebRTC).</h1>
 
     <form>
       <label for="torrentId">Download from a magnet link: </label>
@@ -11,9 +9,8 @@
       <button type="submit">Download</button>
     </form>
 
-    <h2>Log</h2> -->
+    <h2>Log</h2>
     <div class="log"></div>
-    <div class="body"></div>
 
     <!-- Include the latest version of WebTorrent -->
     <script src="https://cdn.jsdelivr.net/webtorrent/latest/webtorrent.min.js"></script>
@@ -25,21 +22,14 @@
         console.error('ERROR: ' + err.message)
       })
 
-//       document.querySelector('form').addEventListener('submit', function (e) {
-//         e.preventDefault() // Prevent page refresh
+      document.querySelector('form').addEventListener('submit', function (e) {
+        e.preventDefault() // Prevent page refresh
 
-//         var torrentId = document.querySelector('form input[name=torrentId]').value
-//         log('Adding ' + torrentId)
-//         client.add(torrentId, onTorrent)
-//       })
-        window.onload = function(){
-            locationParameterChanged();
-        }
-      
-      function locationParameterChanged() {
-        var torrentId = getURLParameter("torrentId");
-        client.add(torrentId, onTorrent);
-      }
+        var torrentId = document.querySelector('form input[name=torrentId]').value
+        log('Adding ' + torrentId)
+        client.add(torrentId, onTorrent)
+      })
+
       function onTorrent (torrent) {
         log('Got torrent metadata!')
         log(
@@ -60,25 +50,21 @@
 
         // Render all files into to the page
         torrent.files.forEach(function (file) {
-          file.appendTo('.body')
-//           log('(Blob URLs only work if the file is loaded from a server. "http//localhost" works. "file://" does not.)')
-//           file.getBlobURL(function (err, url) {
-//             if (err) return log(err.message)
-//             log('File done.')
-//             log('<a href="' + url + '">Download full file: ' + file.name + '</a>')
-//           })
+          file.appendTo('.log')
+          log('(Blob URLs only work if the file is loaded from a server. "http//localhost" works. "file://" does not.)')
+          file.getBlobURL(function (err, url) {
+            if (err) return log(err.message)
+            log('File done.')
+            log('<a href="' + url + '">Download full file: ' + file.name + '</a>')
+          })
         })
       }
 
       function log (str) {
         var p = document.createElement('p')
         p.innerHTML = str
-//         document.querySelector('.log').appendChild(p);
-        document.querySelector('.log').innerHTML = str;
+        document.querySelector('.log').appendChild(p)
       }
-      function getURLParameter(name,url) {
-          return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(url?url:location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
-        }
     </script>
   </body>
 </html>

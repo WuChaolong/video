@@ -143,6 +143,7 @@ function panduoduo(key){
             }
 
             setIframe([video],isSrc);
+            
         }
         fetch("panduoduo",video.url,success);
 
@@ -201,6 +202,7 @@ function panc(key){
             pancSetIframe(window[host+"Videos"],1,window.showVideos);
         }
         confirm("moreTemplate"); 
+        clearInvalid(pancVideos);
     }
     fetch(host,fetchUrl,success);
 
@@ -288,6 +290,8 @@ function setIframe(videos,isSrc,isNone,templateId) {
                 div.firstElementChild.src=url;
             }
             addVideosHandler(div.firstElementChild);
+            
+            
         }else if(templateId=="magnetTemplate"){
             div.firstElementChild.innerHTML = url;
         }
@@ -516,4 +520,36 @@ function appendHTML(d,html){
     var wrapper= document.createElement('div');
         wrapper.innerHTML= html;
         d.appendChild(wrapper.children[0]);
+}
+
+// function changeShowVideosNeedCheck(video,url){
+//     if(!url){
+//         showVideos.push(video);
+//     }else{
+//         video["url"]=url;
+//     }
+//     check(video["url"],function(){
+//         showVideos = showVideos.splice(video, 1);
+//     })
+// }
+function checkInvalid(url,error){
+    var uri = "//charon-node.herokuapp.com/cross?api="+url;
+    ajax(uri,function(data){
+        var el = document.createElement( 'html' );
+        el.innerHTML = data;
+
+        var as = el.querySelector("title");
+        if(as.innerHTML == "百度网盘-链接不存在"){
+            error();
+        }
+        data=el=as=null;
+    },error);
+}
+function clearInvalid(array,c){
+    array.map(function(o) { 
+        checkInvalid(o["url"],function(){
+            array.splice(array.indexOf(o), 1);
+        })
+    });
+
 }
