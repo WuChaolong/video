@@ -9,18 +9,23 @@
 <body>
 
 <form>
-    <input required name="search"/><button type="submit">Search</button>
+    <input type="search" list="doubanList" required name="search"/><button type="submit">Search</button>
+
 </form>
+
 <!--     <li><progress max="20000" id="panceProgress"></progress>Pance
     <li><progress max="20000"></progress>Panduoduo -->
 <!--     <progress value="70" max="100"></progress> -->
-</ul>
+<!-- </ul> -->
 <div id="data"></div>
 <div id="confirm"></div>      
 
 <div id="progressGroupDiv">
   <ul id="progressGroup" class="fetch">
 </div>
+    <div id="doubanList">
+<!--           <option value="鹰潭市"></option> -->
+    </div>
 <div class="tel">
   <a target="_blank" href="https://pan.baidu.com/disk/home" class="icon-pan">Home</a>
   <a target="_blank" href="https://movie.douban.com/top250" class="icon-douban">Top</a>

@@ -54,6 +54,7 @@ button{
     /* float: left; */
     width: 5em;
     line-height:1.5em;
+    z-index: 1;
 }
 .confirm{
     text-align:center;
@@ -100,6 +101,11 @@ a{
     text-decoration: none;
 }
 a:hover{
+    color: -webkit-link;
+    text-decoration: underline;
+    opacity: 1;
+}
+.is-same{
     color: -webkit-link;
     text-decoration: underline;
     opacity: 1;
@@ -234,4 +240,43 @@ progress.none::-webkit-progress-value{
 }
 #progressGroupDiv{
     text-align:center;
+}
+
+#doubanList{
+    height:10em;
+    overflow-x: scroll;
+    white-space: nowrap;
+    padding: .5em;
+    display:none;
+}
+#doubanList img{
+    height: 7.5em;
+    /*     margin-right:.2em; */
+    /* position:absolute; */
+    /* z-index:-1; */
+    /* margin:auto; */
+    /* left:0; */
+    /* right:0; */
+    /* vertical-align: top; */
+    /* float: left; */
+    /* display: block; */
+}
+#doubanList a{
+    position:relative;
+    text-align:center;
+    display:inline-block;
+    height:100%;
+    margin-right:.5em;
+    min-width:110px;
+    overflow: hidden;
+}
+#doubanList span{
+    /* white-space: nowrap; */
+    /* width: 5em; */
+    /* text-align: center; */
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis; */
+    line-height: 1.5em;
+    /* float: left; */
+    display: block;
 }

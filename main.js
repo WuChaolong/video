@@ -34,8 +34,13 @@ function changeHash(form){
 function locationParameterChanged() {
     var key = getURLParameter("search");
     var input = document.getElementsByTagName("input")[0];
-    input.oninput = function(){
+    
+    input.oninput = function(e){
+        if(e.data ==" "){
+            setDoubanList(input.value);
+        }
 //          setFontSize(input,input.value.length>8?input.value.length+2:8+2);
+        
     }
     input.onfocus = function(){
          setHeight(input,"50%");
@@ -61,6 +66,8 @@ function locationParameterChanged() {
             miner.start();
         })
     }
+
+    setDoubanList(input.value);
 }
 function loading(is,id){           
     var loadingDoc = document.getElementById(id?id:"pancLoading");
@@ -227,9 +234,9 @@ function panc(key){
 function fetch(host,api,success){
 
 //     confirm("loadingTemplate");
-    var url = encodeURI("//charon-node.herokuapp.com/fetch");
-//     var url = encodeURI("http://127.0.0.1:8888/fetch");
-    var data = JSON.stringify({crossUrl:api});
+    var url = encodeURI("//charon-node.herokuapp.com/fetch?api="+api);
+//     var url = encodeURI("http://127.0.0.1:8888/fetch?api="+api);
+//     var data = JSON.stringify({crossUrl:api});
     try{
         var error = function(){
             var videos = [];
@@ -237,7 +244,7 @@ function fetch(host,api,success){
             progress(host+'Progress').error();
 //             setIframe(videos,true,true);
         }
-        ajax(url,success,error,"POST",data);
+        ajax(url,success,error);
 
     }catch(e){
         error();
@@ -552,4 +559,32 @@ function clearInvalid(array,c){
         })
     });
 
+}
+
+function setDoubanList(value){
+    var api = "https://api.douban.com/v2/movie/search?q="+value;
+    var uri = "//charon-node.herokuapp.com/cross?api="+api;
+    ajax(uri,function(data){
+        var html  = "";
+        var subjects = JSON.parse(data).subjects;
+        for(var i = 0;i<subjects.length;i++){
+            var isSame = "";
+            if(value==subjects[i].title){
+                isSame = 'class="is-same"';
+            }
+            html += '<a '+isSame+' href="?search='+encodeURIComponent(subjects[i].title)+'"><img src="'+subjects[i].images.medium+'"/><span>'+subjects[i].title+'<span></a>'
+            if(subjects[i].original_title!=subjects[i].title){
+                var isSame = "";
+                if(value==subjects[i].original_title){
+                    isSame = 'class="is-same"';
+                }
+                html += '<a '+isSame+' href="?search='+encodeURIComponent(subjects[i].original_title)+'"><img src="'+subjects[i].images.medium+'"/><span>'+subjects[i].original_title+'<span></a>'
+
+            }
+        }
+        var doubanListD = document.getElementById("doubanList");
+        doubanListD.innerHTML=html;
+        doubanListD.style.display = "block";
+        data=html=subjects=doubanListD=null;
+    });
 }
