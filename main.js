@@ -101,7 +101,7 @@ function panduoduo(key){
     var fetchUrl = "http://www.panduoduo.net/s/comb/n-"+key+"&ty-bd&f-f4";
     var progress = innerProgress(host,fetchUrl);
     var success = function(html){
-        var videos = parseList(html,"a[href^='/r/']");
+        var videos = parseList(html,".search-page .row");
         if(!videos||videos.length===0){
             progress.none();
             confirm("noneTemplate");
@@ -128,8 +128,14 @@ function panduoduo(key){
 //             if(i>10){
 //                 break;
 //             }
-            var video = {ref:host,name:as[i].innerHTML,url:"http://www.panduoduo.net"+as[i].pathname};
-            videos.push(video);
+            var img = as[i].querySelector('[title="百度云盘资源"]');
+            var type = as[i].querySelector('[href^="/c/"]');
+            if(img&&type.innerHTML=="视频"){
+                var a = as[i].querySelector("a[href^='/r/']");
+                var video = {ref:host,name:a.innerHTML,url:"http://www.panduoduo.net"+a.pathname};
+                videos.push(video);
+            }
+            
 //                 fetchDetal(video,i===0);
             
         }
@@ -138,6 +144,10 @@ function panduoduo(key){
     function fetchDetal(video,isSrc){
         var success = function(html){
             var url = parseDetail(html,"a.dbutton2");
+            if(!url){
+                panduoduoSetIframe(window["panduoduoVideos"],1,window.showVideos);
+
+            }
             if(window.showVideos&&isExist(url,window.showVideos)){
                 return;
             }
@@ -285,22 +295,23 @@ function setIframe(videos,isSrc,isNone,templateId) {
         a.innerHTML=videos[i].name;
         var url = videos[i].url;
         a.href=url;
-        var div= wrapper.children[1];
+        var div= wrapper.children[0];
+        var iframe = wrapper.querySelector("iframe");
         if(templateId=="videoTemplate"){
             if(isDisableScript(url)){
-                div.firstElementChild.sandbox="allow-same-origin allow-popups allow-forms allow-pointer-lock";
+                iframe.sandbox="allow-same-origin allow-popups allow-forms allow-pointer-lock";
             }
 
             url = url.substr(url.indexOf("//"));
-            div.firstElementChild.dataset.src=url;
+            iframe.dataset.src=url;
             if(isSrc&&i==0){
-                div.firstElementChild.src=url;
+                iframe.src=url;
             }
-            addVideosHandler(div.firstElementChild);
+            addVideosHandler(iframe);
             
             
         }else if(templateId=="magnetTemplate"){
-            div.firstElementChild.innerHTML = url;
+            iframe.innerHTML = url;
         }
         
         dataBox.appendChild(wrapper);
@@ -587,4 +598,8 @@ function setDoubanList(value){
         doubanListD.style.display = "block";
         data=html=subjects=doubanListD=null;
     });
+}
+
+function reloadIframe(button){
+    button.previousElementSibling.src=button.previousElementSibling.src
 }

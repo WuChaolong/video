@@ -6,7 +6,8 @@ html,body{
     width: 100%;
     height: 610px;
     overflow: hidden;
-/*     border-left: 1px inset; */
+    /*     border-left: 1px inset; */
+    position: relative;
 }
 .baidu-video iframe{
     width: 100%;
@@ -44,7 +45,7 @@ input{
     /* text-align: center; */
     min-height: 2em;
 }
-button{
+form button{
     position: absolute;
     /* left: 0; */
     right: .5em;
@@ -279,4 +280,49 @@ progress.none::-webkit-progress-value{
     line-height: 1.5em;
     /* float: left; */
     display: block;
+}
+
+.reloadSingle {
+  height: 2em;
+  padding: .25em;
+  width: 2em;
+  position: absolute;
+  top: 1em;
+  right: 2em;
+  color: transparent;
+  display:none;
+  /* background: transparent; */
+}
+iframe[src]+.reloadSingle{
+  display:block;
+}
+.reloadSingle:hover:before{
+  border-color: transparent white white white;
+}
+.reloadSingle:hover:after{
+  border-color: transparent transparent transparent white;
+}
+.reloadSingle:before, .reloadSingle:after {
+  content: '';
+  display: block;
+}
+.reloadSingle:before {
+  border-color: transparent #ddd #ddd #ddd;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: .125em;
+  height: 1.5em;
+  width: 1.5em;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.reloadSingle:after {
+  border-color: transparent transparent transparent  #ddd;
+  border-style: solid;
+  border-width: .3125em 0 .3125em .5em;
+  height: 0;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
 }
