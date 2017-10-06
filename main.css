@@ -85,7 +85,7 @@ form button{
     
     text-decoration: none;
 }
-.more{ opacity: .6; }
+.more{ opacity: .8; }
 .more:hover{
     opacity: 1;
 }
@@ -97,7 +97,7 @@ form button{
     display: inline-block;
 }
 a{
-    opacity: .6;
+    opacity: .8;
     color: inherit;
     text-decoration: none;
 }
@@ -111,7 +111,7 @@ a:hover{
     text-decoration: underline;
     opacity: 1;
 }
-.tel{
+footer{
     /* display: inline; */
     position: absolute;
     bottom: 0;
@@ -128,11 +128,14 @@ a:hover{
     /* border-top: 1px; */
     /* border-top-style: dashed; */
     /* border-top-color: darkgray; */
-    opacity: .6;
+    opacity: .8;
 }
-.tel a{
+footer a{
     margin-right:1em;
 }
+/* .tel:hover:after{
+  content:"13006248103";
+} */
 .hide{
     display:none;
 }
@@ -231,9 +234,18 @@ progress.none::-webkit-progress-value{
 }
 #progressGroup li{
     text-align: left;
+   list-style: none;
+}
+#progressGroup li:before{
+   content: '';
+   display: inline-block;
+   height: .5em;
+   width: .5em;
+   /* background-image: url(); */
+   margin-right: .5em;
+   background-size: 100%;
 }
 #progressGroup a{
-    
     display:none;
 }
 #progressGroup.show{
@@ -241,14 +253,28 @@ progress.none::-webkit-progress-value{
 }
 #progressGroupDiv{
     text-align:center;
+    min-height: 10em;
+}
+li.diaosisou:before{
+   background-image: url('http://www.diaosisou.org/static/image/favicon.ico');
 }
 
+li.panduoduo:before{
+   background-image: url('http://139.196.166.21:8085/favicon.ico');
+}
+li.panc:before{
+   background-image: url('https://api.goproxy.cc/static/css/pancss/img/favicon.ico');
+}
+li.thepiratebay:before{
+   background-image: url('https://thepiratebay.org/favicon.ico');
+}
 #doubanList{
     height:10em;
     overflow-x: scroll;
     white-space: nowrap;
     padding: .5em;
     display:none;
+    /* margin-bottom: 5em; */
 }
 #doubanList img{
     height: 7.5em;
