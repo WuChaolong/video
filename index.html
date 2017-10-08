@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<form>
+<form class="search-form">
     <input type="search" list="doubanList" name="search"/><button type="submit">Search</button>
 
 </form>
@@ -23,13 +23,21 @@
 <div id="progressGroupDiv">
   <ul id="progressGroup" class="fetch">
 </div>
-    <div id="doubanList">
+    <div id="doubanList" class="doubanList">
 <!--           <option value="鹰潭市"></option> -->
     </div>
 <footer>
-  <a target="_blank" href="https://pan.baidu.com/disk/home" class="icon-pan">Home</a>
-  <a target="_blank" href="https://movie.douban.com/top250" class="icon-douban">Top</a>
-  <a target="_blank"  href="tel://+13006248103">✆客服</a>
+  <a target="_blank" href="https://pan.baidu.com/disk/home?adapt=pc" class="icon-pan">Magnet离线下载</a>
+<!--   <a target="_blank" href="https://movie.douban.com/top250" class="icon-douban">Top</a> -->
+  <div class="tab">
+     <input type="checkbox" name="tabgroup" id="tab-2" onchange="if(this.checked == true){setDoubanWeekly()}">
+     <label for="tab-2"><span class="icon-douban">Top</span>
+     </label>
+     <div class="content doubanList" id="doubanWeekly">
+        <i class="loading"></i>
+     </div> 
+ </div>
+
 </footer>
 </body>
 
@@ -37,7 +45,7 @@
 <code style="display:none" id="videoTemplate" type="text/html">
 <a class="title" target="_blank"></a>
 <div class="baidu-video">
-    <iframe seamless sandbox="allow-modals allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock" scrolling="no" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"
+    <iframe class="loading" seamless sandbox="allow-modals allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock" scrolling="no" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"
     ></iframe>
     <div onclick="reloadIframe(this)" class="reloadSingle" title="Reload">Reload</div>
 </div>
@@ -61,13 +69,13 @@
 </div>
 
 </script>
-<script id="noneTemplate" type="text/html">
+<code style="display:none" id="noneTemplate" type="text/html">
 <div class="confirm none">
     <span>☹</span>
     <span>None!</span>
-    <span style="display:none;">有的话<a class="hover" target="_blank" href="sms://+13006248103?body=有 {0} 吗？">短信提醒</a>你?</span>
+    <span><a class="hover" id="sms" target="_blank"  href="sms:+13006248103">✆13006248103</a>有的话提醒你</span>
 </div>
-</script>
+</code>
 <script id="moreTemplate" type="text/html">
 <a href="javascript:return void()" class="a-more">
 <div id="more" class="confirm more" onclick="ShowMore();">

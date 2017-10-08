@@ -2,6 +2,15 @@ window.onload = function(){
     
 }
 
+String.prototype.format = function()
+{
+    var args = arguments;
+    return this.replace(/\{(\d+)\}/g,                
+        function(m,i){
+            return args[i];
+        });
+}
+
     locationParameterChanged();
 
 function setHeight(input,height){
@@ -58,6 +67,8 @@ function locationParameterChanged() {
 
     input.value=key;
     document.getElementsByTagName("title")[0].innerText=key+" in pan.baidu.com sharing";
+    var sms = new String("sms:+13006248103?body=有 {0} 吗？");
+    document.getElementById("sms").href = sms.format(key);
     window.panc=pancFetcher(key);
     window.panduoduo=panduoduoFetcher(key);
     window.magnet=magnetFetcher(key);
@@ -120,6 +131,7 @@ function setMoreIframe(ways,index,length){
     }
     if(!ways[index]){
         confirm("noneTemplate",true);
+        return;
     }
     var videos = ways[index].videos;
     var than = length - videos.length;
@@ -155,6 +167,8 @@ function fetcher(parameter){
         serf.videos = videos;
         if(!window.showVideos){
             window.showVideos = [];
+            serf.setIframe(serf.videos,1,window.showVideos);
+        }else if((serf.videos&&serf.videos[0].ref=="magnet")||(window.showVideos.length==1&&window.showVideos[0].ref=="magnet")){
             serf.setIframe(serf.videos,1,window.showVideos);
         }
         html = null;
@@ -518,7 +532,7 @@ function magnetFetcher(key){
         //             }
                     var name = els[i].querySelector(".detLink").innerHTML;
                     var url = els[i].querySelector("a[href^='magnet:']").href;
-                    var video = {ref:parameter.host,name:name,url:url};
+                    var video = {ref:"magnet",name:name,url:url};
                     videos.push(video);
         //                 fetchDetal(video,i===0);
 
@@ -550,7 +564,7 @@ function magnetFetcher(key){
         //             }
                     var name = els[i].querySelector("a[name='file_title'").innerHTML;
                     var url = els[i].querySelector("a[href^='magnet:']").href;
-                    var video = {ref:parameter.host,name:name,url:url};
+                    var video = {ref:"magnet",name:name,url:url};
                     videos.push(video);
         //                 fetchDetal(video,i===0);
 
@@ -696,20 +710,47 @@ function setDoubanList(value){
         data=html=subjects=doubanListD=null;
     });
 }
+function setDoubanWeekly(value){
+    var api = "http://api.douban.com/v2/movie/weekly?apikey=0df993c66c0c636e29ecbb5344252a4a";
+    var uri = "//charon-node.herokuapp.com/cross?api="+api;
+    var doubanListD = document.getElementById("doubanWeekly");
+    if(!doubanListD){
+        return;
+    }
+    ajax(uri,function(data){
+        var html  = "";
+        var subjects = JSON.parse(data).subjects;
+        for(var i = 0;i<subjects.length;i++){
+            var subject = subjects[i].subject;
+            var isSame = "";
+            var original_title = sort(subject.original_title);
+            if(value&&value==subject.original_title){
+                isSame = 'class="is-same"';
+            }
+            html += '<a '+isSame+' href="?search='+encodeURIComponent(original_title)+'"><img src="'+subject.images.medium+'"/><span>'+original_title+'<span></a>'
+
+        }
+        html += '<a target="_blank" href="https://movie.douban.com/top250" class="douban-more">Top 250<i>﹀</i></a>';
+        doubanListD.innerHTML=html;
+        doubanListD.id = "doubanWeekly2";
+//         doubanListD.style.display = "block";
+        data=html=subjects=doubanListD=null;
+    });
+    function sort(string){
+        if(string.length>10){
+            var index = string.indexOf("之");
+            if(index>0){
+                string = string.slice(index+1);
+            }
+        }
+        return string;
+    }
+}
 
 function reloadIframe(button){
     button.previousElementSibling.src=button.previousElementSibling.src
 }
 
-
-String.prototype.format = function()
-{
-    var args = arguments;
-    return this.replace(/\{(\d+)\}/g,                
-        function(m,i){
-            return args[i];
-        });
-}
 
 
 function tiebaFetcher(key){

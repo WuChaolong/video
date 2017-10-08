@@ -15,14 +15,14 @@ html,body{
     /*     margin-top: -200px; */
     margin-left: -2px;
 }
-iframe{
+.loading{
     border: 0;
     background-image: url(https://m.popkey.co/163fce/Llgbv_s-200x150.gif);
     background-repeat: no-repeat;
     background-size: 5em auto;
     background-position: center;
 }
-iframe[src]{
+iframe.loading[src]{
     background: none;
 }
 body{
@@ -33,7 +33,7 @@ body{
     padding-bottom: 5em;
     box-sizing: border-box;
 }
-form{
+.search-form{
     /* padding-top: 2em; */
     /* padding-bottom: 2em; */
     /* height: 50%; */
@@ -43,16 +43,16 @@ form{
     margin: 0;
     position: relative;
 }
-input{font-size: 1.5em;padding: 0 5px;}
+.search-form input{font-size: 1.5em;padding: 0 5px;}
 
-input{
+.search-form input{
     width: 100%;
     height: 15%;
     transition: font-size .2s, height .2s;
     /* text-align: center; */
     min-height: 2em;
 }
-form button{
+.search-form button{
     position: absolute;
     /* left: 0; */
     right: .5em;
@@ -140,9 +140,9 @@ footer{
     /* border-top: 1px; */
     /* border-top-style: dashed; */
     /* border-top-color: darkgray; */
-    opacity: .8;
+    opacity: .99;
 }
-footer a{
+footer>*{
     margin-right:1em;
 }
 /* .tel:hover:after{
@@ -150,9 +150,6 @@ footer a{
 } */
 .hide{
     display:none;
-}
-.loading{
-    padding:11.5em 0;
 }
 .icon-douban:before,.icon-loading:before,.icon-pan:before{
     content:" ";
@@ -237,7 +234,7 @@ progress.none::-webkit-progress-value{
 #progressGroup{
     display:none;
     text-align: left;
-    margin-top:3em;
+    margin: 3em;
     transform: rotate(90deg);
     -ms-transform: rotate(90deg);  /* IE 9 */
     -moz-transform: rotate(90deg);  /* Firefox */
@@ -265,7 +262,7 @@ progress.none::-webkit-progress-value{
 }
 #progressGroupDiv{
     text-align:center;
-    min-height: 10em;
+    /* min-height: 10em; */
 }
 li.diaosisou:before{
    background-image: url('http://www.diaosisou.org/static/image/favicon.ico');
@@ -280,16 +277,23 @@ li.panc:before{
 li.thepiratebay:before{
    background-image: url('https://thepiratebay.org/favicon.ico');
 }
-#doubanList{
-    height:10em;
+.doubanList{
+    height: 11em;
     overflow-x: scroll;
     white-space: nowrap;
     padding: .5em;
     display:none;
     /* margin-bottom: 5em; */
     text-align: center;
+    box-sizing: border-box;
+    background-color: white;
 }
-#doubanList img{
+.doubanList .loading{
+    display:inline-block;
+    min-width:110px;
+    height: 100%;
+}
+.doubanList img{
     height: 7.5em;
     /*     margin-right:.2em; */
     /* position:absolute; */
@@ -301,7 +305,7 @@ li.thepiratebay:before{
     /* float: left; */
     /* display: block; */
 }
-#doubanList a{
+.doubanList a{
     position:relative;
     text-align:center;
     display:inline-block;
@@ -309,8 +313,9 @@ li.thepiratebay:before{
     margin-right:.5em;
     min-width:110px;
     overflow: hidden;
+    opacity: 1;
 }
-#doubanList span{
+.doubanList span{
     /* white-space: nowrap; */
     /* width: 5em; */
     /* text-align: center; */
@@ -320,7 +325,10 @@ li.thepiratebay:before{
     /* float: left; */
     display: block;
 }
+.douban-more i{
+  display:block;
 
+}
 .reloadSingle {
   height: 2em;
   padding: .25em;
@@ -331,6 +339,7 @@ li.thepiratebay:before{
   color: transparent;
   display:none;
   /* background: transparent; */
+  cursor:pointer;
 }
 iframe[src]+.reloadSingle{
   display:block;
@@ -364,4 +373,58 @@ iframe[src]+.reloadSingle{
   top: 0;
   left: 50%;
   width: 0;
+}
+
+
+.tabs {
+  position: relative;  
+/*   // set height to be even for all tab groups */
+  min-height: 200px;
+}
+
+.tab {
+  /* float: left; */
+  display: inline-block;
+  /* position: relative; */
+}
+
+.tab label {
+/*   // set label height */top: 1em;display: inline-block;padding: 0 .5em;cursor: pointer;box-shadow: 0 0 1px;}
+
+/* // Visually hide radio buttons */
+.tab [type=checkbox] {
+  position: absolute;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  
+  &:focus + label {
+    outline: 2px dotted black;
+  }
+}
+
+.content {
+  position: absolute;
+  /* top: 2em; */
+  left: 0;
+  right: 0;
+  bottom: 3em;
+  opacity: 0;
+  display:none;
+  width: 100%;
+}
+
+[type=checkbox]:checked ~ label {
+  z-index: 2;
+  box-shadow: 0 1px 1px;
+  background-color: white;
+}
+
+[type=checkbox]:checked ~ label ~ .content {
+  z-index: 1;
+  opacity: 1;
+  display:block;
+  box-shadow: 0 0 1px;
+  z-index: -1;
 }
