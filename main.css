@@ -17,6 +17,13 @@ html,body{
 }
 iframe{
     border: 0;
+    background-image: url(https://m.popkey.co/163fce/Llgbv_s-200x150.gif);
+    background-repeat: no-repeat;
+    background-size: 5em auto;
+    background-position: center;
+}
+iframe[src]{
+    background: none;
 }
 body{
     /* max-width: 751px; */
