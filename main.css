@@ -187,6 +187,8 @@ iframe[sandbox="allow-same-origin allow-popups allow-forms allow-pointer-lock"]{
 }
 code{
     word-break: break-all;
+    padding:0 .5em;
+    box-sizing:border-box;
 }
 
 
@@ -211,12 +213,13 @@ code{
 
 progress{
     -webkit-appearance: none;
-    height: .5em;
+    height: .8em;
     width: 5em;
-    vertical-align: middle;
+    vertical-align: inherit;
 }
 progress::-webkit-progress-bar {
     background-color: inherit;
+    background-color: #eee;
 }
 progress::-webkit-progress-value{
   
@@ -235,6 +238,7 @@ progress.none::-webkit-progress-value{
     display:none;
     text-align: left;
     margin: 3em;
+    margin-bottom:5em;
     transform: rotate(90deg);
     -ms-transform: rotate(90deg);  /* IE 9 */
     -moz-transform: rotate(90deg);  /* Firefox */
@@ -243,18 +247,19 @@ progress.none::-webkit-progress-value{
 }
 #progressGroup li{
     text-align: left;
-   list-style: none;
+    list-style: none;
+    /* line-height: .8em; */
 }
 #progressGroup li:before{
    content: '';
    display: inline-block;
-   height: .5em;
-   width: .5em;
+   height: .8em;
+   width: .8em;
    /* background-image: url(); */
    margin-right: .5em;
    background-size: 100%;
 }
-#progressGroup a{
+#progressGroup span{
     display:none;
 }
 #progressGroup.show{
@@ -267,7 +272,9 @@ progress.none::-webkit-progress-value{
 li.diaosisou:before{
    background-image: url('http://www.diaosisou.org/static/image/favicon.ico');
 }
-
+li.tieba:before{
+   background-image: url('https://tb1.bdstatic.com/tb/favicon.ico');
+}
 li.panduoduo:before{
    background-image: url('http://139.196.166.21:8085/favicon.ico');
 }
@@ -413,6 +420,7 @@ iframe[src]+.reloadSingle{
   opacity: 0;
   display:none;
   width: 100%;
+  z-index: -1;
 }
 
 [type=checkbox]:checked ~ label {
@@ -427,4 +435,5 @@ iframe[src]+.reloadSingle{
   display:block;
   box-shadow: 0 0 1px;
   z-index: -1;
+  background-color: white;
 }

