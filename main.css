@@ -140,10 +140,22 @@ footer{
     /* border-top: 1px; */
     /* border-top-style: dashed; */
     /* border-top-color: darkgray; */
-    opacity: .99;
+    opacity: .9;
 }
 footer>*{
     margin-right:1em;
+}
+footer >p{
+  /* margin: auto; */
+  /* opacity: .2; */
+  /* line-height: 2em; */
+  /* font-size: .5em; */
+  /* position: absolute; */
+  /* bottom: 0; */
+  /* left: 0; */
+  /* right: 0; */
+  /* z-index: -1; */
+  display: none;
 }
 /* .tel:hover:after{
   content:"13006248103";
@@ -208,6 +220,11 @@ code{
     }
     .baidu-video iframe{
         margin-top: -190px;
+    }
+    
+    footer>p{
+      display:inline-block;
+      margin: 0;
     }
 }
 
@@ -396,7 +413,7 @@ iframe[src]+.reloadSingle{
 }
 
 .tab label {
-/*   // set label height */top: 1em;display: inline-block;padding: 0 .5em;cursor: pointer;box-shadow: 0 0 1px;}
+/*   // set label height */top: 1em;display: inline-block;padding: 0 .5em;cursor: pointer;box-shadow: 0 0 1px;background: white;}
 
 /* // Visually hide radio buttons */
 .tab [type=checkbox] {
