@@ -365,6 +365,10 @@ function setIframe(videos,isSrc,waitUrl,templateId) {
         var url = videos[i].url;
         a.href=videos[i].refUrl||url;
         if(!waitUrl){
+            if(templateId=="videoTemplate"){
+                var index = url.indexOf("//");
+                url = url.substr(index>=0?index:0);
+            }
             setIframeUrl(url,wrapper,isSrc&&i==0,templateId);
         
         }
@@ -388,7 +392,6 @@ function setIframeUrl(url,wrapper,isSrc,templateId){
         if(isDisableScript(url)){
             iframe.sandbox="allow-same-origin allow-popups allow-forms allow-pointer-lock";
         }
-        url = url.substr(url.indexOf("//"));
         iframe.dataset.src=url;
         if(isSrc){
             iframe.src=url;
