@@ -241,13 +241,16 @@ function panduoduoFetcher(key){
 //                     var url = getURLParameter("url",href);
                     return href;
                 }
-
+                url = "//charon-node.herokuapp.com/cross?api="+url;
                 setIframeUrl(url,wrapper,isSrc);
 
 
             }
             fetch("panduoduo",video.url,success);
         }
+//         function fetchGo(video,isSrc){
+//             fetch("panduoduo",video.url,success);
+//         }
     }
     
     return fetcher(parameter);
