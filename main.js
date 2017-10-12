@@ -177,8 +177,10 @@ function fetcher(parameter){
         serf.videos = videos;
         if(!window.showVideos&&serf.host!="panduoduo"){
             window.showVideos = [];
-            serf.setIframe(serf.videos,1,window.showVideos);
+//             serf.setIframe(serf.videos,1,window.showVideos);
         }
+
+            serf.setIframe(serf.videos,1,window.showVideos);
 //         else if((serf.videos&&serf.videos[0].ref=="magnet")||(window.showVideos.length==1&&window.showVideos[0].ref=="magnet")){
 //             serf.setIframe(serf.videos,1,window.showVideos);
 //         }
@@ -664,7 +666,10 @@ function progress(host){
     _progress.nextSibling.onclick=function(){
         var fetcher = window[host];
         if(fetcher){
-            setMoreIframe([fetcher],0,fetcher.videos.length);
+            var length = fetcher.videos.length;
+//             var showLength = showVideos.length;
+//             length = length>showLength?showLength:length;
+            setMoreIframe([fetcher],0,length);
         }
     }
     function frame() {
