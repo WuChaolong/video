@@ -81,7 +81,7 @@ body{
 .none{
     /* color:yellow; */
 }
-.more i{
+/* .more i{
     font-style: normal;
 }
 .a-more{
@@ -95,13 +95,14 @@ body{
 .more{ opacity: .8; }
 .more:hover{
     opacity: 1;
-}
+} */
 
 .title{
     margin-top:2em;
     margin-bottom:1em;
     font-weight: normal;
     display: inline-block;
+    word-break:break-all;
 }
 a{
     opacity: .8;
@@ -251,6 +252,23 @@ progress.error::-webkit-progress-value{
 progress.none::-webkit-progress-value{
     background-color: yellow;
 }
+progress + span{
+  display:none;
+  font-size: 1.2em;
+  cursor: pointer;
+  vertical-align: middle;
+  padding: .5em;
+  transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+}
+
+progress.success + span{
+  display:inline-block;
+}
+  
 #progressGroup{
     display:none;
     text-align: left;
@@ -267,7 +285,7 @@ progress.none::-webkit-progress-value{
     list-style: none;
     /* line-height: .8em; */
 }
-#progressGroup li:before{
+#progressGroup li i:before{
    content: '';
    display: inline-block;
    height: .8em;
@@ -275,30 +293,45 @@ progress.none::-webkit-progress-value{
    /* background-image: url(); */
    margin-right: .5em;
    background-size: 100%;
+   transform: rotate(-90deg);
+   -ms-transform: rotate(-90deg);
+   -moz-transform: rotate(-90deg);
+   -webkit-transform: rotate(-90deg);
+   -o-transform: rotate(-90deg);
 }
-#progressGroup span{
-    display:none;
+.more span:after{
+    content:"﹀";
+    font-size: 1.2em;
+    /* vertical-align: middle; */
+    /* text-shadow: 0 0 1px; */
+    /* margin-top: -.5em; */
 }
 #progressGroup.show{
     display: inline-block;
+}
+.more em{
+  display: block;
+  /* min-width: 1em; */
+  text-align: center;
+  margin-bottom: -.5em;
 }
 #progressGroupDiv{
     text-align:center;
     /* min-height: 10em; */
 }
-li.diaosisou:before{
+i.diaosisou:before{
    background-image: url('http://www.diaosisou.org/static/image/favicon.ico');
 }
-li.tieba:before{
+i.tieba:before{
    background-image: url('https://tb1.bdstatic.com/tb/favicon.ico');
 }
-li.panduoduo:before{
+i.panduoduo:before{
    background-image: url('http://139.196.166.21:8085/favicon.ico');
 }
-li.panc:before{
+i.panc:before{
    background-image: url('https://api.goproxy.cc/static/css/pancss/img/favicon.ico');
 }
-li.thepiratebay:before{
+i.thepiratebay:before{
    background-image: url('https://thepiratebay.org/favicon.ico');
 }
 .doubanList{
