@@ -158,7 +158,6 @@ function fetcher(parameter){
     serf.host = parameter.host;
     serf.videos = [];
     serf.fetchUrl = parameter.fetchUrl;
-    serf.progress = innerProgress(serf.host,serf.fetchUrl);
     serf.parseVideos = parameter.parseVideos;
     serf.setIframe = function (videos,length,showVideos,doNotCheckInvalid){
 
@@ -198,33 +197,36 @@ function fetcher(parameter){
         }
     }
     serf.onLoaded=function(){
+        serf.setIframe(serf.videos,1,window.showVideos);
         if(parameter.onLoaded){
             parameter.onLoaded(serf);
-        }else{
-            
-            serf.setIframe(serf.videos,1,window.showVideos);
         }
     }
     serf.fetch = parameter.fetch;
-    var success = function(html){
-        var progress = serf.progress;
-        var videos = serf.parseVideos(html);
-        if(!videos||videos.length===0){
-            progress.none();
-            confirm("noneTemplate");
-            return;
-        }
-        progress.success(videos.length);
-        serf.videos = videos;
-        if(!window.showVideos&&serf.host!="panduoduo"){
-            window.showVideos = [];
-        }
-        serf.onLoaded();
-        html = null;
-        
-    };
-    serf.fetch(serf.host,serf.fetchUrl,success);
-    return serf;
+    serf.load = function (){
+        serf.progress = innerProgress(serf.host,serf.fetchUrl);
+        var success = function(html){
+            var progress = serf.progress;
+            var videos = serf.parseVideos(html);
+            if(!videos||videos.length===0){
+                progress.none();
+                confirm("noneTemplate");
+                return;
+            }
+            progress.success(videos.length);
+            serf.videos = videos;
+            if(!window.showVideos&&serf.host!="panduoduo"){
+                window.showVideos = [];
+            }
+            serf.onLoaded();
+            html = null;
+
+        };
+        serf.fetch(serf.host,serf.fetchUrl,success);
+        return serf;
+    }
+    
+    return serf.load();
 }
 
 function panduoduoFetcher(key){
@@ -312,8 +314,10 @@ function pancFetcher(key){
     parameter.fetchUrl = "https://www.panc.cc/s/"+key+"/td_1";
     parameter.fetch = nodeFetch;
     parameter.onLoaded = function(fetcher){
+
         clearInvalid(fetcher,function(video){
             fetcher.setIframe([video],1,window.showVideos);
+            fetcher.progress.setNum(fetcher.videos.length);
 
         });
     }
@@ -333,7 +337,7 @@ function pancFetcher(key){
         }
         return videos;
     }
-    parameter.checkInvalid = true;
+//     parameter.checkInvalid = true;
     
     
     return fetcher(parameter);
@@ -700,11 +704,16 @@ function importScript (sSrc, fOnload) {
 function progress(host){
 
     var _progress = document.getElementById(host+'Progress');
-    if(_progress.is_progress){
+    if(_progress.interval){
         return _progress;
     }
-    _progress.is_progress = true;
-    _progress.interval=setInterval(frame, 10);
+    _progress.init = function(){
+
+        _progress.classList=[];
+        _progress.value = 0;
+        _progress.interval=setInterval(frame, 10);
+    }
+//     _progress.is_progress = true;
     _progress.success=function(length){
 
         _progress.classList=[];
@@ -741,6 +750,12 @@ function progress(host){
             setMoreIframe([fetcher],0,length);
         }
     }
+    _progress.nextSibling.nextSibling.onclick=function(){
+        var fetcher = window[host];
+        if(fetcher){
+            fetcher.load();
+        }
+    }
     function frame() {
         if (_progress.value >= 20000) {
             clearInterval(_progress.interval);
@@ -755,9 +770,15 @@ function progress(host){
 function innerProgress(host,fetchUrl){
     var progressGroup = document.getElementById("progressGroup");
     progressGroup.classList.add("show");
-    var html = '<li><a target="_blank" href="'+fetchUrl+'" title="'+host+'"><i class="'+host+'"></i></a><span class="more" href="javascript:return void()"><progress max="20000" id="'+host+'Progress"></progress><span></span></span>';
-    appendHTML(progressGroup,html)
-    return progress(host);
+    var  progressD= document.getElementById(host+"Progress");
+    if(!progressD){
+        var html = '<li><a target="_blank" href="'+fetchUrl+'" title="'+host+'"><i class="'+host+'"></i></a><span class="more" href="javascript:return void()"><progress max="20000" id="'+host+'Progress"></progress><span class="num"></span><span class="reloadSingle" title="Reload"></span></span>';
+        appendHTML(progressGroup,html);
+    }
+    var _progress  = progress(host);
+
+    _progress.init();
+    return _progress;
 }
 function appendHTML(d,html){
     var wrapper= document.createElement('div');
@@ -825,16 +846,17 @@ function setDoubanList(value){
         var subjects = JSON.parse(data).subjects;
         for(var i = 0;i<subjects.length;i++){
             var isSame = "";
-            if(value==subjects[i].title){
-                isSame = 'class="is-same"';
+            if(value!=subjects[i].title){
+                isSame = 'href="?search='+encodeURIComponent(subjects[i].title)+'"';
+
             }
-            html += '<a '+isSame+' href="?search='+encodeURIComponent(subjects[i].title)+'"><img src="'+subjects[i].images.medium+'"/><span>'+subjects[i].title+'<span></a>'
+            html += '<a '+isSame+' ><img src="'+subjects[i].images.medium+'"/><span>'+subjects[i].title+'<span></a>'
             if(subjects[i].original_title!=subjects[i].title){
                 var isSame = "";
-                if(value==subjects[i].original_title){
-                    isSame = 'class="is-same"';
+                if(value!=subjects[i].original_title){
+                    isSame = 'href="?search='+encodeURIComponent(subjects[i].original_title)+'"';
                 }
-                html += '<a '+isSame+' href="?search='+encodeURIComponent(subjects[i].original_title)+'"><img src="'+subjects[i].images.medium+'"/><span>'+subjects[i].original_title+'<span></a>'
+                html += '<a '+isSame+' ><img src="'+subjects[i].images.medium+'"/><span>'+subjects[i].original_title+'<span></a>'
 
             }
         }
@@ -845,6 +867,8 @@ function setDoubanList(value){
     });
 }
 function setDoubanWeekly(value){
+    
+    var value = value||getURLParameter("search");
     var api = "http://api.douban.com/v2/movie/weekly?apikey=0df993c66c0c636e29ecbb5344252a4a";
     var uri = "//charon-node.herokuapp.com/cross?api="+api;
     var doubanListD = document.getElementById("doubanWeekly");
@@ -857,11 +881,13 @@ function setDoubanWeekly(value){
         for(var i = 0;i<subjects.length;i++){
             var subject = subjects[i].subject;
             var isSame = "";
-            var title = sort(subject.title);
+            var title = sort(subject.original_title);
             if(value&&value==title){
-                isSame = 'class="is-same"';
+            }else{
+                isSame = ' href="?search='+encodeURIComponent(title)+'"';
+          
             }
-            html += '<a '+isSame+' href="?search='+encodeURIComponent(title)+'"><img src="'+subject.images.medium+'"/><span>'+title+'<span></a>'
+            html += '<a '+isSame+'><img src="'+subject.images.medium+'"/><span>'+title+'<span></a>'
 
         }
         html += '<a target="_blank" href="https://movie.douban.com/top250" class="douban-more">Top 250<i>﹀</i></a>';
