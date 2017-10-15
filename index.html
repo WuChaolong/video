@@ -23,10 +23,31 @@
 
 <div id="progressGroupDiv">
   <ul id="progressGroup" class="fetch">
+   <li class="confirm-none">
+   
+       <div class="tab" id="messageDiv">
+           <input type="checkbox" id="tab-message" onchange="if(this.checked == true){document.getElementById('messageForm').message.focus();}">
+           <label for="tab-message"><span class="icon-email">留邮箱</span>
+           </label>
+           <div class="content">
+              <form id="messageForm" method="POST" action="https://book-2724e.firebaseio.com/video/chat.json">
+              <!--     <textarea id="messageInput"  required inputmode="katakana"  placeholder="Message..." ></textarea> -->
+
+                  <textarea required inputmode="katakana" name="message" placeholder="Message..."></textarea>
+                  <input type="submit"/>
+              </form>
+           </div> 
+       </div>
+        <br/>我手动帮找
+    </li>
+  </ul>
+
 </div>
+
     <div id="doubanList" class="doubanList">
 <!--           <option value="鹰潭市"></option> -->
     </div>
+    
 <footer>
 
   <a target="_blank" href="https://pan.baidu.com/disk/home?adapt=pc" class="icon-pan">Magnet离线下载</a>
@@ -48,7 +69,6 @@
 
      </div> 
  </div> -->
-       <p class="mimi">别跟别人讲，因为还不好用</p>
 </footer>
 </body>
 
@@ -126,3 +146,4 @@ var _hmt = _hmt || [];
     enable_page_level_ads: true
   });
 </script>
+

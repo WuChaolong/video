@@ -32,6 +32,7 @@ body{
     position: relative;
     padding-bottom: 5em;
     box-sizing: border-box;
+    z-index: -2;
 }
 .search-form{
     /* padding-top: 2em; */
@@ -78,8 +79,24 @@ body{
     /* display: block; */
     font-size: 1.2em;
 }
-.none{
+#progressGroup li.confirm-none{
     /* color:yellow; */
+    position: absolute;
+    transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    display: none;
+    bottom: 200%;
+    text-align: center;
+}
+#progressGroup li.none ~  li.none ~ li.confirm-none{
+  display:block;
+}
+.confirm-none>span{
+  font-size:1.5em;
+
 }
 /* .more i{
     font-style: normal;
@@ -227,6 +244,10 @@ code{
       display:inline-block;
       margin: 0;
     }
+    #disqus_thread{
+      max-width:751px;
+      margin:auto;
+    }
 }
 
 progress{
@@ -243,16 +264,16 @@ progress::-webkit-progress-value{
   
     background-color: darkgray;
 }
-progress.success::-webkit-progress-value{
+.success progress::-webkit-progress-value{
     background-color: green;
 }
-progress.error::-webkit-progress-value{
+.error progress::-webkit-progress-value{
     background-color: red;
 }
-progress.none::-webkit-progress-value{
+.none progress::-webkit-progress-value{
     background-color: yellow;
 }
-progress +.num{
+#progressGroup .num{
   display:none;
   font-size: 1.2em;
   cursor: pointer;
@@ -265,21 +286,23 @@ progress +.num{
   -o-transform: rotate(-90deg);
 }
 
-progress.success + .num{
+#progressGroup .success .num{
   display:inline-block;
 }
 
 
 #progressGroup{
-    display:none;
+    /* display:none; */
     text-align: left;
-    margin: 3em;
-    margin-bottom:5em;
+    margin: 5em 0;
+    margin-bottom: 10em;
     transform: rotate(90deg);
     -ms-transform: rotate(90deg);  /* IE 9 */
     -moz-transform: rotate(90deg);  /* Firefox */
     -webkit-transform: rotate(90deg); /* Safari 和 Chrome */
     -o-transform: rotate(90deg);  /* Opera */
+    position: relative;
+    z-index: 10;
 }
 #progressGroup li{
     text-align: left;
@@ -345,6 +368,8 @@ i.thepiratebay:before{
     text-align: center;
     box-sizing: border-box;
     background-color: white;
+
+
 }
 .doubanList .loading{
     display:inline-block;
@@ -449,7 +474,7 @@ iframe[src]+.reloadSingle{
 }
 
 .tab label {
-/*   // set label height */top: 1em;display: inline-block;padding: 0 .5em;cursor: pointer;box-shadow: 0 0 1px;background: white;}
+/*   // set label height */top: 1em;display: inline-block;padding: 0 .5em;cursor: pointer;box-shadow: 0 0 1px;background: white;font-size: 1.2em;}
 
 /* // Visually hide radio buttons */
 .tab [type=checkbox] {
@@ -475,7 +500,26 @@ iframe[src]+.reloadSingle{
   width: 100%;
   z-index: -1;
 }
-
+#messageDiv .content{
+  width: 15em;
+  bottom: 100%;
+  /* z-index: 0; */
+  /* box-shadow: 0 0 0; */
+  right: 0;
+  left: auto;
+  margin: auto;
+}
+#tab-message ~ label:before{
+  content:"☹";
+}
+#tab-message.success ~ label:before{
+  content:" ✓";
+  color:green;
+}
+#tab-message.error ~ label:before{
+  content:" ✗";
+  color:red;
+}
 [type=checkbox]:checked ~ label {
   z-index: 2;
   box-shadow: 0 1px 1px;
@@ -483,14 +527,17 @@ iframe[src]+.reloadSingle{
 }
 
 [type=checkbox]:checked ~ label ~ .content {
-  z-index: 1;
+/*   z-index: 1; */
   opacity: 1;
   display:block;
-  box-shadow: 0 0 1px;
-  z-index: -1;
   background-color: white;
+  z-index: -1;
+  box-shadow: 0 0 1px;
 }
 
+[type=checkbox]:checked ~ label ~ .doubanList{
+
+}
 
 #progressGroup .reloadSingle{
     display: none;
@@ -499,7 +546,7 @@ iframe[src]+.reloadSingle{
     height: 2em;
     padding: .25em .25em 0;
 }
-#progressGroup progress.error + .num + .reloadSingle{
+#progressGroup .error .reloadSingle{
     display: inline-block;
 }
 #progressGroup .reloadSingle:before{
@@ -510,4 +557,36 @@ iframe[src]+.reloadSingle{
 } 
 .reloadSingle{
   cursor: pointer;
+}
+#disqus_thread{
+  margin-top:2em;
+  padding:.5em;
+}
+iframe{
+
+    width: 100%;
+}
+#messageDiv{
+  position:relative;
+  /* z-index: 10; */
+}
+#messageForm{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  margin: 0;
+}
+#messageForm textarea{
+  width: 100%;
+  min-height: 6em;
+  border: 0;
+  padding-top: 1em;
+}
+#messageForm [type="submit"]{
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 1.2em;
+}
+#messageForm [type="submit"].loading{
 }

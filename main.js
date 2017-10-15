@@ -67,11 +67,7 @@ function locationParameterChanged() {
 
     input.value=key;
     document.getElementsByTagName("title")[0].innerText=key+" in pan.baidu.com sharing";
-    var sms = new String("sms:+13006248103?body=有 {0} 吗？");
-    var smsD =  document.getElementById("sms");
-    if(smsD){
-        smsD.href = sms.format(key);
-    }
+    setMessageForm(key);
     window.panc=pancFetcher(key);
 //     window.panduoduo=panduoduoFetcher(key);
     magnetFetcher(key);
@@ -84,6 +80,46 @@ function locationParameterChanged() {
     }
 
     setDoubanList(input.value);
+}
+function setMessageForm(key){
+
+    var sms = new String("有 {0} 吗？\r邮箱或手机：");
+    var messageForm =  document.getElementById("messageForm");
+    if(messageForm){
+        messageForm.message.value = sms.format(key);
+        messageForm.onsubmit=function(e){
+            e.preventDefault();
+
+            var submit = messageForm.querySelector('[type="submit"]')
+            var tabMessage = document.getElementById("tab-message");
+
+            submit.classList.add("loading");
+//             var uri = "http://127.0.0.1:8888/cross";
+            var uri = "//charon-node.herokuapp.com/cross"
+            var method = messageForm.method;
+            var data = {
+                "crossUrl":messageForm.action
+                ,"crossMethod":method
+                ,"message":messageForm.message.value
+            }
+            var fn = function(data){
+                console.log(data+messageForm.action);
+                tabMessage.click();
+                submit.classList=[];
+                tabMessage.classList=[];
+                tabMessage.classList.add("success");
+            }
+            var error = function(){
+                submit.classList=[];
+                tabMessage.classList=[];
+                tabMessage.classList.add("error");
+            }
+
+            ajax(uri,fn,error,method,JSON.stringify(data));
+
+            return false;
+        }
+    }
 }
 function loading(is,id){           
     var loadingDoc = document.getElementById(id?id:"pancLoading");
@@ -709,15 +745,15 @@ function progress(host){
     }
     _progress.init = function(){
 
-        _progress.classList=[];
+        _progress.parentNode.parentNode.classList=[];
         _progress.value = 0;
         _progress.interval=setInterval(frame, 10);
     }
 //     _progress.is_progress = true;
     _progress.success=function(length){
 
-        _progress.classList=[];
-        _progress.classList.add("success");
+        _progress.parentNode.parentNode.classList=[];
+        _progress.parentNode.parentNode.classList.add("success");
         clearInterval(_progress.interval);
         if(length){
            _progress.nextSibling.innerHTML = "<em>"+length+"</em>";
@@ -731,14 +767,14 @@ function progress(host){
         }
     }
     _progress.none = function(){
-        _progress.classList=[];
-        _progress.classList.add("none");
+        _progress.parentNode.parentNode.classList=[];
+        _progress.parentNode.parentNode.classList.add("none");
         clearInterval(_progress.interval);
         _progress.nextSibling.innerHTML = "<em>"+0+"</em>";
     }
     _progress.error = function(){
-        _progress.classList=[];
-        _progress.classList.add("error");
+        _progress.parentNode.parentNode.classList=[];
+        _progress.parentNode.parentNode.classList.add("error");
         clearInterval(_progress.interval);
     }
     _progress.nextSibling.onclick=function(){
@@ -773,7 +809,7 @@ function innerProgress(host,fetchUrl){
     var  progressD= document.getElementById(host+"Progress");
     if(!progressD){
         var html = '<li><a target="_blank" href="'+fetchUrl+'" title="'+host+'"><i class="'+host+'"></i></a><span class="more" href="javascript:return void()"><progress max="20000" id="'+host+'Progress"></progress><span class="num"></span><span class="reloadSingle" title="Reload"></span></span>';
-        appendHTML(progressGroup,html);
+        beforeHTML(progressGroup,html);
     }
     var _progress  = progress(host);
 
@@ -784,6 +820,11 @@ function appendHTML(d,html){
     var wrapper= document.createElement('div');
         wrapper.innerHTML= html;
         d.appendChild(wrapper.children[0]);
+}
+function beforeHTML(d,html){
+    var wrapper= document.createElement('div');
+        wrapper.innerHTML= html;
+        d.insertBefore(wrapper.children[0],d.lastElementChild);
 }
 
 // function changeShowVideosNeedCheck(video,url){
@@ -844,7 +885,8 @@ function setDoubanList(value){
     ajax(uri,function(data){
         var html  = "";
         var subjects = JSON.parse(data).subjects;
-        for(var i = 0;i<subjects.length;i++){
+        for(var i = 0;i<3&&i<subjects.length;i++){
+
             var isSame = "";
             if(value!=subjects[i].title){
                 isSame = 'href="?search='+encodeURIComponent(subjects[i].title)+'"';
