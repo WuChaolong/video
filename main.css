@@ -87,13 +87,21 @@ body{
     -moz-transform: rotate(-90deg);
     -webkit-transform: rotate(-90deg);
     -o-transform: rotate(-90deg);
-    display: none;
-    bottom: 200%;
+    display:none;
+    /* top: -100%; */
+    bottom: 110%;
     text-align: center;
 }
-#progressGroup li.none ~  li.none ~ li.confirm-none{
+#progressGroup li.none ~ li.none ~ li.confirm-none{
   display:block;
 }
+#progressGroup li.none + li.none + li.more{
+  display:block;
+}
+#progressGroup li + li.none +li.none + li.more{
+  display:none;
+}
+
 .confirm-none>span{
   font-size:1.5em;
 
@@ -323,6 +331,13 @@ progress::-webkit-progress-value{
    -webkit-transform: rotate(-90deg);
    -o-transform: rotate(-90deg);
 }
+#progressGroup li.more{
+  text-align:center;
+  line-height: 2em;
+  padding-top: .5em;
+  /* box-shadow: 0 0 1px; */
+  display:none;
+}
 .more .num:after{
     content:"﹀";
     font-size: 1.2em;
@@ -342,6 +357,7 @@ progress::-webkit-progress-value{
 #progressGroupDiv{
     text-align:center;
     /* min-height: 10em; */
+    overflow: auto;
 }
 i.diaosisou:before{
    background-image: url('http://www.diaosisou.org/static/image/favicon.ico');
@@ -509,7 +525,7 @@ iframe[src]+.reloadSingle{
   left: auto;
   margin: auto;
 }
-#tab-message ~ label:before{
+.icon-face:before{
   content:"☹";
 }
 #tab-message.success ~ label:before{
@@ -557,6 +573,14 @@ iframe[src]+.reloadSingle{
 } 
 .reloadSingle{
   cursor: pointer;
+  /* box-shadow: 0 0 1px; */
+}
+.button{
+
+    cursor: pointer;
+}
+.button:hover {
+    background-color: #ddd;
 }
 #disqus_thread{
   margin-top:2em;
@@ -568,7 +592,7 @@ iframe{
 }
 #messageDiv{
   position:relative;
-  /* z-index: 10; */
+  z-index: 10;
 }
 #messageForm{
   width: 100%;
