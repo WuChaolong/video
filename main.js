@@ -339,7 +339,7 @@ function panduoduoFetcher(key){
 //                     var url = getURLParameter("url",href);
                     return href;
                 }
-                url = "text.html?href="+url;
+                url = "//charon-node.herokuapp.com/cross?api="+url;
                 setIframeUrl(url,wrapper,isSrc);
 
 
