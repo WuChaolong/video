@@ -26,10 +26,10 @@
      <li class="more button" onclick="setMoreFetcher();">﹀</li>
     
      <li class="confirm-none">
-         <span class="icon-face">没有？</span>
+         <em class="icon-face">没有？</em>
          <div class="tab" id="messageDiv">
              <input type="checkbox" id="tab-message" onchange="if(this.checked == true){document.getElementById('messageForm').message.focus();}">
-             <label for="tab-message"><span>留邮箱</span>
+             <label for="tab-message"><span>客服帮找</span>
              </label>
              <div class="content">
                 <form id="messageForm" method="POST" action="https://book-2724e.firebaseio.com/video/chat.json">
@@ -40,7 +40,6 @@
                 </form>
              </div> 
          </div>
-          <br/>客服手动帮找
       </li>
   </ul>
 

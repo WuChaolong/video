@@ -89,7 +89,7 @@ body{
     -o-transform: rotate(-90deg);
     display:none;
     /* top: -100%; */
-    bottom: 110%;
+    bottom: 100%;
     text-align: center;
 }
 #progressGroup li.none ~ li.none ~ li.confirm-none{
@@ -490,7 +490,7 @@ iframe[src]+.reloadSingle{
 }
 
 .tab label {
-/*   // set label height */top: 1em;display: inline-block;padding: 0 .5em;cursor: pointer;box-shadow: 0 0 1px;background: white;font-size: 1.2em;}
+/*   // set label height */top: 1em;display: inline-block;padding: 0 .5em;cursor: pointer;box-shadow: 0 0 1px;background: white;/* font-size: 1.2em; */}
 
 /* // Visually hide radio buttons */
 .tab [type=checkbox] {

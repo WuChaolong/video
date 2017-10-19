@@ -89,7 +89,7 @@ function setMoreFetcher(){
 }
 function setMessageForm(key){
 
-    var sms = new String("有 {0} 吗？\r邮箱或手机：");
+    var sms = new String("有 {0} 吗？\r找到后联系我邮箱或手机\r：");
     var messageForm =  document.getElementById("messageForm");
     if(messageForm){
         messageForm.message.value = sms.format(key);
@@ -920,12 +920,14 @@ function setDoubanList(value){
         doubanListD.innerHTML=html;
         doubanListD.style.display = "block";
         data=html=subjects=doubanListD=null;
+    },function(){
+       document.getElementById("tab-2").click();
     });
 }
 function setDoubanWeekly(value){
-    
+    var random = parseInt(Math.random()*230);
     var value = value||getURLParameter("search");
-    var api = "http://api.douban.com/v2/movie/weekly?apikey=0df993c66c0c636e29ecbb5344252a4a";
+    var api = "http://api.douban.com/v2/movie/top250?apikey=0df993c66c0c636e29ecbb5344252a4a&start="+random;
     var uri = "//charon-node.herokuapp.com/cross?api="+api;
     var doubanListD = document.getElementById("doubanWeekly");
     if(!doubanListD){
@@ -935,7 +937,7 @@ function setDoubanWeekly(value){
         var html  = "";
         var subjects = JSON.parse(data).subjects;
         for(var i = 0;i<subjects.length;i++){
-            var subject = subjects[i].subject;
+            var subject = subjects[i];
             var isSame = "";
             var title = sort(subject.original_title);
             if(value&&value==title){
