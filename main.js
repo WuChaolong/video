@@ -89,7 +89,7 @@ function setMoreFetcher(){
 }
 function setMessageForm(key){
 
-    var sms = new String("有 {0} 吗？\r找到后联系我邮箱或手机\r：");
+    var sms = new String("有 {0} 吗？\r找到后发给我邮箱或手机\r：");
     var messageForm =  document.getElementById("messageForm");
     if(messageForm){
         messageForm.message.value = sms.format(key);
@@ -360,7 +360,7 @@ function pancFetcher(key){
 
     var parameter = {};
     parameter.host = "panc";
-    parameter.fetchUrl = "https://www.panc.cc/s/"+key+"/td_1";
+    parameter.fetchUrl = "https://www.panc.cc/s/"+key+"/td";
     parameter.fetch = nodeFetch;
     parameter.onLoaded = function(fetcher){
 
