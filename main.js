@@ -1097,6 +1097,7 @@ function setMagnetTech(tab){
         var tab = document.getElementById("tab-Magnet");
 //         tab.checked = true;
         tab.parentNode.style.display="inline-block";
+        return;
 
     }else if(!tab||tab.checked == false){
         return;
