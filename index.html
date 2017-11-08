@@ -4,7 +4,7 @@
 <link href="https://yun.baidu.com/res/static/images/favicon.ico" rel="shortcut icon">
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="stylesheet" href="main.css" />
-<link rel="preload" href="//charon-node.herokuapp.com/fetch" as="script">
+<link rel="preload" href="//charon-node.herokuapp.com" as="script">
 
 </head>
 <body>
@@ -23,9 +23,9 @@
 
 <div id="progressGroupDiv">
   <ul id="progressGroup" class="fetch">
-     <li class="more button" onclick="setMoreFetcher();">﹀</li>
+     <li class="more button" onclick="setMoreFetcher(this);">﹀</li>
     
-     <li class="confirm-none">
+<!--      <li class="confirm-none">
          <em class="icon-face">没有？</em>
          <div class="tab" id="messageDiv">
              <input type="checkbox" id="tab-message" onchange="if(this.checked == true){document.getElementById('messageForm').message.focus();}">
@@ -40,7 +40,7 @@
                 </form>
              </div> 
          </div>
-      </li>
+      </li> -->
   </ul>
 
 </div>
@@ -51,23 +51,47 @@
     
 <footer>
 
-  <a target="_blank" href="https://pan.baidu.com/disk/home?adapt=pc" class="icon-pan">Magnet离线下载</a>
 <!--   <a target="_blank" href="https://movie.douban.com/top250" class="icon-douban">Top</a> -->
-  <div class="tab">
-     <input type="checkbox" name="tabgroup" id="tab-2" onchange="if(this.checked == true){setDoubanWeekly()}">
-     <label for="tab-2"><span class="icon-douban">Top</span>
-     </label>
-     <div class="content doubanList" id="doubanWeekly">
-        <i class="loading"></i>
-     </div> 
- </div>
+  <div class="tabs">
+    <div class="tab" style="display:none;">
+       <input type="checkbox" name="tabgroup" id="tab-Magnet" onchange="setMagnetTech(this);">
 
+       <label for="tab-Magnet"><span class="icon-pan">Magnet教程</span>
+       </label>
+       <div class="content magnet-tech"></div> 
+    </div>
+    <div class="tab">
+       <input type="checkbox" name="tabgroup" id="tab-2" onchange="setDoubanTop(this)">
+
+       <label for="tab-2"><span>Top</span>
+       </label><div class="content doubanList"></div> 
+   </div>
+<!--    <div class="tab">
+       <input type="checkbox" name="tabgroup" id="tab-Weekly" onchange="setDoubanWeekly(this)">
+
+       <label for="tab-Weekly"><span>估计没有的</span>
+       </label><div class="content doubanList"></div> 
+   </div>
+   <div class="tab">
+       <input type="checkbox" name="tabgroup" id="tab-theaters" onchange="setDoubanTheaters(this)">
+
+       <label for="tab-theaters"><span>估计没有的</span>
+       </label><div class="content doubanList"></div> 
+   </div> -->
+   <div class="tab" style="display:none;">
+       <input type="checkbox" name="tabgroup" id="tab-Search" onchange="setOtherClose(this)">
+
+       <label for="tab-Search"><span class="icon-douban">Search</span>
+       </label><div class="content doubanList"></div> 
+   </div>
+ </div>
+<!--   <a target="_blank" href="https://pan.baidu.com/disk/home?adapt=pc" class="icon-pan">Magnet离线下载</a>
+  <span>别跟别人讲哦</span> -->
 <!--  <div class="tab">
      <input type="checkbox" name="tabgroup" id="tab-3">
      <label for="tab-3"><span class="">Rules</span>
      </label>
      <div class="content">
-
      </div> 
  </div> -->
 </footer>
@@ -95,28 +119,12 @@
     <code></code>
 </div>
 </script>
-<script id="loadingTemplate" type="text/html">
-<div class="confirm loading port">
-    <span><i class="icon-loading"></i>Loading..</span>
-</div>
+<script id="magnetTechTemplate" type="text/html">
 
-</script>
-<code style="display:none" id="noneTemplate" type="text/html">
-<div class="confirm none">
-<!--     <span>☹</span> -->
-    <span>☹None!</span>
-<!--     <span><a class="hover" id="sms" target="_blank"  href="sms:+13006248103">✆13006248103</a>有的话提醒你</span> -->
-</div>
-</code>
-<script id="moreTemplate" type="text/html">
-<a href="javascript:return void()" class="a-more">
-<div id="more" class="confirm more" onclick="ShowMore();">
-    <span>More</span><i>﹀</i>
-</div>
-</a>
-</script>
-<script>
-
+          <img src="img/2017-11-08 10-05-03.png"/>
+  <a target="_blank" href="https://pan.baidu.com/disk/home?adapt=pc" >
+          <img src="img/2017-11-08 10-05-03-2.png"/>
+  </a>
 </script>
 <script type="text/javascript" src="main.js"></script>
 <script>
@@ -124,10 +132,8 @@
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
   ga('create', 'UA-105323849-1', 'auto');
   ga('send', 'pageview');
-
 </script>
 <script>
 var _hmt = _hmt || [];
@@ -139,12 +145,4 @@ var _hmt = _hmt || [];
 })();
 </script>
 <!-- <script src="http://jsconsole.com/js/remote.js?dc69ca75-55bf-405c-aad8-cbd10262bb17taifu"></script> -->
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-2490451871326705",
-    enable_page_level_ads: true
-  });
-</script>
 

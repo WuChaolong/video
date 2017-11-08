@@ -43,6 +43,7 @@ body{
     text-align: center;
     margin: 0;
     position: relative;
+    z-index: 1;
 }
 .search-form input{font-size: 1.5em;padding: 0 5px;}
 
@@ -92,7 +93,7 @@ body{
     bottom: 100%;
     text-align: center;
 }
-#progressGroup li.none ~ li.none ~ li.confirm-none{
+/* #progressGroup li.none ~ li.none ~ li.confirm-none{
   display:block;
 }
 #progressGroup li.none + li.none + li.more{
@@ -100,7 +101,10 @@ body{
 }
 #progressGroup li + li.none +li.none + li.more{
   display:none;
-}
+} */
+#progressGroup li + li +li + li.more{
+  display:none;
+} 
 
 .confirm-none>span{
   font-size:1.5em;
@@ -130,12 +134,15 @@ body{
     word-break:break-all;
 }
 a{
-    opacity: .8;
-    color: inherit;
+    /* opacity: .8; */
+    /* color: inherit; */
     text-decoration: none;
 }
+#data a{
+/*     text-decoration: none; */
+}
 a[href]:hover{
-    color: -webkit-link;
+    /* color: -webkit-link; */
     text-decoration: underline;
     opacity: 1;
 }
@@ -167,8 +174,12 @@ footer{
     /* border-top-style: dashed; */
     /* border-top-color: darkgray; */
     opacity: .99;
+    /* overflow-wrap: break-word; */
+    /* overflow-x: scroll; */
+    /* white-space: nowrap; */
+    /* z-index: -11; */
 }
-footer>*{
+footer>a{
     margin-right:1em;
 }
 footer >p{
@@ -300,17 +311,18 @@ progress::-webkit-progress-value{
 
 
 #progressGroup{
-    /* display:none; */
+    display:none;
     text-align: left;
-    margin: 5em 0;
-    margin-bottom: 10em;
+    /* margin: 2em 0; */
+    margin-bottom: 15em;
     transform: rotate(90deg);
     -ms-transform: rotate(90deg);  /* IE 9 */
     -moz-transform: rotate(90deg);  /* Firefox */
     -webkit-transform: rotate(90deg); /* Safari 和 Chrome */
     -o-transform: rotate(90deg);  /* Opera */
     position: relative;
-    z-index: 10;
+    /* z-index: 10; */
+    font-size: 1.3em;
 }
 #progressGroup li{
     text-align: left;
@@ -336,7 +348,7 @@ progress::-webkit-progress-value{
   line-height: 2em;
   padding-top: .5em;
   /* box-shadow: 0 0 1px; */
-  display:none;
+  /* display:none; */
 }
 .more .num:after{
     content:"﹀";
@@ -356,8 +368,9 @@ progress::-webkit-progress-value{
 }
 #progressGroupDiv{
     text-align:center;
-    /* min-height: 10em; */
+    /* min-height: 30em; */
     overflow: auto;
+    /* font-size: 1.5em; */
 }
 i.diaosisou:before{
    background-image: url('http://www.diaosisou.org/static/image/favicon.ico');
@@ -384,8 +397,6 @@ i.thepiratebay:before{
     text-align: center;
     box-sizing: border-box;
     background-color: white;
-
-
 }
 .doubanList .loading{
     display:inline-block;
@@ -433,6 +444,7 @@ i.thepiratebay:before{
   display:block;
 
 }
+
 iframe+.reloadSingle {
   height: 2em;
   padding: .25em  0 0 .25em;
@@ -480,17 +492,19 @@ iframe[src]+.reloadSingle{
 .tabs {
   position: relative;  
 /*   // set height to be even for all tab groups */
-  min-height: 200px;
+  /* min-height: 200px; */
+  z-index: 10000;
 }
 
 .tab {
   /* float: left; */
   display: inline-block;
   /* position: relative; */
+  margin-right: 1em;
 }
 
 .tab label {
-/*   // set label height */top: 1em;display: inline-block;padding: 0 .5em;cursor: pointer;box-shadow: 0 0 1px;background: white;/* font-size: 1.2em; */}
+/*   // set label height *//* top: 1em; */display: inline-block;padding: 0 .5em;cursor: pointer;box-shadow: 0 0 1px;background: white;/* font-size: 1.2em; */}
 
 /* // Visually hide radio buttons */
 .tab [type=checkbox] {
@@ -510,7 +524,7 @@ iframe[src]+.reloadSingle{
   /* top: 2em; */
   left: 0;
   right: 0;
-  bottom: 3em;
+  bottom: 100%;
   opacity: 0;
   display:none;
   width: 100%;
@@ -542,14 +556,7 @@ iframe[src]+.reloadSingle{
   background-color: white;
 }
 
-[type=checkbox]:checked ~ label ~ .content {
-/*   z-index: 1; */
-  opacity: 1;
-  display:block;
-  background-color: white;
-  z-index: -1;
-  box-shadow: 0 0 1px;
-}
+[type=checkbox]:checked ~ label ~ .content {/* z-index: 1; */opacity: 1;display:block;background-color: white;/* z-index: -1; */box-shadow: 0 1px 1px;}
 
 [type=checkbox]:checked ~ label ~ .doubanList{
 
@@ -613,4 +620,18 @@ iframe{
   font-size: 1.2em;
 }
 #messageForm [type="submit"].loading{
+}
+.magnet-tech{
+    /* height: 22em; */
+    overflow-x: scroll;
+    white-space: nowrap;
+    padding: .5em;
+    /* display: none; */
+    /* margin-bottom: 5em; */
+    text-align: center;
+    box-sizing: border-box;
+    /* background-color: white; */
+}
+.magnet-tech img{
+ max-height: 18em;
 }
