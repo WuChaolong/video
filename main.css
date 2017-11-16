@@ -390,9 +390,12 @@ i.thepiratebay:before{
 .doubanList{
     height: 11em;
     overflow-x: scroll;
+    /* overflow: scroll; */
+    /* overflow-y: initial; */
+    /* overflow-x: scroll; */
     white-space: nowrap;
     padding: .5em;
-    display:none;
+    /* display:none; */
     /* margin-bottom: 5em; */
     text-align: center;
     box-sizing: border-box;
@@ -416,7 +419,7 @@ i.thepiratebay:before{
     /* display: block; */
 }
 .doubanList a{
-    position:relative;
+    /* position:relative; */
     text-align:center;
     display:inline-block;
     height:100%;
@@ -504,7 +507,13 @@ iframe[src]+.reloadSingle{
 }
 
 .tab label {
-/*   // set label height *//* top: 1em; */display: inline-block;padding: 0 .5em;cursor: pointer;box-shadow: 0 0 1px;background: white;/* font-size: 1.2em; */}
+/*   // set label height *//* top: 1em; */
+  display: inline-block;padding: 0 .5em;
+  cursor: pointer;
+  box-shadow: 0 0 1px  black;
+  background: white;
+
+}
 
 /* // Visually hide radio buttons */
 .tab [type=checkbox] {
@@ -514,9 +523,9 @@ iframe[src]+.reloadSingle{
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   
-  &:focus + label {
+/*   &:focus + label {
     outline: 2px dotted black;
-  }
+  } */
 }
 
 .content {
@@ -525,9 +534,9 @@ iframe[src]+.reloadSingle{
   left: 0;
   right: 0;
   bottom: 100%;
-  opacity: 0;
+  /* opacity: 0; */
   display:none;
-  width: 100%;
+  /* width: 20em; */
   z-index: -1;
 }
 #messageDiv .content{
@@ -550,17 +559,13 @@ iframe[src]+.reloadSingle{
   content:" ✗";
   color:red;
 }
-[type=checkbox]:checked ~ label {
+[type=checkbox]:checked + label {
   z-index: 2;
-  box-shadow: 0 1px 1px;
+  box-shadow: 0 1px 1px black;
   background-color: white;
 }
 
-[type=checkbox]:checked ~ label ~ .content {/* z-index: 1; */opacity: 1;display:block;background-color: white;/* z-index: -1; */box-shadow: 0 1px 1px;}
-
-[type=checkbox]:checked ~ label ~ .doubanList{
-
-}
+[type=checkbox]:checked ~ .content {/* z-index: 1; *//* opacity: 1; */display: block;background-color: #fff;/* z-index: -1; */box-shadow: 0 1px 1px black;}
 
 #progressGroup .reloadSingle{
     display: none;

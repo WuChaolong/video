@@ -43,7 +43,16 @@ function changeHash(form){
 function locationParameterChanged() {
     var key = getURLParameter("search");
     var input = document.getElementsByTagName("input")[0];
-    
+
+//     var submit = document.querySelector('[type="submit"]');
+//     submit.onclick=function(e){
+
+//         if(!input.value){
+//             e.preventDefault();
+            
+//             input.focus();
+//         }
+//     }
     input.oninput = function(e){
         if(e.data ==" "){
             setDoubanSearch(input.value);
@@ -62,7 +71,7 @@ function locationParameterChanged() {
     if(!key){
         input.focus();
         input.setAttribute("required","required");
-        setDoubanTop();
+        setDoubanTop(undefined,true);
         return;
     }
 
@@ -80,7 +89,7 @@ function locationParameterChanged() {
         })
     }
 
-    setDoubanSearch(input.value);
+    setDoubanSearch(input.value,undefined,true);
     setMagnetTech();
 }
 
@@ -216,6 +225,7 @@ function fetcher(parameter){
                     showVideos.push(video);
                 };
                 if(doNotCheckInvalid){
+
                     success();
                 }else{
                     serf.checkInvalid(video,function(){
@@ -373,6 +383,19 @@ function pancFetcher(key){
 
         });
     }
+    parameter.setIframe = function (videos,length,showVideos){
+        var videos = videos.splice(0,length);
+        videos.map(function(video,index){
+            if(!checkExistUk(video,showVideos)){
+                setIframe(video,index==0);
+                showVideos.push(video);
+            }else{
+                parameter.setIframe(videos,1,showVideos);
+            }
+        });
+        videos = null;
+    }
+
     parameter.parseVideos = function(html){
         var videos = parseHref(html,".a_url");
         
@@ -925,7 +948,7 @@ function setDoubanList(value){
         data=html=subjects=doubanListD=null;
     });
 }
-function setDoubanSearch(value,tab){
+function setDoubanSearch(value,tab,isLazy){
 
     var value = value||getURLParameter("search");
     if(!value){
@@ -934,7 +957,9 @@ function setDoubanSearch(value,tab){
     if(!tab){
 
         var tab = document.getElementById("tab-Search");
-        tab.checked = true;
+        if(!isLazy){
+            tab.checked = true;
+        }
         tab.parentNode.style.display="inline-block";
     }else if(tab.checked == false){
         return;
@@ -947,6 +972,9 @@ function setDoubanSearch(value,tab){
     var api = "https://api.douban.com/v2/movie/search?q="+value;
     var uri = "//charon-node.herokuapp.com/cross?api="+api;
     ajax(uri,function(data){
+        if(isLazy){
+            tab.checked = true;
+        }
         var html  = "";
         var subjects = JSON.parse(data).subjects;
         for(var i = 0;i<5&&i<subjects.length;i++){
@@ -972,10 +1000,12 @@ function setDoubanSearch(value,tab){
         data=html=subjects=doubanListD=null;
     });
 }
-function setDoubanTop(tab){
+function setDoubanTop(tab,isLazy){
     if(!tab){
         var tab = document.getElementById("tab-2");
-        tab.checked = true;
+        if(!isLazy){
+            tab.checked = true;
+        }
     }else if(tab.checked == false){
         return;
     }
@@ -990,20 +1020,15 @@ function setDoubanTop(tab){
     var api = "http://api.douban.com/v2/movie/top250?apikey=0df993c66c0c636e29ecbb5344252a4a&start="+random;
     var uri = "//charon-node.herokuapp.com/cross?api="+api;
     ajax(uri,function(data){
+        if(isLazy){
+            tab.checked = true;
+        }
         var html  = "";
         var subjects = JSON.parse(data).subjects;
         var value = getURLParameter("search");
         for(var i = 0;i<subjects.length;i++){
             var subject = subjects[i];
 
-
-            var isSame = "";
-            if(value!=subject.original_title){
-                isSame = 'href="?search='+encodeURIComponent(subject.original_title)+'"';
-            }
-            html += '<a '+isSame+' ><img src="'+subject.images.medium+'"/><span>'+subject.original_title+'<span></a>'
-
-            
             if(i<1&&subject.original_title!=subject.title){
                 var isSame = "";
                 if(value!=subject.title){
@@ -1012,7 +1037,16 @@ function setDoubanTop(tab){
                 }
                 html += '<a '+isSame+' ><img src="'+subject.images.medium+'"/><span>'+subject.title+'<span></a>'
 
+            }else{
+                var isSame = "";
+                if(value!=subject.original_title){
+                    isSame = 'href="?search='+encodeURIComponent(subject.original_title)+'"';
+                }
+                html += '<a '+isSame+' ><img src="'+subject.images.medium+'"/><span>'+subject.original_title+'<span></a>'
+
             }
+            
+            
 //             var isSame = "";
 //             var title = subject.original_title;
 //             if(value&&value==title){
@@ -1246,4 +1280,21 @@ function tiebaFetcher(key){
     
     return fetcher(parameter);
 
+}
+
+
+function checkExistUk(video,videos){
+    try{
+        var newUk = getURLParameter("uk",video.url);
+        for(var i = 0;i<videos.length;i++){
+            var object = videos[i];
+            var uk = getURLParameter("uk",object.url);
+            if(newUk&&newUk==uk){
+                return true;
+            }
+        };
+    }catch(e){
+        return true;
+    }
+    return false;
 }
