@@ -216,7 +216,7 @@ function fetcher(parameter){
     serf.setIframe = function (videos,length,showVideos,doNotCheckInvalid){
         
         if(parameter.setIframe){
-            parameter.setIframe(videos,length,showVideos,doNotCheckInvalid);
+            parameter.setIframe(videos,length,showVideos,doNotCheckInvalid,serf);
         }else{
             var videos = videos.splice(0,length);
             videos.map(function(video,index){
@@ -383,14 +383,17 @@ function pancFetcher(key){
 
         });
     }
-    parameter.setIframe = function (videos,length,showVideos){
+    parameter.setIframe = function (videos,length,showVideos,doNotCheckInvalid,fetcher){
         var videos = videos.splice(0,length);
         videos.map(function(video,index){
             if(!checkExistUk(video,showVideos)){
                 setIframe(video,index==0);
                 showVideos.push(video);
             }else{
-                parameter.setIframe(videos,1,showVideos);
+                
+                videos.splice(videos.indexOf(video), 1);
+                fetcher.progress.setNum(videos.length);
+//                 parameter.setIframe(videos,1,showVideos);
             }
         });
         videos = null;
