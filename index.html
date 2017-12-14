@@ -57,6 +57,20 @@
    </div>
  </div>
 </footer> -->
+
+<div class="share-other"  data-initialized="true"
+ data-mobile-sites="qq,weibo,facebook,twitter"
+  data-wechat-qrcode-helper="<p>微信里点“发现”，扫一下</p><p>二维码便可分享至朋友圈。</p>"
+>
+
+  <a href="#" class="social-share-icon icon-qq"></a>
+  <a href="#" class="social-share-icon icon-wechat"></a>
+  <a href="#" class="social-share-icon icon-weibo"></a>
+
+  <a href="#" class="social-share-icon icon-facebook"></a>
+  <a href="#" class="social-share-icon icon-twitter"></a>
+
+</div>
 </body>
 
 
@@ -67,19 +81,11 @@
     ></iframe>
 <!--     <div onclick="reloadIframe(this)" class="reloadSingle" title="Reload">Reload</div> -->
     <div class="share">
-      <input type="checkbox" onclick="isItClick(this);" name="isIt" class="is-it"/>
-      <div class="share-other"  data-initialized="true">
-        
-        <a href="#" class="social-share-icon icon-qq"></a>
-        <a href="#" class="social-share-icon icon-wechat"></a>
-        <a href="#" class="social-share-icon icon-weibo"></a>
-        
-        <a href="#" class="social-share-icon icon-facebook"></a>
-        <a href="#" class="social-share-icon icon-twitter"></a>
-        
-      </div>
-    </div>
+    <input type="checkbox" onclick="isItClick(this);" name="isIt" class="is-it"/>
+    
+  </div>
 </div>
+
 </code>
 <!-- <script id="videoTemplate" type="text/html">
 <a class="title" target="_blank"></a>
@@ -93,18 +99,9 @@
 <div class="magnet-video">
     <code></code>
     <div class="share">
-        <input type="checkbox" onclick="isItClick(this);" name="isIt" class="is-it"/>
-        <div class="share-other"  data-initialized="true">
-
-          <a href="#" class="social-share-icon icon-qq"></a>
-          <a href="#" class="social-share-icon icon-wechat"></a>
-          <a href="#" class="social-share-icon icon-weibo"></a>
-
-          <a href="#" class="social-share-icon icon-facebook"></a>
-          <a href="#" class="social-share-icon icon-twitter"></a>
-
-        </div>
-      </div>    
+      <input type="checkbox" onclick="isItClick(this);" name="isIt" class="is-it"/>
+      
+    </div>
 </div>
 </script>
 <script id="magnetTechTemplate" type="text/html">
@@ -139,11 +136,3 @@ var _hmt = _hmt || [];
 <script src="user.js"></script> -->
 <!-- <script src="//cdn.ably.io/lib/ably.min-1.js"></script>
 <script src="ably.js"></script> -->
-
-<script>
-importScript("//wuchaolong.github.io/sante/social-share.js/src/js/qrcode.js");
-
-importScript("//wuchaolong.github.io/sante/social-share.js/src/js/social-share.js");
-importCSS("//overtrue.github.io/share.js/dist/css/share.min.css");
-
-</script>

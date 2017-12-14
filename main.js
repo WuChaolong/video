@@ -92,8 +92,10 @@ function locationParameterChanged() {
     }
 
     setDoubanSearch(input.value,undefined,true);
-    setMagnetTech();
+//     setMagnetTech();
     syncIsIt().getBykey();
+
+    loadShare();
 }
 
 function setMoreFetcher(button){
@@ -1366,7 +1368,6 @@ function isItClick(isIt){
     storageItTrue(key,isIt,!isIt.checked);
 
     isIt.classList.add("checked");
-    socialShare(isIt.nextElementSibling);
 }
 
 function storageItTrue(key,isIt,remove){
@@ -1406,4 +1407,14 @@ function importCSS(href,cssId){
         link.media = 'all';
         head.appendChild(link);
     }
+}
+function loadShare(key){
+    importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/qrcode.js",function(){
+    });
+    importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/social-share.js",function(){
+//         var ele = document.querySelector(".share-other");
+//         ele.dataset.weiboTitle = key+"有诶";
+        socialShare(".share-other");
+    });
+    importCSS("https://overtrue.github.io/share.js/dist/css/share.min.css");
 }
