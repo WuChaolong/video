@@ -9,6 +9,10 @@ html,body{
     /*     border-left: 1px inset; */
     position: relative;
 }
+.magnet-video{
+      position: relative;
+
+}
 .baidu-video iframe{
     width: 100%;
     height: 800px;
@@ -30,9 +34,10 @@ body{
     margin:auto;
     /* padding: 8px; */
     position: relative;
-    padding-bottom: 5em;
+    /* padding-bottom: 5em; */
     box-sizing: border-box;
     z-index: -2;
+    overflow-x: hidden;
 }
 .search-form{
     /* padding-top: 2em; */
@@ -146,6 +151,9 @@ a[href]:hover{
     text-decoration: underline;
     opacity: 1;
 }
+a[href]:hover > img{
+    /* box-shadow: 0 1px blue; */
+}
 .hover{
   text-decoration: underline;
   /* color: initial; */
@@ -241,33 +249,7 @@ code{
 }
 
 
-@media screen and (min-width:751px){
-    input{
-        text-align: center;
-    }
-    button{
-/*         left: 0; */
-/*         right: 0; */
-    }
-    #progressGroup {
-        text-align: center;
-    }
-    .baidu-video {
-        height: 420px;
-    }
-    .baidu-video iframe{
-        margin-top: -190px;
-    }
-    
-    footer>p{
-      display:inline-block;
-      margin: 0;
-    }
-    #disqus_thread{
-      max-width:751px;
-      margin:auto;
-    }
-}
+
 
 progress{
     -webkit-appearance: none;
@@ -314,7 +296,7 @@ progress::-webkit-progress-value{
     display:none;
     text-align: left;
     /* margin: 2em 0; */
-    margin-bottom: 15em;
+    margin-bottom: 5em;
     transform: rotate(90deg);
     -ms-transform: rotate(90deg);  /* IE 9 */
     -moz-transform: rotate(90deg);  /* Firefox */
@@ -388,18 +370,19 @@ i.thepiratebay:before{
    background-image: url('https://thepiratebay.org/favicon.ico');
 }
 .doubanList{
-    height: 11em;
-    overflow-x: scroll;
-    /* overflow: scroll; */
-    /* overflow-y: initial; */
+    /* height: 50%; */
     /* overflow-x: scroll; */
-    white-space: nowrap;
+    /* white-space: nowrap; */
     padding: .5em;
     /* display:none; */
     /* margin-bottom: 5em; */
     text-align: center;
     box-sizing: border-box;
     background-color: white;
+    width: 100%;
+    /* overflow: auto; */
+    /* max-height: 50%; */
+    /* overflow-y: scroll; */
 }
 .doubanList .loading{
     display:inline-block;
@@ -422,11 +405,12 @@ i.thepiratebay:before{
     /* position:relative; */
     text-align:center;
     display:inline-block;
-    height:100%;
-    margin-right:.5em;
-    min-width:110px;
+    /* height: 10em; */
+    margin: .5em auto;
+    width: 50%;
     overflow: hidden;
     opacity: 1;
+    vertical-align: top;
 }
 .doubanList a[href]{
     /* text-decoration: underline; */
@@ -465,6 +449,7 @@ iframe[src]+.reloadSingle{
 }
 .reloadSingle:hover{
   background-color: #ddd;
+  /* box-shadow: 0 1px #999; */
 }
 .reloadSingle:before, .reloadSingle:after {
   content: '';
@@ -639,4 +624,95 @@ iframe{
 }
 .magnet-tech img{
  max-height: 18em;
+}
+.video-item{
+  position:relative;
+}
+.is-it{
+  text-align:center;
+  /* border: 0; */
+  /* background: transparent; */
+  -webkit-appearance: inherit;
+  appearance: inherit;
+  cursor: pointer;
+  color:#999;
+  width: 5em;
+}
+.is-it:after{
+  content:"?";
+  font-size: 5em;
+  line-height:1em;
+}
+.is-it:checked:after{
+  content:"✓";
+  
+}
+.is-it:before{
+  content:"Thank you!";
+  font-size: 1em;
+  height:1em;
+  position:absolute;
+  right:100%;
+  top:0;
+  bottom:0;
+  margin:auto;
+  display:none;
+}
+.is-it:checked{
+  color: green;
+}
+.is-it.checked:before{
+/*   display: inline; */
+}
+.is-it:hover{/* background-color: #ddd; */box-shadow: 0 1px #999;}
+
+.video-item:hover .is-it,.video-item .is-it:checked{
+  visibility: visible;
+}
+.share{width: 5em;height: 5em;position: absolute;right: 1em;top: 0;bottom: 0;margin: auto;z-index: 1;}
+.share-other{
+  display:none;
+  position: absolute;
+  width: 20em;
+  right: 0;
+  text-align: right;
+}
+.is-it:checked+.share-other{
+  display:block;
+}
+
+
+@media screen and (min-width:751px){
+    input{
+        text-align: center;
+    }
+    button{
+/*         left: 0; */
+/*         right: 0; */
+    }
+    #progressGroup {
+        text-align: center;
+    }
+    .baidu-video {
+        height: 416px;
+    }
+    .baidu-video iframe{
+        margin-top: -192px;
+    }
+    
+    footer>p{
+      display:inline-block;
+      margin: 0;
+    }
+    #disqus_thread{
+      max-width:751px;
+      margin:auto;
+    }
+    .video-item .is-it{
+      visibility: hidden;
+    }
+    
+    .doubanList a {
+        width: 11em;
+    }
 }

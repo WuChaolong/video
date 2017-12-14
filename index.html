@@ -3,6 +3,9 @@
 <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
 <link href="https://yun.baidu.com/res/static/images/favicon.ico" rel="shortcut icon">
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="google-signin-client_id" content="107788235991-3mguiv0bljcaple1d0g23b4m4qcoqfge.apps.googleusercontent.com">
+
+
 <link rel="stylesheet" href="main.css" />
 <link rel="preload" href="//charon-node.herokuapp.com">
 
@@ -29,10 +32,9 @@
   </ul>
 
 </div>
+<div class="doubanList"></div>
+<!-- <footer>
 
-<footer>
-
-<!--   <a target="_blank" href="https://movie.douban.com/top250" class="icon-douban">Top</a> -->
   <div class="tabs">
     <div class="tab" style="display:none;">
        <input type="checkbox" name="tabgroup" id="tab-Magnet" onchange="setMagnetTech(this);">
@@ -47,18 +49,6 @@
        <label for="tab-2"><span>Top</span>
        </label><div class="content doubanList"></div> 
    </div>
-<!--    <div class="tab">
-       <input type="checkbox" name="tabgroup" id="tab-Weekly" onchange="setDoubanWeekly(this)">
-
-       <label for="tab-Weekly"><span>估计没有的</span>
-       </label><div class="content doubanList"></div> 
-   </div>
-   <div class="tab">
-       <input type="checkbox" name="tabgroup" id="tab-theaters" onchange="setDoubanTheaters(this)">
-
-       <label for="tab-theaters"><span>估计没有的</span>
-       </label><div class="content doubanList"></div> 
-   </div> -->
    <div class="tab" style="display:none;">
        <input type="checkbox" name="tabgroup" id="tab-Search" onchange="setOtherClose(this)">
 
@@ -66,16 +56,7 @@
        </label><div class="content doubanList"></div> 
    </div>
  </div>
-<!--   <a target="_blank" href="https://pan.baidu.com/disk/home?adapt=pc" class="icon-pan">Magnet离线下载</a>
-  <span>别跟别人讲哦</span> -->
-<!--  <div class="tab">
-     <input type="checkbox" name="tabgroup" id="tab-3">
-     <label for="tab-3"><span class="">Rules</span>
-     </label>
-     <div class="content">
-     </div> 
- </div> -->
-</footer>
+</footer> -->
 </body>
 
 
@@ -84,7 +65,20 @@
 <div class="baidu-video">
     <iframe class="loading" seamless sandbox="allow-modals allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock" scrolling="no" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"
     ></iframe>
-    <div onclick="reloadIframe(this)" class="reloadSingle" title="Reload">Reload</div>
+<!--     <div onclick="reloadIframe(this)" class="reloadSingle" title="Reload">Reload</div> -->
+    <div class="share">
+      <input type="checkbox" onclick="isItClick(this);" name="isIt" class="is-it"/>
+      <div class="share-other"  data-initialized="true">
+        
+        <a href="#" class="social-share-icon icon-qq"></a>
+        <a href="#" class="social-share-icon icon-wechat"></a>
+        <a href="#" class="social-share-icon icon-weibo"></a>
+        
+        <a href="#" class="social-share-icon icon-facebook"></a>
+        <a href="#" class="social-share-icon icon-twitter"></a>
+        
+      </div>
+    </div>
 </div>
 </code>
 <!-- <script id="videoTemplate" type="text/html">
@@ -96,8 +90,21 @@
 </script> -->
 <script id="magnetTemplate" type="text/html">
 <a class="title" target="_blank"></a>
-<div>
+<div class="magnet-video">
     <code></code>
+    <div class="share">
+        <input type="checkbox" onclick="isItClick(this);" name="isIt" class="is-it"/>
+        <div class="share-other"  data-initialized="true">
+
+          <a href="#" class="social-share-icon icon-qq"></a>
+          <a href="#" class="social-share-icon icon-wechat"></a>
+          <a href="#" class="social-share-icon icon-weibo"></a>
+
+          <a href="#" class="social-share-icon icon-facebook"></a>
+          <a href="#" class="social-share-icon icon-twitter"></a>
+
+        </div>
+      </div>    
 </div>
 </script>
 <script id="magnetTechTemplate" type="text/html">
@@ -127,3 +134,16 @@ var _hmt = _hmt || [];
 </script>
 <!-- <script src="http://jsconsole.com/js/remote.js?dc69ca75-55bf-405c-aad8-cbd10262bb17taifu"></script> -->
 
+<!-- <script src="https://apis.google.com/js/platform.js" async defer></script>
+<div class="g-signin2" data-onsuccess="onSignIn"></div>
+<script src="user.js"></script> -->
+<!-- <script src="//cdn.ably.io/lib/ably.min-1.js"></script>
+<script src="ably.js"></script> -->
+
+<script>
+importScript("//wuchaolong.github.io/sante/social-share.js/src/js/qrcode.js");
+
+importScript("//wuchaolong.github.io/sante/social-share.js/src/js/social-share.js");
+importCSS("//overtrue.github.io/share.js/dist/css/share.min.css");
+
+</script>

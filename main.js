@@ -54,9 +54,11 @@ function locationParameterChanged() {
 //         }
 //     }
     input.oninput = function(e){
-        if(e.data ==" "){
+//         if(e.data ==" "){
+//             setDoubanSearch(input.value);
+//         }
+
             setDoubanSearch(input.value);
-        }
 //          setFontSize(input,input.value.length>8?input.value.length+2:8+2);
         
     }
@@ -91,6 +93,7 @@ function locationParameterChanged() {
 
     setDoubanSearch(input.value,undefined,true);
     setMagnetTech();
+    syncIsIt().getBykey();
 }
 
 function setMoreFetcher(button){
@@ -259,9 +262,11 @@ function fetcher(parameter){
         }
     }
     serf.onLoaded=function(){
-        serf.setIframe(serf.videos,1,window.showVideos);
         if(parameter.onLoaded){
             parameter.onLoaded(serf);
+        }else{
+
+            serf.setIframe(serf.videos,1,window.showVideos);
         }
     }
     serf.fetch = parameter.fetch;
@@ -324,6 +329,15 @@ function panduoduoFetcher(key){
         }
 
     }
+    parameter.onLoaded = function(fetcher){
+
+//         fetcher.setIframe(fetcher.videos,1,window.showVideos);
+//         clearInvalid(fetcher,function(video){
+//             fetcher.setIframe([video],1,window.showVideos);
+//             fetcher.progress.setNum(fetcher.videos.length);
+
+//         });
+    }
     parameter.setIframe = function (panduoduoVideos,length,showVideos){
         var videos = panduoduoVideos.splice(0,length);
         videos.forEach(function (item, index, array) {
@@ -377,6 +391,7 @@ function pancFetcher(key){
     parameter.fetch = nodeFetch;
     parameter.onLoaded = function(fetcher){
 
+        fetcher.setIframe(fetcher.videos,1,window.showVideos);
         clearInvalid(fetcher,function(video){
             fetcher.setIframe([video],1,window.showVideos);
             fetcher.progress.setNum(fetcher.videos.length);
@@ -392,7 +407,7 @@ function pancFetcher(key){
             }else{
                 
                 videos.splice(videos.indexOf(video), 1);
-                fetcher.progress.setNum(videos.length);
+                fetcher.progress.setNum(fetcher.videos.length);
 //                 parameter.setIframe(videos,1,showVideos);
             }
         });
@@ -523,11 +538,19 @@ function setIframe(video,isSrc,waitUrl,templateId){
 
     var dataBox =  document.getElementById("data");
         var wrapper= document.createElement('div');
+        wrapper.classList.add("video-item")
         wrapper.innerHTML= template;
-        a = wrapper.children[0];
+        var a = wrapper.children[0];
         a.innerHTML=video.name;
         var url = video.url;
         a.href=video.refUrl||url;
+        var isIt =  wrapper.querySelector("[name='isIt']");
+        isIt.value = JSON.stringify(video);
+        if(isItTrue(isIt)){
+            isIt.checked = true;
+        }
+        isIt.title="Is "+getURLParameter("search")+"?"
+        
         if(!waitUrl){
             if(templateId=="videoTemplate"){
                 var index = url.indexOf("//");
@@ -644,9 +667,11 @@ function addVideosHandler(iframe){
     }
 }
 
-function ajax(uri,fn,error,method,data){
+function ajax(uri,fn,error,method,data,contentType){
     var request = new XMLHttpRequest();
     request.open(method||"GET", uri);
+    request.setRequestHeader("Content-Type", contentType||"text/plain;charset=UTF-8");
+
     try{
       request.send(data||null);
     }catch(e){
@@ -670,6 +695,7 @@ function ajax(uri,fn,error,method,data){
       request.abort();
       error();
     };
+    return request;
 }
 
 function isEnglish(string){
@@ -775,7 +801,12 @@ function importScript (sSrc, fOnload) {
   oScript.type = "text\/javascript";
   oScript.onerror = loadError;
   if (fOnload) { oScript.onload = fOnload; }
-  document.currentScript.parentNode.insertBefore(oScript, document.currentScript);
+  if( document.currentScript){
+        document.currentScript.parentNode.insertBefore(oScript, document.currentScript);
+
+  }else{
+      document.body.appendChild(oScript);
+  }
   oScript.src = sSrc;
 }
 
@@ -825,6 +856,9 @@ function progress(host){
             var length = fetcher.videos.length;
             var showLength = showVideos.length;
             length = length>showLength?showLength:length;
+            if(host=="panduoduo"){
+                length = 1;
+            }
             setMoreIframe([fetcher],0,length);
         }
     }
@@ -957,27 +991,17 @@ function setDoubanSearch(value,tab,isLazy){
     if(!value){
         return;
     }
-    if(!tab){
-
-        var tab = document.getElementById("tab-Search");
-        if(!isLazy){
-            tab.checked = true;
-        }
-        tab.parentNode.style.display="inline-block";
-    }else if(tab.checked == false){
-        return;
-    }
-    setOtherClose(tab);
-    var doubanListD = tab.nextElementSibling.nextElementSibling;
-    if(doubanListD.innerHTML){
-        return;
+    var doubanListD = document.querySelector(".doubanList");
+//     if(doubanListD.innerHTML){
+//         return;
+//     }
+    if(window.doubanRequest){
+        window.doubanRequest.abort();
     }
     var api = "https://api.douban.com/v2/movie/search?q="+value;
     var uri = "//charon-node.herokuapp.com/cross?api="+api;
-    ajax(uri,function(data){
-        if(isLazy){
-            tab.checked = true;
-        }
+    window.doubanRequest = ajax(uri,function(data){
+
         var html  = "";
         var subjects = JSON.parse(data).subjects;
         for(var i = 0;i<5&&i<subjects.length;i++){
@@ -1004,17 +1028,7 @@ function setDoubanSearch(value,tab,isLazy){
     });
 }
 function setDoubanTop(tab,isLazy){
-    if(!tab){
-        var tab = document.getElementById("tab-2");
-        if(!isLazy){
-            tab.checked = true;
-        }
-    }else if(tab.checked == false){
-        return;
-    }
-    
-    setOtherClose(tab);
-    var doubanListD = tab.nextElementSibling.nextElementSibling;
+    var doubanListD = document.querySelector(".doubanList");
     if(doubanListD.innerHTML){
         return;
     }
@@ -1023,9 +1037,6 @@ function setDoubanTop(tab,isLazy){
     var api = "http://api.douban.com/v2/movie/top250?apikey=0df993c66c0c636e29ecbb5344252a4a&start="+random;
     var uri = "//charon-node.herokuapp.com/cross?api="+api;
     ajax(uri,function(data){
-        if(isLazy){
-            tab.checked = true;
-        }
         var html  = "";
         var subjects = JSON.parse(data).subjects;
         var value = getURLParameter("search");
@@ -1049,16 +1060,6 @@ function setDoubanTop(tab,isLazy){
 
             }
             
-            
-//             var isSame = "";
-//             var title = subject.original_title;
-//             if(value&&value==title){
-//             }else{
-//                 isSame = ' href="?search='+encodeURIComponent(title)+'"';
-          
-//             }
-//             html += '<a '+isSame+'><img src="'+subject.images.medium+'"/><span>'+title+'<span></a>'
-
         }
         html += '<a target="_blank" href="https://movie.douban.com/top250" class="douban-more icon-douban">Top 250<i>﹀</i></a>';
         doubanListD.innerHTML=html;
@@ -1300,4 +1301,109 @@ function checkExistUk(video,videos){
         return true;
     }
     return false;
+}
+
+function syncIsIt(key,data){
+
+    var self = {};
+
+    self.key = key|| getURLParameter("search");
+    self.data = data|| JSON.parse(localStorage.getItem(key)||"{}");
+
+    self.uri = "https://postgrest-taifu.herokuapp.com/testisit3";
+    self.getBykey = function(key){
+        var key = (key||self.key);
+        var method = "get";
+        var uri = self.uri+"?key=eq."+key;
+        var fn = function(data){
+            console.log(data);
+            setLocal(key,data);
+        }
+        ajax(uri,fn,null,method,null);
+    }
+    function setLocal(key,data){
+        var values = JSON.parse(localStorage.getItem(key)||"{}");
+        var data = JSON.parse(data);
+        data.map(function(o){
+            if(o.key==key){
+                values[o.url]=o.count;
+            }
+        });
+        localStorage.setItem(key, JSON.stringify(values));
+        data = null;
+    }
+    self.add = function(key,video){
+        
+
+//         var method = "post";
+//         var uri = self.uri;
+//         var data = {url:video.url,key:key};
+//         var fn = function(data){
+//             console.log(data);
+//         }
+//         ajax(uri,fn,null,method,data,"application/json");
+
+
+        var client = new XMLHttpRequest();
+        client.open("POST", self.uri);
+        client.setRequestHeader("Content-Type", "application/json");
+        client.send(JSON.stringify({url:video.url,key:key,video:JSON.stringify(video)}));
+    }
+    self.delete = function(key,video){
+        var method = "delete";
+        var uri = self.uri+"?key=eq."+key+"&url=eq."+video.url;
+        var fn = function(data){
+            console.log(data);
+        }
+        ajax(uri,fn,null,method,null,"application/json");
+    }
+
+    return self;
+}
+
+function isItClick(isIt){
+    var key = getURLParameter("search");
+    storageItTrue(key,isIt,!isIt.checked);
+
+    isIt.classList.add("checked");
+    socialShare(isIt.nextElementSibling);
+}
+
+function storageItTrue(key,isIt,remove){
+    var video = JSON.parse(isIt.value);
+    var values = JSON.parse(localStorage.getItem(key)||"{}");
+    values[video.url] = remove?false:video;
+    localStorage.setItem(key, JSON.stringify(values));
+
+    var sync = syncIsIt(key,values);
+    if(remove){
+        sync.delete(key,video);
+    }else{
+        sync.add(key,video);
+    }
+}
+function isItTrue(isIt){
+    var key = getURLParameter("search");
+    var video = JSON.parse(isIt.value);
+    var values = JSON.parse(localStorage.getItem(key)||"{}");
+    if(values[video.url]){
+        return true;
+    }
+    return false;
+}
+
+
+function importCSS(href,cssId){
+    var cssId = cssId||'myCss';  // you could encode the css path itself to generate id..
+    if (!document.getElementById(cssId))
+    {
+        var head  = document.getElementsByTagName('head')[0];
+        var link  = document.createElement('link');
+        link.id   = cssId;
+        link.rel  = 'stylesheet';
+        link.type = 'text/css';
+        link.href = href;
+        link.media = 'all';
+        head.appendChild(link);
+    }
 }
