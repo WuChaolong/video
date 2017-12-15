@@ -1409,12 +1409,14 @@ function importCSS(href,cssId){
     }
 }
 function loadShare(key){
-    importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/qrcode.js",function(){
-    });
-    importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/social-share.js",function(){
-//         var ele = document.querySelector(".share-other");
-//         ele.dataset.weiboTitle = key+"有诶";
-        socialShare(".share-other");
-    });
-    importCSS("https://overtrue.github.io/share.js/dist/css/share.min.css");
+//     importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/qrcode.js",function(){
+//     });
+//     importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/social-share.js",function(){
+// //         var ele = document.querySelector(".share-other");
+// //         ele.dataset.weiboTitle = key+"有诶";
+//         socialShare(".share-other");
+//     });
+//     importCSS("https://overtrue.github.io/share.js/dist/css/share.min.css");
+    window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"32"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+
 }
