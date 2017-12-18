@@ -91,11 +91,12 @@ function locationParameterChanged() {
         })
     }
 
-    setDoubanSearch(input.value,undefined,true);
+    setDoubanSearch(input.value,function(){
+            
+        loadShare();
+    });
 //     setMagnetTech();
     syncIsIt().getBykey();
-
-    loadShare();
 }
 
 function setMoreFetcher(button){
@@ -551,7 +552,7 @@ function setIframe(video,isSrc,waitUrl,templateId){
         if(isItTrue(isIt)){
             isIt.checked = true;
         }
-        isIt.title="Is "+getURLParameter("search")+"?"
+        isIt.title="Is this "+getURLParameter("search")+"?"
         
         if(!waitUrl){
             if(templateId=="videoTemplate"){
@@ -777,6 +778,11 @@ function magnetFetcher(key){
             }
         };
         parameter.fetch = nodeFetch;
+        parameter.onLoaded = function(fetcher){
+            if(fetcher.videos[0].name.length<50){
+                fetcher.setIframe(fetcher.videos,1,window.showVideos);
+            }
+        }
     }
     
 
@@ -987,7 +993,7 @@ function setDoubanList(value){
         data=html=subjects=doubanListD=null;
     });
 }
-function setDoubanSearch(value,tab,isLazy){
+function setDoubanSearch(value,success){
 
     var value = value||getURLParameter("search");
     if(!value){
@@ -1027,6 +1033,7 @@ function setDoubanSearch(value,tab,isLazy){
         }
         doubanListD.innerHTML=html;
         data=html=subjects=doubanListD=null;
+        success();
     });
 }
 function setDoubanTop(tab,isLazy){
@@ -1409,14 +1416,16 @@ function importCSS(href,cssId){
     }
 }
 function loadShare(key){
-//     importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/qrcode.js",function(){
-//     });
-//     importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/social-share.js",function(){
-// //         var ele = document.querySelector(".share-other");
-// //         ele.dataset.weiboTitle = key+"有诶";
-//         socialShare(".share-other");
-//     });
-//     importCSS("https://overtrue.github.io/share.js/dist/css/share.min.css");
-    window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"32"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://wuchaolong.github.io/baiduShare/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-
+    importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/qrcode.js",function(){
+        importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/social-share.js",function(){
+    //         var ele = document.querySelector(".share-other");
+    //         ele.dataset.weiboTitle = key+"有诶";
+            socialShare(".share-other");
+        });
+    });
+    
+    importCSS("https://overtrue.github.io/share.js/dist/css/share.min.css");
+    window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"32"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://wuchaolong.github.io/baiduShare/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    
+//     importCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css","awesome");
 }
