@@ -411,6 +411,8 @@ i.thepiratebay:before{
     overflow: hidden;
     opacity: 1;
     vertical-align: top;
+    /* width: auto; */
+    /* margin: 0; */
 }
 .doubanList a[href]{
     /* text-decoration: underline; */
@@ -631,7 +633,7 @@ iframe{
 }
 .is-it{
   text-align:center;
-  /* border: 0; */
+  border: 0;
   background: rgba(250,250,250,.2);
   -webkit-appearance: inherit;
   appearance: inherit;
@@ -643,28 +645,13 @@ iframe{
   border-radius: 50%;
   overflow: hidden;
   border: 1px solid #999;
-  transition: all .5s;
-}
-.is-it:after{
-  content: "?";
-  font-size: 5em;
-  line-height: 1em;
+  transition: background .5s,border-radius .5s;
+  /* margin: 0; */
 }
 .is-it:checked:after{
   content:"✓";
-  font-size:5em;
+  font-size: 4em;
   line-height: 1em;
-}
-.is-it:before{
-  content:"Thank you!";
-  font-size: 1em;
-  height:1em;
-  position:absolute;
-  right:100%;
-  top:0;
-  bottom:0;
-  margin:auto;
-  display:none;
 }
 .is-it:checked{
   color: #fff;
@@ -674,15 +661,18 @@ iframe{
 
   border-radius: 0%;
 }
-.is-it.checked:before{
-/*   display: inline; */
+.is-it.fa:before{
+  font-size: 3em;
+  line-height: 1.2em;
 }
-.is-it:hover{/* background-color: #ddd; */box-shadow: 0 0 1px #000;}
+
+.is-it:checked:before{display: none;}
+.is-it:hover{/* background-color: #ddd; */box-shadow: 0 0 1px #000;/* border: 1px solid #999; */}
 
 .video-item:hover .is-it,.video-item .is-it:checked{
   visibility: visible;
 }
-.share{width: 5em;height: 5em;position: absolute;right: 0;top: 0;bottom: 0;margin: auto;z-index: 1;}
+.share{width: 4em;height: 4em;position: absolute;right: 0;top: 0;bottom: 0;margin: auto;z-index: 1;}
 .share-other{
   /* display:none; */
   /* position: absolute; */
@@ -699,7 +689,12 @@ iframe{
 .is-it:checked+.share-other{
   display:block;
 }
-
+.share-other[checked='true']{
+    position: fixed;
+    bottom: 0;
+    right: -100px;
+    left: -100px;
+}
 
 @media screen and (min-width:751px){
     input{
@@ -728,11 +723,12 @@ iframe{
       margin:auto;
     }
     .video-item .is-it{
-/*       visibility: hidden; */
+      /* visibility: hidden; */
     }
     
     .doubanList a {
         width: 11em;
+        /* width: auto; */
     }
     .share-other{
           /* position: absolute; */
