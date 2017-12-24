@@ -10,7 +10,10 @@ String.prototype.format = function()
             return args[i];
         });
 }
-
+var confirm = {
+//     nodeUrl:"http://127.0.0.1:8888/"
+    nodeUrl:"//charon-node.herokuapp.com/"
+};
     locationParameterChanged();
 
 function setHeight(input,height){
@@ -97,6 +100,7 @@ function locationParameterChanged() {
     });
 //     setMagnetTech();
     syncIsIt().getBykey();
+    localStorage.setItem("isOlduser",true);
 }
 
 function setMoreFetcher(button){
@@ -119,7 +123,7 @@ function setMessageForm(key){
 
             submit.classList.add("loading");
 //             var uri = "http://127.0.0.1:8888/cross";
-            var uri = "//charon-node.herokuapp.com/cross"
+            var uri = confirm.nodeUrl+"cross"
             var method = messageForm.method;
             var data = {
                 "crossUrl":messageForm.action
@@ -249,7 +253,7 @@ function fetcher(parameter){
 
     serf.checkInvalid = function(video,error,success){
         if(parameter.checkInvalid){
-            var uri = "//charon-node.herokuapp.com/cross?api="+video.url;
+            var uri = confirm.nodeUrl+"cross?api="+video.url;
             ajax(uri,function(data){
                 var index = data.indexOf("百度网盘-链接不存在");
 
@@ -280,7 +284,7 @@ function fetcher(parameter){
             var videos = serf.parseVideos(html);
             if(!videos||videos.length===0){
                 progress.none();
-                confirm("noneTemplate");
+//                 confirm("noneTemplate");
                 return;
             }
             progress.success(videos.length);
@@ -369,7 +373,7 @@ function panduoduoFetcher(key){
 //                     var url = getURLParameter("url",href);
                     return href;
                 }
-                url = "//charon-node.herokuapp.com/cross?api="+url;
+                url = confirm.nodeUrl+"cross?api="+url;
                 setIframeUrl(url,wrapper,isSrc);
 
 
@@ -443,13 +447,13 @@ function pancFetcher(key){
 function fetch(host,api,success){
 
 //     confirm("loadingTemplate");
-    var url = encodeURI("//charon-node.herokuapp.com/fetch?api="+api);
+    var url = encodeURI(confirm.nodeUrl+"fetch?api="+api);
 //     var url = encodeURI("http://127.0.0.1:8888/fetch?api="+api);
 //     var data = JSON.stringify({crossUrl:api});
     try{
         var error = function(){
             var videos = [];
-            confirm("noneTemplate");
+//             confirm("noneTemplate");
             progress(host).error();
 //             setIframe(videos,true,true);
         }
@@ -462,13 +466,13 @@ function fetch(host,api,success){
 function nodeFetch(host,api,success){
 
 //     confirm("loadingTemplate");
-    var url = encodeURI("//charon-node.herokuapp.com/fetch?npm=node-fetch&api="+api);
+    var url = encodeURI(confirm.nodeUrl+"fetch?npm=node-fetch&api="+api);
 //     var url = encodeURI("http://127.0.0.1:8888/fetch?npm=node-fetch&api="+api);
 //     var data = JSON.stringify({crossUrl:api});
     try{
         var error = function(){
             var videos = [];
-            confirm("noneTemplate");
+//             confirm("noneTemplate");
             progress(host).error();
 //             setIframe(videos,true,true);
         }
@@ -483,11 +487,11 @@ function cross(host,api,success){
 //     confirm("loadingTemplate");
 //     var url = encodeURI("http://127.0.0.1:8888/cross?api="+api);
 
-    var url = encodeURI("//charon-node.herokuapp.com/cross?api="+api);
+    var url = encodeURI(confirm.nodeUrl+"cross?api="+api);
     try{
         var error = function(){
             var videos = [];
-            confirm("noneTemplate");
+//             confirm("noneTemplate");
             progress(host).error();
 //             setIframe(videos,true,true);
         }
@@ -540,59 +544,65 @@ function setIframe(video,isSrc,waitUrl,templateId){
     var template = document.getElementById(templateId).innerHTML;
 
     var dataBox =  document.getElementById("data");
-        var wrapper= document.createElement('div');
-        wrapper.classList.add("video-item")
-        wrapper.innerHTML= template;
-        var a = wrapper.children[0];
-        a.innerHTML=video.name;
-        var url = video.url;
-        a.href=video.refUrl||url;
-        var isIt =  wrapper.querySelector("[name='isIt']");
-        isIt.value = JSON.stringify(video);
-        if(isItTrue(isIt)){
-            isIt.checked = true;
-        }
-        isIt.title="Is this "+getURLParameter("search")+"?"
-        
-        if(!waitUrl){
-            if(templateId=="videoTemplate"){
-                var index = url.indexOf("//");
-                url = url.substr(index>=0?index:0);
-            }
-            setIframeUrl(url,wrapper,isSrc,templateId);
-        
-        }
+    var wrapper= document.createElement('div');
+    wrapper.classList.add("video-item")
+    wrapper.innerHTML= template;
+    var a = wrapper.children[0];
+    a.innerHTML=video.name;
+    var url = video.url;
+    a.href=video.refUrl||url;
+
+    if(templateId=="videoTemplate"){
+        var index = url.indexOf("//");
+        url = url.substr(index>=0?index:0);
+    }
+    var isIt =  wrapper.querySelector("[name='isIt']");
+    isIt.value = JSON.stringify(video);
+    if(isItTrue(isIt)){
+        isIt.checked = true;
+    }
+    isIt.title="Is this "+getURLParameter("search")+"?"
+    if(dataBox.querySelector("iframe[data-src='"+url+"']")||dataBox.querySelector("a[href='"+url+"']")){
+                
+    }else{
+        dataBox.appendChild(wrapper);
+    }
+    if(!waitUrl){
+        setIframeUrl(url,wrapper,isSrc,templateId);
+
+    }
 
         
-        dataBox.appendChild(wrapper);
-    confirm("");
+//     confirm("");
     dataBox = iframe = null;
     return wrapper;
 }
 function setIframeUrl(url,wrapper,isSrc,templateId){
-    var iframe = wrapper.querySelector("iframe");
 
-    templateId = templateId?templateId:"videoTemplate";
     if(!url){
         wrapper.removeChild(iframe);
-        return;
-    }
-    if(templateId=="videoTemplate"){
-        if(isDisableScript(url)){
-            iframe.sandbox="allow-same-origin allow-popups allow-forms allow-pointer-lock";
+    }else{
+
+        templateId = templateId?templateId:"videoTemplate";
+        if(templateId=="videoTemplate"){
+            var iframe = wrapper.querySelector("iframe");
+            if(isDisableScript(url)){
+                iframe.sandbox="allow-same-origin allow-popups allow-forms allow-pointer-lock";
+            }
+            iframe.dataset.src=url;
+            if(isSrc){
+                iframe.src=url;
+            }
+            addVideosHandler(iframe);
+
+
+        }else if(templateId=="magnetTemplate"){
+
+            var code= wrapper.querySelector("code");;
+            code.innerHTML = url;
         }
-        iframe.dataset.src=url;
-        if(isSrc){
-            iframe.src=url;
-        }
-        addVideosHandler(iframe);
-
-
-    }else if(templateId=="magnetTemplate"){
-
-        var code= wrapper.querySelector("code");;
-        code.innerHTML = url;
     }
+
 }
 function isExist(url,videos){
     for(var i=0;i<videos.length;i++){
@@ -682,11 +692,11 @@ function ajax(uri,fn,error,method,data,contentType){
     }
     request.onload = function(e) {
         if (this.status == 200) {
-            try{
                 fn(this.response,error);
-            }catch(e){
-                error();
-            }
+//             try{
+//             }catch(e){
+//                 error();
+//             }
         }else{
           error();
         }
@@ -924,7 +934,7 @@ function beforeHTML(d,html,child){
 // }
 function checkInvalid(url,error,success){
 
-    var uri = "//charon-node.herokuapp.com/cross?api="+url;
+    var uri = confirm.nodeUrl+"cross?api="+url;
     ajax(uri,function(data){
         var index = data.indexOf("百度网盘-链接不存在");
         
@@ -966,7 +976,7 @@ function clearInvalid(fetcher,successOne){
 
 function setDoubanList(value){
     var api = "https://api.douban.com/v2/movie/search?q="+value;
-    var uri = "//charon-node.herokuapp.com/cross?api="+api;
+    var uri = confirm.nodeUrl+"cross?api="+api;
     ajax(uri,function(data){
         var html  = "";
         var subjects = JSON.parse(data).subjects;
@@ -1007,7 +1017,7 @@ function setDoubanSearch(value,success){
         window.doubanRequest.abort();
     }
     var api = "https://api.douban.com/v2/movie/search?q="+value;
-    var uri = "//charon-node.herokuapp.com/cross?api="+api;
+    var uri = confirm.nodeUrl+"cross?api="+api;
     window.doubanRequest = ajax(uri,function(data){
 
         var html  = "";
@@ -1044,7 +1054,7 @@ function setDoubanTop(tab,isLazy){
 
     var random = parseInt(Math.random()*230);
     var api = "http://api.douban.com/v2/movie/top250?apikey=0df993c66c0c636e29ecbb5344252a4a&start="+random;
-    var uri = "//charon-node.herokuapp.com/cross?api="+api;
+    var uri = confirm.nodeUrl+"cross?api="+api;
     ajax(uri,function(data){
         var html  = "";
         var subjects = JSON.parse(data).subjects;
@@ -1098,7 +1108,7 @@ function setDoubanWeekly(tab){
     }
 
     var api = "http://api.douban.com/v2/movie/weekly?apikey=0df993c66c0c636e29ecbb5344252a4a";
-    var uri = "//charon-node.herokuapp.com/cross?api="+api;
+    var uri = confirm.nodeUrl+"cross?api="+api;
     
     ajax(uri,function(data){
         var html  = "";
@@ -1168,7 +1178,7 @@ function setDoubanTheaters(tab){
     }
 
     var api = "http://api.douban.com/v2/movie/in_theaters?apikey=0df993c66c0c636e29ecbb5344252a4a";
-    var uri = "//charon-node.herokuapp.com/cross?api="+api;
+    var uri = confirm.nodeUrl+"cross?api="+api;
     
     ajax(uri,function(data){
         var html  = "";
@@ -1323,12 +1333,23 @@ function syncIsIt(key,data){
     self.getBykey = function(key){
         var key = (key||self.key);
         var method = "get";
-        var uri = self.uri+"?key=eq."+key;
+        var uri = self.uri+"?order=install_date.desc&key=eq."+key;
         var fn = function(data){
             console.log(data);
+            self.setIframe(data);
             setLocal(key,data);
         }
         ajax(uri,fn,null,method,null);
+    }
+    self.setIframe = function (data){
+        var data = JSON.parse(data);
+        data.map(function(o){
+
+            var video = JSON.parse(o.video);
+            if(video){
+                setIframe(video,true);
+            }
+        });
     }
     function setLocal(key,data){
         var values = JSON.parse(localStorage.getItem(key)||"{}");
@@ -1430,4 +1451,69 @@ function loadShare(key){
     window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"32"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://wuchaolong.github.io/baiduShare/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
     
     importCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css","awesome");
+    if(isShowBookmark()){
+//         addBookmark();
+//         importScript("https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js",function(){
+//             addBookmark();
+//         });
+    }
+}
+
+function addBookmark(){
+  var bookmark = document.createElement("a");
+  bookmark.classList.add("bookmark");
+  bookmark.href="#";
+  bookmark.title="Bookmark This Page";
+  bookmark.onclick = addFavorite;
+  document.getElementById("top").appendChild(bookmark);
+
+  function addFavorite(e) {
+    var bookmarkURL = window.location.href;
+    var bookmarkTitle = document.title;
+
+    if ('addToHomescreen' in window && addToHomescreen.isCompatible) {
+      // Mobile browsers
+      addToHomescreen({ autostart: false, startDelay: 0 }).show(true);
+    } else if (window.sidebar && window.sidebar.addPanel) {
+      // Firefox <=22
+      window.sidebar.addPanel(bookmarkTitle, bookmarkURL, '');
+    } else if ((window.sidebar && /Firefox/i.test(navigator.userAgent)) || (window.opera && window.print)) {
+      // Firefox 23+ and Opera <=14
+//       $(this).attr({
+//         href: bookmarkURL,
+//         title: bookmarkTitle,
+//         rel: 'sidebar'
+//       }).off(e);
+
+      bookmark.href="#";
+      bookmark.title=bookmarkTitle;
+      bookmark.rel = "sidebar";
+      bookmark.removeEventListener('click', addFavorite);
+      
+      hideBookmark(bookmark);
+      return true;
+    } else if (window.external && ('AddFavorite' in window.external)) {
+      // IE Favorites
+      window.external.AddFavorite(bookmarkURL, bookmarkTitle);
+    } else {
+      // Other browsers (mainly WebKit & Blink - Safari, Chrome, Opera 15+)
+      alert('Press ' + (/Mac/i.test(navigator.userAgent) ? 'Cmd' : 'Ctrl') + '+D to bookmark this page.');
+    }
+    
+    hideBookmark(bookmark);
+    return false;
+  }
+}
+function hideBookmark(bookmark){
+    document.getElementById("top").removeChild(bookmark);
+    localStorage.setItem("bookmarked",true);
+}
+function isShowBookmark(){
+    var bookmarked = localStorage.getItem("bookmarked");
+    var isOlduser = localStorage.getItem("isOlduser");
+    if(!bookmarked&&isOlduser){
+        return true;
+    }else{
+        return false;
+    }
 }
