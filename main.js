@@ -60,10 +60,18 @@ function locationParameterChanged() {
 //         if(e.data ==" "){
 //             setDoubanSearch(input.value);
 //         }
-
-            setDoubanSearch(input.value);
+            
+            setDoubanSearch(input.value,function(){
+                
+            },"searchTop");
 //          setFontSize(input,input.value.length>8?input.value.length+2:8+2);
-        
+            function swap(a,b){
+                var t = a.parentNode.insertBefore(document.createTextNode(''), a); 
+                b.parentNode.insertBefore(a, b); 
+                t.parentNode.insertBefore(b, t); 
+                t.parentNode.removeChild(t); 
+                return this; 
+            };
     }
     input.onfocus = function(){
          setHeight(input,"50%");
@@ -76,7 +84,11 @@ function locationParameterChanged() {
     if(!key){
         input.focus();
         input.setAttribute("required","required");
-        setDoubanTop(undefined,true);
+        setDoubanTop(undefined,true,function(){
+            loadShare();
+        });
+
+        syncIsIt().getAll();
         return;
     }
 
@@ -94,13 +106,13 @@ function locationParameterChanged() {
         })
     }
 
+    syncIsIt().getBykey();
+    localStorage.setItem("isOlduser",true);
     setDoubanSearch(input.value,function(){
             
         loadShare();
-    });
+    },"searchBottom");
 //     setMagnetTech();
-    syncIsIt().getBykey();
-    localStorage.setItem("isOlduser",true);
 }
 
 function setMoreFetcher(button){
@@ -536,21 +548,27 @@ function cross(host,api,success){
 //     dataBox = iframe = videos = null;
 //     return wrapper;
 // }
-function setIframe(video,isSrc,waitUrl,templateId){
+function setIframe(video,isSrc,waitUrl,templateId,dataBoxId){
     if(video.ref&&video.ref=="magnet"){
         templateId = "magnetTemplate"
     }
     templateId = templateId?templateId:"videoTemplate";
     var template = document.getElementById(templateId).innerHTML;
 
-    var dataBox =  document.getElementById("data");
+    var dataBox =  document.getElementById(dataBoxId||"data");
     var wrapper= document.createElement('div');
     wrapper.classList.add("video-item")
     wrapper.innerHTML= template;
     var a = wrapper.children[0];
-    a.innerHTML=video.name;
     var url = video.url;
-    a.href=video.refUrl||url;
+    if(video.key&&!getURLParameter("search")){
+        a.href="?search="+video.key;
+        a.innerHTML=video.key;
+        a.target = "";
+    }else{
+        a.innerHTML=video.name;
+        a.href=video.refUrl||url;
+    }
 
     if(templateId=="videoTemplate"){
         var index = url.indexOf("//");
@@ -558,10 +576,13 @@ function setIframe(video,isSrc,waitUrl,templateId){
     }
     var isIt =  wrapper.querySelector("[name='isIt']");
     isIt.value = JSON.stringify(video);
-    if(isItTrue(isIt)){
+    if(isItTrue(isIt)||video.key){
         isIt.checked = true;
     }
-    isIt.title="Is this "+getURLParameter("search")+"?"
+    var key = video.key||getURLParameter("search");
+    isIt.title="Is this "+key+"?"
+    isIt.dataset.key= key;
+
     if(dataBox.querySelector("iframe[data-src='"+url+"']")||dataBox.querySelector("a[href='"+url+"']")){
                 
     }else{
@@ -789,7 +810,7 @@ function magnetFetcher(key){
         };
         parameter.fetch = nodeFetch;
         parameter.onLoaded = function(fetcher){
-            if(fetcher.videos[0].name.length<50){
+            if(fetcher.videos[0].name.length<100){
                 fetcher.setIframe(fetcher.videos,1,window.showVideos);
             }
         }
@@ -1003,13 +1024,14 @@ function setDoubanList(value){
         data=html=subjects=doubanListD=null;
     });
 }
-function setDoubanSearch(value,success){
+function setDoubanSearch(value,success,id){
 
     var value = value||getURLParameter("search");
     if(!value){
         return;
     }
-    var doubanListD = document.querySelector(".doubanList");
+    var doubanListD = document.getElementById(id)||document.querySelector(".doubanList");
+    
 //     if(doubanListD.innerHTML){
 //         return;
 //     }
@@ -1042,12 +1064,14 @@ function setDoubanSearch(value,success){
             }
         }
         doubanListD.innerHTML=html;
+        doubanListD.classList.add("doubanList");
         data=html=subjects=doubanListD=null;
         success();
     });
 }
-function setDoubanTop(tab,isLazy){
-    var doubanListD = document.querySelector(".doubanList");
+function setDoubanTop(tab,isLazy,success){
+    var doubanListD = document.getElementById("searchTop")||document.querySelector(".doubanList");
+    
     if(doubanListD.innerHTML){
         return;
     }
@@ -1082,7 +1106,9 @@ function setDoubanTop(tab,isLazy){
         }
         html += '<a target="_blank" href="https://movie.douban.com/top250" class="douban-more icon-douban">Top 250<i>﹀</i></a>';
         doubanListD.innerHTML=html;
+        doubanListD.classList.add("doubanList");
         data=html=subjects=doubanListD=null;
+        success();
     });
 }
 function setOtherClose(tab){
@@ -1257,13 +1283,21 @@ function tiebaFetcher(key){
                 var name = string.slice(keyIndex);
                 var url = getUrl(string,keyIndex);
                 
-                if(key&&url){
+                if(key&&check(url)){
                     videos.push({name:string,url:url,refUrl:"http://tieba.baidu.com"+refUrl});
                 }
 
             }
             return videos;
-
+            function check(url){
+                if(!url){
+                    return false;
+                }
+                if(url.indexOf("pan.baidu.com/mbox")>0){
+                    return false;
+                }
+                return true;
+            }
             function getUrl(string,keyIndex){
                 var keyIndex2 = keyIndex?keyIndex:0;
                 var urlIndex = string.indexOf("http",keyIndex2);
@@ -1341,15 +1375,26 @@ function syncIsIt(key,data){
         }
         ajax(uri,fn,null,method,null);
     }
-    self.setIframe = function (data){
+    self.setIframe = function (data,id,setKey){
         var data = JSON.parse(data);
         data.map(function(o){
 
             var video = JSON.parse(o.video);
             if(video){
-                setIframe(video,true);
+                video.key = o.key;
+                setIframe(video,true,null,null,id);
             }
         });
+    }
+    self.getAll = function(){
+        var method = "get";
+        var uri = self.uri+"?order=install_date.desc&limit=5";
+        var fn = function(data){
+            console.log(data);
+            self.setIframe(data,"dataIsIt",true);
+            setLocal(key,data);
+        }
+        ajax(uri,fn,null,method,null);
     }
     function setLocal(key,data){
         var values = JSON.parse(localStorage.getItem(key)||"{}");
@@ -1392,7 +1437,7 @@ function syncIsIt(key,data){
 }
 
 function isItClick(isIt){
-    var key = getURLParameter("search");
+    var key = isIt.dataset.key||getURLParameter("search");
     storageItTrue(key,isIt,!isIt.checked);
 
     isIt.classList.add("checked");
