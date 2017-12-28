@@ -84,11 +84,13 @@ function locationParameterChanged() {
     if(!key){
         input.focus();
         input.setAttribute("required","required");
-        setDoubanTop(undefined,true,function(){
-            loadShare();
-        });
-
-        syncIsIt().getAll();
+//         setDoubanTop(undefined,true,function(){
+// //             loadShare();
+//         });
+//         input.onblur=function(e){
+            
+//         };
+//         syncIsIt().getAll();
         return;
     }
 
