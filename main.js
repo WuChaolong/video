@@ -1548,7 +1548,7 @@ function addBookmark(){
       window.external.AddFavorite(bookmarkURL, bookmarkTitle);
     } else {
       // Other browsers (mainly WebKit & Blink - Safari, Chrome, Opera 15+)
-      alert('Press ' + (/Mac/i.test(navigator.userAgent) ? 'Cmd' : 'Ctrl') + '+D to bookmark this page.');
+      alert('Press ' + (/Mac/i.test(navigator.userAgent) ? 'Cmd' : 'Ctrl') + '+D to bookmark this page.\n 收藏我，不然下次找不到哦');
     }
     
     hideBookmark(bookmark);
