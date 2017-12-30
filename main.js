@@ -106,6 +106,13 @@ function locationParameterChanged() {
             
         loadShare();
     },"searchBottom");
+
+    if(isShowBookmark()){
+        addBookmark();
+//         importScript("https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js",function(){
+//             addBookmark();
+//         });
+    }
 //     setMagnetTech();
 }
 
@@ -1494,12 +1501,7 @@ function loadShare(key){
     window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"32"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://wuchaolong.github.io/baiduShare/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
     
     importCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css","awesome");
-    if(isShowBookmark()){
-//         addBookmark();
-//         importScript("https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js",function(){
-//             addBookmark();
-//         });
-    }
+    
 
 }
 function addDonate(){
@@ -1517,8 +1519,8 @@ function addBookmark(){
   document.getElementById("top").appendChild(bookmark);
 
   function addFavorite(e) {
-    var bookmarkURL = window.location.href;
-    var bookmarkTitle = document.title;
+    var bookmarkURL = "https://wuchaolong.github.io/video/"||window.location.href;
+    var bookmarkTitle = "Video"||document.title;
 
     if ('addToHomescreen' in window && addToHomescreen.isCompatible) {
       // Mobile browsers
@@ -1534,7 +1536,7 @@ function addBookmark(){
 //         rel: 'sidebar'
 //       }).off(e);
 
-      bookmark.href="#";
+      bookmark.href=bookmarkURL;
       bookmark.title=bookmarkTitle;
       bookmark.rel = "sidebar";
       bookmark.removeEventListener('click', addFavorite);
