@@ -1498,6 +1498,7 @@ function loadShare(key){
     });
     
     importCSS("https://overtrue.github.io/share.js/dist/css/share.min.css");
+//     ajax("http://api.t.sina.com.cn/short_url/shorten.xml?source=3271760578&url_long=")
     window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"32"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://wuchaolong.github.io/baiduShare/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
     
     importCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css","awesome");
@@ -1513,7 +1514,7 @@ function addDonate(){
 function addBookmark(){
   var bookmark = document.createElement("a");
   bookmark.classList.add("bookmark");
-  bookmark.href="#";
+  bookmark.href="";
   bookmark.title="Bookmark This Page";
   bookmark.onclick = addFavorite;
   document.getElementById("top").appendChild(bookmark);
