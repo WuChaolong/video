@@ -1,0 +1,56 @@
+
+<!-- <link rel="stylesheet" href="https://wuchaolong.github.io/sante/css/main.css"/>
+<link rel="stylesheet" href="https://wuchaolong.github.io/sante/css/form.css"/> -->
+<!-- <link rel="stylesheet" href="main.css" /> -->
+<link rel="stylesheet" href="addFetcher.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<form name="addFetcher" action="pay.html">
+<section id="first">
+    <h1 title="添加我自己的资源渠道">Add myself url</h1>
+    <fieldset>
+        <legend><span>Url</span><strong><abbr title="required">*</abbr></strong></legend>
+        
+        <textarea type="url" minlength="10" placeholder="Myself url" required rows="6" inputmode="url" name="url" placeholder=""></textarea>
+        <label>
+            <input name="example" type="checkbox" value="tieba"/>
+            <span  id="exampleD">
+<!--         for example:<a target="_blank" onclick="document.addFetcher.example.click()" href="http://tieba.baidu.com/f/search/res?ie=utf-8&qw=大话西游之月光宝盒 pan.baidu"> http://tieba.baidu.com/f/search/res?ie=utf-8&qw=大话西游之月光宝盒 pan.baidu</a> -->
+            </span>
+        </label>
+    </fieldset>
+<!--     <fieldset>
+        <legend><span>Fetch type</span><strong><abbr title="required">*</abbr></strong></legend>
+
+        <label><input required name="api" type="radio" value="http://charon-node.herokuapp.com/cross?api="/>cross</label>
+        <label><input required name="api" type="radio" value="http://charon-node.herokuapp.com/fetch?api="/>browser-x</label>
+        <label><input required name="api" type="radio" value="http://charon-node.herokuapp.com/fetch?npm=node-fetch&api="/>node-fetch</label>
+
+    </fieldset>
+    <div class="nav next"><a href="#pay"><small>Next to</small> pay <span id="payNumber"></span></a></div>
+
+    <fieldset id="testFetch">
+        <legend><span>You check it,can fetch or not can ?</span></legend>
+        <iframe seamless sandbox="allow-modals allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock"></iframe>
+    </fieldset> -->
+</section>
+<section id="pay">
+    <div class="nav final">
+        <label title="我是老板，并且付wuchaolong工资了">
+                <input name="pay" type="checkbox" value="ture" required/>Yes,I paid<abbr title="required">*</abbr>
+            </label>
+        <label><button type="submit"><small></small>Submit</button></label>
+    </div>
+
+    <fieldset>
+        <legend>
+            
+        </legend>           
+
+        <iframe src="/donate-page/simple/" style="overflow-x:hidden;overflow-y:hidden; border:0xp none #fff; min-height:340px; width:100%;"  frameborder="0" scrolling="no"></iframe>
+
+    </fieldset>
+
+</section>
+</form>
+<script type="text/javascript" src="main.js"></script>
+<script src="addFetcher.js"></script>

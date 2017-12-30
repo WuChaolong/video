@@ -14,7 +14,7 @@ var confirm = {
 //     nodeUrl:"http://127.0.0.1:8888/"
     nodeUrl:"//charon-node.herokuapp.com/"
 };
-    locationParameterChanged();
+    
 
 function setHeight(input,height){
         input.style.height = height;
@@ -57,21 +57,13 @@ function locationParameterChanged() {
 //         }
 //     }
     input.oninput = function(e){
-//         if(e.data ==" "){
-//             setDoubanSearch(input.value);
-//         }
-            
-            setDoubanSearch(input.value,function(){
-                
-            },"searchTop");
-//          setFontSize(input,input.value.length>8?input.value.length+2:8+2);
-            function swap(a,b){
-                var t = a.parentNode.insertBefore(document.createTextNode(''), a); 
-                b.parentNode.insertBefore(a, b); 
-                t.parentNode.insertBefore(b, t); 
-                t.parentNode.removeChild(t); 
-                return this; 
-            };
+            if(input.value){
+                setDoubanSearch(input.value,function(){
+
+                },"searchTop");
+            }else{
+                setDoubanTop(undefined,true);
+            }
     }
     input.onfocus = function(){
          setHeight(input,"50%");
@@ -84,9 +76,9 @@ function locationParameterChanged() {
     if(!key){
         input.focus();
         input.setAttribute("required","required");
-//         setDoubanTop(undefined,true,function(){
-// //             loadShare();
-//         });
+        setDoubanTop(undefined,true,function(){
+//             loadShare();
+        });
 //         input.onblur=function(e){
             
 //         };
@@ -1074,14 +1066,16 @@ function setDoubanSearch(value,success,id){
 function setDoubanTop(tab,isLazy,success){
     var doubanListD = document.getElementById("searchTop")||document.querySelector(".doubanList");
     
-    if(doubanListD.innerHTML){
-        return;
+//     if(doubanListD.innerHTML){
+//         return;
+//     }
+    if(window.doubanRequest){
+        window.doubanRequest.abort();
     }
-
     var random = parseInt(Math.random()*230);
     var api = "http://api.douban.com/v2/movie/top250?apikey=0df993c66c0c636e29ecbb5344252a4a&start="+random;
     var uri = confirm.nodeUrl+"cross?api="+api;
-    ajax(uri,function(data){
+    window.doubanRequest = ajax(uri,function(data){
         var html  = "";
         var subjects = JSON.parse(data).subjects;
         var value = getURLParameter("search");
@@ -1440,8 +1434,9 @@ function syncIsIt(key,data){
 
 function isItClick(isIt){
     var key = isIt.dataset.key||getURLParameter("search");
-    storageItTrue(key,isIt,!isIt.checked);
-
+    
+    storageItTrue(key,isIt);
+    isIt.disabled = true;
     isIt.classList.add("checked");
     var share = document.querySelector(".share-other");
     share.setAttribute("checked",isIt.checked);
@@ -1455,7 +1450,7 @@ function storageItTrue(key,isIt,remove){
 
     var sync = syncIsIt(key,values);
     if(remove){
-        sync.delete(key,video);
+//         sync.delete(key,video);
     }else{
         sync.add(key,video);
     }
@@ -1491,6 +1486,7 @@ function loadShare(key){
     //         var ele = document.querySelector(".share-other");
     //         ele.dataset.weiboTitle = key+"有诶";
             socialShare(".share-other");
+            addDonate();
         });
     });
     
@@ -1504,8 +1500,14 @@ function loadShare(key){
 //             addBookmark();
 //         });
     }
-}
 
+}
+function addDonate(){
+    var donateTemplate = document.getElementById("donateTemplate");
+    var donateD = document.getElementById("donate");
+    donateD.innerHTML = donateTemplate.innerHTML;
+    donateTemplate = donateD = null;
+}
 function addBookmark(){
   var bookmark = document.createElement("a");
   bookmark.classList.add("bookmark");

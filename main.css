@@ -166,7 +166,7 @@ a[href]:hover > img{
 }
 footer{
     /* display: inline; */
-    position: absolute;
+    /* position: absolute; */
     bottom: 0;
     line-height: 2em;
     /* left: 0; */
@@ -181,7 +181,7 @@ footer{
     /* border-top: 1px; */
     /* border-top-style: dashed; */
     /* border-top-color: darkgray; */
-    opacity: .99;
+    /* opacity: .99; */
     /* overflow-wrap: break-word; */
     /* overflow-x: scroll; */
     /* white-space: nowrap; */
@@ -371,8 +371,8 @@ i.thepiratebay:before{
 }
 .doubanList{
     /* height: 50%; */
-    overflow-x: scroll;
-    white-space: nowrap;
+    /* overflow-x: scroll; */
+    /* white-space: nowrap; */
     padding: .5em;
     /* display:none; */
     /* margin-bottom: 5em; */
@@ -381,7 +381,7 @@ i.thepiratebay:before{
     background-color: white;
     width: 100%;
     /* overflow: auto; */
-    /* min-height: 50%; */
+    min-height: 50%;
     /* overflow-y: scroll; */
 }
 .doubanList .loading{
@@ -407,8 +407,8 @@ i.thepiratebay:before{
     text-align:center;
     display:inline-block;
     /* height: 10em; */
-    margin: .5em;
-    /* width: 50%; */
+    margin: .5em 0;
+    width: 50%;
     overflow: hidden;
     opacity: 1;
     vertical-align: top;
@@ -676,7 +676,7 @@ iframe{
 }
 .share{width: 4em;height: 4em;position: absolute;right: 0;top: 0;bottom: 0;margin: auto;z-index: 1;}
 .share-other{
-  /* display:none; */
+  display: inline-block;
   /* position: absolute; */
   /* width: 20em; */
   /* right: 0; */
@@ -795,7 +795,7 @@ a.bookmark:active {
     }
     
     .doubanList a {
-        /* width: 11em; */
+        width: 11em;
         /* width: auto; */
     }
     .share-other{
@@ -805,6 +805,9 @@ a.bookmark:active {
     #top{
       text-align: right;
     }
+    #donate {
+        margin-left: -75px;
+    }
 }
 
 #dataIsIt .is-it{
@@ -813,4 +816,18 @@ a.bookmark:active {
 #dataIsIt{
   max-width: 751px;
     margin: auto;
+}
+
+#donate{
+  display:inline-block;
+  vertical-align:middle;
+  /* border-left: 1px solid; */
+  /* float: right; */
+  /* margin-left: -75px; */
+}
+#donate:before{
+  content:"............"
+  display:inline-block;
+  vertical-align:middle;
+  
 }

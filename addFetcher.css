@@ -1,0 +1,67 @@
+.nav,button,fieldset label,textarea,input[type="url"]{
+    font-size: 1.2em;
+}
+textarea{
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid;
+    padding: 1em .5em;
+    margin-bottom: 1em;
+}
+[type="radio"]{
+    vertical-align: initial;
+    /* margin-left: .5em; */
+}
+iframe{
+    width: 100%;
+    border: 0;
+    height: 20em;
+    vertical-align: middle;
+    display: inline-block;
+}
+fieldset{
+    margin: 1em .5em;
+    /* border-width: 1px; */
+    /* font-size: 1.2em; */
+}
+legend{
+    /* font-size: .8em; */
+}
+.nav{
+    padding: 0 1em;
+}
+.next{
+    text-align: right;
+    /* position: absolute; */
+    bottom: 0;
+    right: 0;
+}
+.final button{
+    margin:auto 1em;
+}
+.final{
+    text-align:center;
+}
+h1{
+    text-align: center;
+}
+body{
+    padding-bottom: 2em;
+    margin: 0;
+}
+section{
+    position: relative;
+}
+#testFetch{
+    display:none;
+}
+input[type="url"]{
+    
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid;
+    padding: .5em;
+}
+[name="example"]{
+    display:none;
+}
