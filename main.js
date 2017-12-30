@@ -1514,7 +1514,7 @@ function addDonate(){
 function addBookmark(){
   var bookmark = document.createElement("a");
   bookmark.classList.add("bookmark");
-  bookmark.href="";
+  bookmark.href="javascript:return void();";
   bookmark.title="Bookmark This Page";
   bookmark.onclick = addFavorite;
   document.getElementById("top").appendChild(bookmark);
