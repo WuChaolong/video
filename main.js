@@ -62,7 +62,9 @@ function locationParameterChanged() {
 
                 },"searchTop");
             }else{
-                setDoubanTop(undefined,true);
+                setDoubanTop(undefined,true,function(){
+//                     loadShare();
+                });
             }
     }
     input.onfocus = function(){
@@ -77,7 +79,7 @@ function locationParameterChanged() {
         input.focus();
         input.setAttribute("required","required");
         setDoubanTop(undefined,true,function(){
-//             loadShare();
+            loadShare();
         });
 //         input.onblur=function(e){
             
@@ -1109,7 +1111,7 @@ function setDoubanTop(tab,isLazy,success){
             }
             
         }
-        html += '<a target="_blank" href="https://movie.douban.com/top250" class="douban-more icon-douban">Top 250<i>﹀</i></a>';
+//         html += '<a target="_blank" href="https://movie.douban.com/top250" class="douban-more icon-douban">Top 250<i>﹀</i></a>';
         html += '<a target="_blank" href="https://movie.douban.com/annual/2017" class="movieannual2017"></a>';
         doubanListD.innerHTML=html;
         doubanListD.classList.add("doubanList");
