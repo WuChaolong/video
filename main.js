@@ -1440,6 +1440,11 @@ function syncIsIt(key,data){
 }
 
 function isItClick(isIt){
+    if(!isIt.checked){
+        isIt.checked = true;
+        isIt.disabled = true;
+        return;
+    }
     var key = isIt.dataset.key||getURLParameter("search");
     
     storageItTrue(key,isIt);
@@ -1492,14 +1497,18 @@ function loadShare(key){
         importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/social-share.js",function(){
     //         var ele = document.querySelector(".share-other");
     //         ele.dataset.weiboTitle = key+"有诶";
-            socialShare(".share-other");
+            socialShare(".share-other",{title:key});
             addDonate();
         });
     });
     
     importCSS("https://overtrue.github.io/share.js/dist/css/share.min.css");
 //     ajax("http://api.t.sina.com.cn/short_url/shorten.xml?source=3271760578&url_long=")
-    window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"32"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://wuchaolong.github.io/baiduShare/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    window._bd_share_config={
+        "common":{
+            "bdSnsKey":{},"bdText":key,"bdMini":"2","bdMiniList":false,
+            "bdPic":(document.images[0] || 0).src || '',"bdStyle":"1","bdSize":"32"
+        },"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://wuchaolong.github.io/baiduShare/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
     
     importCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css","awesome");
     
@@ -1512,9 +1521,9 @@ function addDonate(){
     donateTemplate = donateD = null;
 }
 function addBookmark(){
-  var bookmark = document.createElement("a");
+  var bookmark = document.createElement("span");
   bookmark.classList.add("bookmark");
-  bookmark.href="javascript:return void();";
+//   bookmark.href="javascript:return void();";
   bookmark.title="Bookmark This Page";
   bookmark.onclick = addFavorite;
   document.getElementById("top").appendChild(bookmark);
@@ -1565,7 +1574,16 @@ function isShowBookmark(){
     var isOlduser = localStorage.getItem("isOlduser");
     if(!bookmarked&&isOlduser){
         return true;
-    }else{
-        return false;
     }
+    return false;
+}
+function isDirect(){
+    var referrer = document.createElement('a');
+    referrer.href = document.referrer;
+    var url = document.createElement('a');
+    url.href = location.href;
+    if(!referrer.href||referrer.hostname ==url.hostname){
+        return true;
+    }
+    return false;
 }
