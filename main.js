@@ -1502,7 +1502,7 @@ function loadShare(key){
         importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/social-share.js",function(){
     //         var ele = document.querySelector(".share-other");
     //         ele.dataset.weiboTitle = key+"有诶";
-            socialShare(".share-other",{title:key});
+            socialShare(".share-other");
             addDonate();
         });
     });
