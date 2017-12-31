@@ -1064,6 +1064,8 @@ function setDoubanSearch(value,success,id){
 
             }
         }
+        html += '<a target="_blank" href="https://movie.douban.com/annual/2017" class="movieannual2017"></a>';
+
         doubanListD.innerHTML=html;
         doubanListD.classList.add("doubanList");
         data=html=subjects=doubanListD=null;
@@ -1108,6 +1110,7 @@ function setDoubanTop(tab,isLazy,success){
             
         }
         html += '<a target="_blank" href="https://movie.douban.com/top250" class="douban-more icon-douban">Top 250<i>﹀</i></a>';
+        html += '<a target="_blank" href="https://movie.douban.com/annual/2017" class="movieannual2017"></a>';
         doubanListD.innerHTML=html;
         doubanListD.classList.add("doubanList");
         data=html=subjects=doubanListD=null;

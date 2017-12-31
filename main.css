@@ -835,3 +835,22 @@ a.bookmark:active {
   vertical-align:middle;
   
 }
+
+a.movieannual2017 {
+    /* position: absolute; */
+    display: inline-block;
+    /* width: 186px; */
+    height: 96px;
+    text-align:right;
+    /*     top: 9px;
+    left: 50%;
+    margin-left: 220px; */
+    background: url(//img3.doubanio.com/dae/accounts/resources/094108a/movie/assets/annual_2017.png) center/contain no-repeat;
+    }
+    #db-nav-movie a.movieannual2017:hover, #db-nav-movie a.movieannual2017:visited, #db-nav-movie a.movieannual2017:active {
+      background-color: transparent;
+}
+a.movieannual2017:after{
+  content:"广告";
+  font-size:.5em;
+}
