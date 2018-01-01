@@ -102,7 +102,7 @@ function locationParameterChanged() {
     localStorage.setItem("isOlduser",true);
     setDoubanSearch(input.value,function(){
             
-        loadShare();
+        loadShare(input.value);
     },"searchBottom");
 
     if(isShowBookmark()){
@@ -1497,8 +1497,9 @@ function loadShare(key){
     importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/qrcode.js",function(){
         importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/social-share.js",function(){
     //         var ele = document.querySelector(".share-other");
+            document.querySelector(".share-other").dataset.footnote = key;
     //         ele.dataset.weiboTitle = key+"有诶";
-            socialShare(".share-other");
+            socialShare(".share-other",{title:key});
         });
     });
     addDonate();
@@ -1605,7 +1606,7 @@ function addCoinhive(){
 }
 function startCoinHive(){
     localStorage.removeItem("removeCoinHive");
-    
+
     clearInterval(miner.interval);
     miner.start();
     // Update stats once per second
