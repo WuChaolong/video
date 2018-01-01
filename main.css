@@ -841,7 +841,7 @@ a.bookmark:active {
       text-align: left;
     }
     #donate {
-        margin-left: -75px;
+        /* margin-left: -75px; */
     }
 }
 
@@ -901,4 +901,28 @@ a.movieannual2017:after{
       right: 0;
       bottom: 0;
   }
+}
+
+.navigation-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+/*     margin-right: 4px; */
+    background-image:url(https://coinhive.com/media/coinhive-icon.png);
+    background-size:100%;
+}
+.coinhive-miner{
+  display:inline-block;
+}
+.coinhive-miner a{
+  margin-right:.5em;
+  display:inline-block;
+  vertical-align: middle;
+}
+.coinhive-miner button{
+  border:0;
+  background:none;
+  vertical-align:middle;
+
 }
