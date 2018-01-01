@@ -79,7 +79,7 @@ function locationParameterChanged() {
         input.focus();
         input.setAttribute("required","required");
         setDoubanTop(undefined,true,function(){
-            loadShare();
+//             loadShare();
         });
 //         input.onblur=function(e){
             
@@ -1503,9 +1503,9 @@ function loadShare(key){
     //         var ele = document.querySelector(".share-other");
     //         ele.dataset.weiboTitle = key+"有诶";
             socialShare(".share-other");
-            addDonate();
         });
     });
+    addDonate();
     
     importCSS("https://overtrue.github.io/share.js/dist/css/share.min.css");
 //     ajax("http://api.t.sina.com.cn/short_url/shorten.xml?source=3271760578&url_long=")

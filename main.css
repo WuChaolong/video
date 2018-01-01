@@ -12,6 +12,7 @@ html,body{
 .magnet-video{
       position: relative;
       width: calc(100% - 4.5em);
+      /* overflow: hidden; */
 }
 .baidu-video iframe{
     width: 100%;
@@ -70,23 +71,29 @@ body{
     width: 5em;
     line-height: 1.5em;
     z-index: 1;
-    right: 0;
-    bottom: 0; */
+    /* right: 0; */
+    /* bottom: 0; */ */
     position: relative;
-    width: 100%;
+    /* width: 100%; */
+    position: absolute;
+    /* margin-top: -2px; */
     }
 .search-form button:after{
   content:"↵";
-  position:absolute;
+  /* position:absolute; */
   /* right:2px; */
   /* bottom:2px; */
   z-index:1;
   bottom: .3em;
-  /* font-size: 1.5em; */
+  font-size: .5em;
   right: 0;
   /* font-weight: 100; */
-  line-height: 0;
+  /* line-height: .5em; */
   /* opacity: .6; */
+  width: 0;
+  display: inline-block;
+  /* vertical-align: middle; */
+  /* transform: translate(0,.5em); */
 }
 .confirm{
     text-align:center;
@@ -263,6 +270,7 @@ code{
     word-break: break-all;
     padding:0 .5em;
     box-sizing:border-box;
+    display: block;
 }
 
 
