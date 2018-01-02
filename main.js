@@ -13,6 +13,8 @@ String.prototype.format = function()
 var confirm = {
 //     nodeUrl:"http://127.0.0.1:8888/"
     nodeUrl:"//charon-node.herokuapp.com/"
+    ,userLang:navigator.language || navigator.userLanguage
+    ,key:getURLParameter("search")
 };
     
 
@@ -44,7 +46,7 @@ function changeHash(form){
     return false;
 }
 function locationParameterChanged() {
-    var key = getURLParameter("search");
+    var key = confirm.key;
     var input = document.getElementsByTagName("input")[0];
 
 //     var submit = document.querySelector('[type="submit"]');
@@ -61,6 +63,8 @@ function locationParameterChanged() {
                 setDoubanSearch(input.value,function(){
 
                 },"searchTop");
+
+//                 loadGoogleEntitie(input.value);
             }else{
                 setDoubanTop(undefined,true,function(){
 //                     loadShare();
@@ -96,8 +100,9 @@ function locationParameterChanged() {
     window.panc=pancFetcher(key);
     window.panduoduo=panduoduoFetcher(key);
     magnetFetcher(key);
-    window.tieba=tiebaFetcher(key);
-    
+    if(confirm.userLang=="zh-CN"){
+         window.tieba=tiebaFetcher(key);
+    }
 
     localStorage.setItem("isOlduser",true);
     setDoubanSearch(input.value,function(){
@@ -106,7 +111,7 @@ function locationParameterChanged() {
         
         addCoinhive();
     },"searchBottom");
-
+    loadGoogleEntitie();
     if(isShowBookmark()){
         addBookmark();
 //         importScript("https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js",function(){
@@ -118,7 +123,7 @@ function locationParameterChanged() {
 
 function setMoreFetcher(button){
     button.style.display="none";
-    var key = getURLParameter("search");
+    var key = confirm.key;
     window.panduoduo=panduoduoFetcher(key);
     window.tieba=tiebaFetcher(key);
 }
@@ -181,7 +186,7 @@ function confirm(id,isImportant,data){
             confirm = document.getElementById("confirm");
         }
         if(id=="noneTemplate"){
-            data = getURLParameter("search");
+            data = confirm.key;
         }
         var html= template.format(data);
         confirm.innerHTML = "";
@@ -407,7 +412,7 @@ function pancFetcher(key){
 
     var parameter = {};
     parameter.host = "panc";
-    parameter.fetchUrl = "https://www.panc.cc/s/"+key;
+    parameter.fetchUrl = "https://www.panc.cc/s/"+key+"/td";
     parameter.fetch = nodeFetch;
     parameter.onLoaded = function(fetcher){
 
@@ -562,7 +567,7 @@ function setIframe(video,isSrc,waitUrl,templateId,dataBoxId){
     wrapper.innerHTML= template;
     var a = wrapper.children[0];
     var url = video.url;
-    if(video.key&&!getURLParameter("search")){
+    if(video.key&&!confirm.key){
         a.href="?search="+video.key;
         a.innerHTML=video.key;
         a.target = "";
@@ -580,7 +585,7 @@ function setIframe(video,isSrc,waitUrl,templateId,dataBoxId){
     if(isItTrue(isIt)||video.key){
         isIt.checked = true;
     }
-    var key = video.key||getURLParameter("search");
+    var key = video.key||confirm.key;
     isIt.title="Is this "+key+"?"
     isIt.dataset.key= key;
 
@@ -778,6 +783,9 @@ function magnetFetcher(key){
         };
 
         parameter.fetch = cross;
+        parameter.onLoaded = function(fetcher){
+            fetcher.setIframe(fetcher.videos,2,window.showVideos);
+        }
     }else{
         parameter.host = "diaosisou";
         parameter.fetchUrl = "http://www.diaosisou.org/list/"+key+"/1";
@@ -1003,19 +1011,9 @@ function setDoubanList(value){
         var html  = "";
         var subjects = JSON.parse(data).subjects;
         for(var i = 0;i<3&&i<subjects.length;i++){
-
-            var isSame = "";
-            if(value!=subjects[i].title){
-                isSame = 'href="?search='+encodeURIComponent(subjects[i].title)+'"';
-
-            }
-            html += '<a '+isSame+' ><img src="'+subjects[i].images.medium+'"/><span>'+subjects[i].title+'<span></a>'
-            if(subjects[i].original_title!=subjects[i].title){
-                var isSame = "";
-                if(value!=subjects[i].original_title){
-                    isSame = 'href="?search='+encodeURIComponent(subjects[i].original_title)+'"';
-                }
-                html += '<a '+isSame+' ><img src="'+subjects[i].images.medium+'"/><span>'+subjects[i].original_title+'<span></a>'
+            html += searchToHtml(subjects[i].original_title,subjects[i].images.medium);
+            if(i<1&&subjects[i].original_title!=subjects[i].title){
+                html += searchToHtml(subjects[i].title,subjects[i].images.medium);
 
             }
         }
@@ -1027,7 +1025,7 @@ function setDoubanList(value){
 }
 function setDoubanSearch(value,success,id){
 
-    var value = value||getURLParameter("search");
+    var value = value||confirm.key;
     if(!value){
         return;
     }
@@ -1047,20 +1045,9 @@ function setDoubanSearch(value,success,id){
         var subjects = JSON.parse(data).subjects;
         for(var i = 0;i<5&&i<subjects.length;i++){
             
-            var isSame = "";
-            if(value!=subjects[i].original_title){
-                isSame = 'href="?search='+encodeURIComponent(subjects[i].original_title)+'"';
-            }
-            html += '<a '+isSame+' ><img src="'+subjects[i].images.medium+'"/><span>'+subjects[i].original_title+'<span></a>'
-
-            
+            html += searchToHtml(subjects[i].original_title,subjects[i].images.medium);
             if(i<1&&subjects[i].original_title!=subjects[i].title){
-                var isSame = "";
-                if(value!=subjects[i].title){
-                    isSame = 'href="?search='+encodeURIComponent(subjects[i].title)+'"';
-
-                }
-                html += '<a '+isSame+' ><img src="'+subjects[i].images.medium+'"/><span>'+subjects[i].title+'<span></a>'
+                html += searchToHtml(subjects[i].title,subjects[i].images.medium);
 
             }
         }
@@ -1071,6 +1058,19 @@ function setDoubanSearch(value,success,id){
         data=html=subjects=doubanListD=null;
         success();
     });
+}
+function searchToHtml(title,image){
+    var isSame = "";
+    if(confirm.key!=title){
+        isSame = 'href="?search='+encodeURIComponent(title)+'"';
+
+    }
+    var imgHtml = "";
+    if(image){
+        imgHtml = '<img src="'+image+'"/>';
+    }
+    return '<a '+isSame+' >'+imgHtml+'<span>'+title+'<span></a>';
+    
 }
 function setDoubanTop(tab,isLazy,success){
     var doubanListD = document.getElementById("searchTop")||document.querySelector(".doubanList");
@@ -1087,26 +1087,33 @@ function setDoubanTop(tab,isLazy,success){
     window.doubanRequest = ajax(uri,function(data){
         var html  = "";
         var subjects = JSON.parse(data).subjects;
-        var value = getURLParameter("search");
+        var value = confirm.key;
         for(var i = 0;i<subjects.length;i++){
             var subject = subjects[i];
 
-            if(i<1&&subject.original_title!=subject.title){
-                var isSame = "";
-                if(value!=subject.title){
-                    isSame = 'href="?search='+encodeURIComponent(subject.title)+'"';
-
-                }
-                html += '<a '+isSame+' ><img src="'+subject.images.medium+'"/><span>'+subject.title+'<span></a>'
+            if(i<1&&subjects[i].original_title!=subjects[i].title){
+                html += searchToHtml(subjects[i].title,subjects[i].images.medium);
 
             }else{
-                var isSame = "";
-                if(value!=subject.original_title){
-                    isSame = 'href="?search='+encodeURIComponent(subject.original_title)+'"';
-                }
-                html += '<a '+isSame+' ><img src="'+subject.images.medium+'"/><span>'+subject.original_title+'<span></a>'
+                html += searchToHtml(subjects[i].original_title,subjects[i].images.medium);
 
             }
+//             if(i<1&&subject.original_title!=subject.title){
+//                 var isSame = "";
+//                 if(value!=subject.title){
+//                     isSame = 'href="?search='+encodeURIComponent(subject.title)+'"';
+
+//                 }
+//                 html += '<a '+isSame+' ><img src="'+subject.images.medium+'"/><span>'+subject.title+'<span></a>'
+
+//             }else{
+//                 var isSame = "";
+//                 if(value!=subject.original_title){
+//                     isSame = 'href="?search='+encodeURIComponent(subject.original_title)+'"';
+//                 }
+//                 html += '<a '+isSame+' ><img src="'+subject.images.medium+'"/><span>'+subject.original_title+'<span></a>'
+
+//             }
             
         }
 //         html += '<a target="_blank" href="https://movie.douban.com/top250" class="douban-more icon-douban">Top 250<i>﹀</i></a>';
@@ -1117,70 +1124,7 @@ function setDoubanTop(tab,isLazy,success){
         success();
     });
 }
-function setOtherClose(tab){
-    var tabs = document.querySelectorAll("[name='tabgroup']");
-    for(var i=0;i<tabs.length;i++){
-        if(tab!==tabs[i]){
-            tabs[i].checked=false;
-        }
-    }
-}
-function setDoubanWeekly(tab){
-    
-    if(!tab){
-        var tab = document.getElementById("tab-Weekly");
-        tab.checked = true;
-    }else if(!tab||tab.checked == false){
-        return;
-    }
-    setOtherClose(tab);
-    var doubanListD = tab.nextElementSibling.nextElementSibling;
-    if(doubanListD.innerHTML){
-        return;
-    }
 
-    var api = "http://api.douban.com/v2/movie/weekly?apikey=0df993c66c0c636e29ecbb5344252a4a";
-    var uri = confirm.nodeUrl+"cross?api="+api;
-    
-    ajax(uri,function(data){
-        var html  = "";
-        var subjects = JSON.parse(data).subjects;
-        var value = getURLParameter("search");
-        for(var i = 0;i<subjects.length;i++){
-            var subject = subjects[i].subject;
-            var isSame = "";
-            if(value!=subject.original_title){
-                isSame = 'href="?search='+encodeURIComponent(subject.original_title)+'"';
-            }
-            html += '<a '+isSame+' ><img src="'+subject.images.medium+'"/><span>'+subject.original_title+'<span></a>'
-
-            
-            if(i<1&&subject.original_title!=subject.title){
-                var isSame = "";
-                if(value!=subject.title){
-                    isSame = 'href="?search='+encodeURIComponent(subject.title)+'"';
-
-                }
-                html += '<a '+isSame+' ><img src="'+subject.images.medium+'"/><span>'+subject.title+'<span></a>'
-
-            }
-//             var isSame = "";
-//             var title = subject.original_title;
-//             if(value&&value==title){
-//             }else{
-//                 isSame = ' href="?search='+encodeURIComponent(title)+'"';
-          
-//             }
-//             html += '<a '+isSame+'><img src="'+subject.images.medium+'"/><span>'+title+'<span></a>'
-
-        }
-//         html += '<a target="_blank" href="https://movie.douban.com/top250" class="douban-more">Top 250<i>﹀</i></a>';
-        doubanListD.innerHTML=html;
-//         doubanListD.id = "doubanWeekly2";
-//         doubanListD.style.display = "block";
-        data=html=subjects=doubanListD=null;
-    });
-}
 function setMagnetTech(tab){
     if(!tab){
         var tab = document.getElementById("tab-Magnet");
@@ -1194,62 +1138,6 @@ function setMagnetTech(tab){
     setOtherClose(tab);
     var contentD = tab.nextElementSibling.nextElementSibling;
     contentD.innerHTML = document.getElementById("magnetTechTemplate").innerHTML;
-}
-function setDoubanTheaters(tab){
-    
-    if(!tab){
-        var tab = document.getElementById("tab-theaters");
-        tab.checked = true;
-    }else if(!tab||tab.checked == false){
-        return;
-    }
-    setOtherClose(tab);
-    var doubanListD = tab.nextElementSibling.nextElementSibling;
-    if(doubanListD.innerHTML){
-        return;
-    }
-
-    var api = "http://api.douban.com/v2/movie/in_theaters?apikey=0df993c66c0c636e29ecbb5344252a4a";
-    var uri = confirm.nodeUrl+"cross?api="+api;
-    
-    ajax(uri,function(data){
-        var html  = "";
-        var subjects = JSON.parse(data).subjects;
-        var value = getURLParameter("search");
-        for(var i = 0;i<subjects.length;i++){
-            var subject = subjects[i];
-            var isSame = "";
-            if(value!=subject.title){
-                isSame = 'href="?search='+encodeURIComponent(subject.title)+'"';
-
-            }
-            html += '<a '+isSame+' ><img src="'+subject.images.medium+'"/><span>'+subject.title+'<span></a>'
-
-            
-            if(i<1&&subject.original_title!=subject.title){
-               var isSame = "";
-                if(value!=subject.original_title){
-                    isSame = 'href="?search='+encodeURIComponent(subject.original_title)+'"';
-                }
-                html += '<a '+isSame+' ><img src="'+subject.images.medium+'"/><span>'+subject.original_title+'<span></a>'
-
-            }
-//             var isSame = "";
-//             var title = subject.original_title;
-//             if(value&&value==title){
-//             }else{
-//                 isSame = ' href="?search='+encodeURIComponent(title)+'"';
-          
-//             }
-//             html += '<a '+isSame+'><img src="'+subject.images.medium+'"/><span>'+title+'<span></a>'
-
-        }
-//         html += '<a target="_blank" href="https://movie.douban.com/top250" class="douban-more">Top 250<i>﹀</i></a>';
-        doubanListD.innerHTML=html;
-//         doubanListD.id = "doubanWeekly2";
-//         doubanListD.style.display = "block";
-        data=html=subjects=doubanListD=null;
-    });
 }
 
 function reloadIframe(button){
@@ -1366,7 +1254,7 @@ function syncIsIt(key,data){
 
     var self = {};
 
-    self.key = key|| getURLParameter("search");
+    self.key = key|| confirm.key;
     self.data = data|| JSON.parse(localStorage.getItem(key)||"{}");
 
     self.uri = "https://postgrest-taifu.herokuapp.com/testisit3";
@@ -1448,7 +1336,7 @@ function isItClick(isIt){
 //         isIt.disabled = true;
 //         return;
 //     }
-    var key = isIt.dataset.key||getURLParameter("search");
+    var key = isIt.dataset.key||confirm.key;
     
     storageItTrue(key,isIt);
 //     isIt.disabled = true;
@@ -1471,7 +1359,7 @@ function storageItTrue(key,isIt,remove){
     }
 }
 function isItTrue(isIt){
-    var key = getURLParameter("search");
+    var key = confirm.key;
     var video = JSON.parse(isIt.value);
     var values = JSON.parse(localStorage.getItem(key)||"{}");
     if(values[video.url]){
@@ -1643,4 +1531,32 @@ function stopCoinHive(){
         // Output to HTML elements...
         document.querySelector(".coinhive-miner").innerHTML = html;
     }, 1000);
+}
+
+function loadGoogleEntitie(){
+    importScript('https://kgsearch.googleapis.com/v1/entities:search?query='+confirm.key+'&key=AIzaSyDTtLX1_UqEksS2zp3SAF1vMaGi3OyfJok&limit=5&indent=True&types=Movie&types=TVSeries&callback=setGoogleEntities&languages='+confirm.userLang+'&languages=en');    
+}
+
+function setGoogleEntities(data){
+    var html  = "";
+    var subjects = data.itemListElement;
+    for(var i = 0;i<5&&i<subjects.length;i++){
+        if(typeof subjects[i].result.name == "string"){
+            var name = subjects[i].result.name;
+            html += searchToHtml(name);
+
+        }else{
+            var name = subjects[i].result.name[0]["@value"];
+            html += searchToHtml(name);
+            var lastName = subjects[i].result.name[subjects[i].result.name.length-1]["@value"];
+            if(i==0&&name!==lastName){
+                html += searchToHtml(lastName);
+            }
+        }
+    }
+    var googleEntitiesD = document.getElementById("googleEntities");
+    googleEntitiesD.innerHTML=html;
+    googleEntitiesD.style.display = "block";
+    googleEntitiesD.classList.add("doubanList");
+    data=html=subjects=googleEntitiesD=null;
 }
