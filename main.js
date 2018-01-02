@@ -407,7 +407,7 @@ function pancFetcher(key){
 
     var parameter = {};
     parameter.host = "panc";
-    parameter.fetchUrl = "https://www.panc.cc/s/"+key+"/td";
+    parameter.fetchUrl = "https://www.panc.cc/s/"+key;
     parameter.fetch = nodeFetch;
     parameter.onLoaded = function(fetcher){
 
