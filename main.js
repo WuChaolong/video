@@ -724,12 +724,12 @@ function ajax(uri,fn,error,method,data,contentType){
         }
     };
     request.onerror = error;
-    request.timeout = 20000; // time in milliseconds
-    request.ontimeout = function (e) {
-      // XMLHttpRequest timed out. Do something here.
-      request.abort();
-      error();
-    };
+//     request.timeout = 20000; // time in milliseconds
+//     request.ontimeout = function (e) {
+//       // XMLHttpRequest timed out. Do something here.
+//       request.abort();
+//       error();
+//     };
     return request;
 }
 
