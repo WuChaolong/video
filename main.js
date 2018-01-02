@@ -79,7 +79,8 @@ function locationParameterChanged() {
         input.focus();
         input.setAttribute("required","required");
         setDoubanTop(undefined,true,function(){
-//             loadShare();
+            loadShare();
+//             addCoinhive();
         });
 //         input.onblur=function(e){
             
@@ -1498,9 +1499,13 @@ function loadShare(key){
     importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/qrcode.js",function(){
         importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/social-share.js",function(){
     //         var ele = document.querySelector(".share-other");
-            document.querySelector(".share-other").dataset.footnote = key;
     //         ele.dataset.weiboTitle = key+"有诶";
-            socialShare(".share-other",{title:key});
+            if(key){
+                document.querySelector(".share-other").dataset.footnote = key;
+                socialShare(".share-other",{title:key});
+            }else{
+                socialShare(".share-other");
+            }
         });
     });
     addDonate();
@@ -1509,7 +1514,7 @@ function loadShare(key){
 //     ajax("http://api.t.sina.com.cn/short_url/shorten.xml?source=3271760578&url_long=")
     window._bd_share_config={
         "common":{
-            "bdSnsKey":{},"bdText":key,"bdMini":"2","bdMiniList":false,
+            "bdSnsKey":{},"bdText":key||'',"bdMini":"2","bdMiniList":false,
             "bdPic":(document.images[0] || 0).src || '',"bdStyle":"1","bdSize":"32"
         },"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://wuchaolong.github.io/baiduShare/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
     
