@@ -96,13 +96,14 @@ function locationParameterChanged() {
     window.panduoduo=panduoduoFetcher(key);
     magnetFetcher(key);
     window.tieba=tiebaFetcher(key);
-    addCoinhive();
     
 
     localStorage.setItem("isOlduser",true);
     setDoubanSearch(input.value,function(){
             
         loadShare(input.value);
+        
+        addCoinhive();
     },"searchBottom");
 
     if(isShowBookmark()){
