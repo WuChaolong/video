@@ -1441,15 +1441,15 @@ function syncIsIt(key,data){
 }
 
 function isItClick(isIt){
-    if(!isIt.checked){
-        isIt.checked = true;
-        isIt.disabled = true;
-        return;
-    }
+//     if(!isIt.checked){
+//         isIt.checked = true;
+//         isIt.disabled = true;
+//         return;
+//     }
     var key = isIt.dataset.key||getURLParameter("search");
     
     storageItTrue(key,isIt);
-    isIt.disabled = true;
+//     isIt.disabled = true;
     isIt.classList.add("checked");
     var share = document.querySelector(".share-other");
     share.setAttribute("checked",isIt.checked);
@@ -1463,7 +1463,7 @@ function storageItTrue(key,isIt,remove){
 
     var sync = syncIsIt(key,values);
     if(remove){
-//         sync.delete(key,video);
+        sync.delete(key,video);
     }else{
         sync.add(key,video);
     }
@@ -1526,9 +1526,11 @@ function addBookmark(){
   var bookmark = document.createElement("span");
   bookmark.classList.add("bookmark");
 //   bookmark.href="javascript:return void();";
-  bookmark.title="Bookmark This Page";
+  bookmark.title="Bookmark me";
   bookmark.onclick = addFavorite;
-  document.getElementById("top").appendChild(bookmark);
+  var top = document.getElementById("top");
+//   top.innerHTML = '<span class="confirm-bookmark">Bookmark me</span>';
+  top.appendChild(bookmark);
 
   function addFavorite(e) {
     var bookmarkURL = "https://wuchaolong.github.io/video/"||window.location.href;
@@ -1560,7 +1562,7 @@ function addBookmark(){
       window.external.AddFavorite(bookmarkURL, bookmarkTitle);
     } else {
       // Other browsers (mainly WebKit & Blink - Safari, Chrome, Opera 15+)
-      alert('Press ' + (/Mac/i.test(navigator.userAgent) ? 'Cmd' : 'Ctrl') + '+D to bookmark this page.\n 收藏我，不然下次找不到哦');
+      alert('Press ' + (/Mac/i.test(navigator.userAgent) ? 'Cmd' : 'Ctrl') + '+D to bookmark this page.');
     }
     
     hideBookmark(bookmark);

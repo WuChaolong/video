@@ -406,7 +406,7 @@ i.thepiratebay:before{
     background-color: white;
     width: 100%;
     /* overflow: auto; */
-    min-height: 50%;
+    /* min-height: 50%; */
     /* overflow-y: scroll; */
 }
 .doubanList .loading{
@@ -666,12 +666,13 @@ iframe{
   appearance: inherit;
   cursor: pointer;
   color: #999;
+  /* color: blue; */
   width: 100%;
   height: 100%;
   font-size: 1em;
   border-radius: 50%;
   overflow: hidden;
-  border: 1px solid #999;
+  /* border: 1px solid #999; */
   transition: background .5s,border-radius .5s;
   /* margin: 0; */
 }
@@ -681,11 +682,11 @@ iframe{
   line-height: 1em;
 }
 .is-it:checked{
-  color: #fff;
+  color: green;
+/*   color: #fff; */
   /* box-shadow: 0 0 1px green; */
-  border: 1px solid green;
-  background-color: green;
-
+  /* border: 1px solid green; */
+/*   background-color: green; */
   border-radius: 0%;
 }
 .is-it.fa:before{
@@ -694,7 +695,15 @@ iframe{
 }
 
 .is-it:checked:before{display: none;}
-.is-it:hover{/* background-color: #ddd; */box-shadow: 0 0 1px #000;/* border: 1px solid #999; */}
+.is-it:hover{
+    /* background-color: #ddd; */
+/*     border: 1px solid blue; */
+    box-shadow: 0 0 1px #000;
+    border: 1px solid #999;
+    }
+.is-it:checked:hover{
+    border: 1px solid green;
+}
 
 .video-item:hover .is-it,.video-item .is-it:checked{
   visibility: visible;
@@ -748,34 +757,69 @@ iframe{
     position: fixed;
     top: 0;
     left:0;
-    height:0;
+    /* height:0; */
     text-align:center;
     width: 100%;
     z-index: 10;
     /* position: relative; */
+    /* margin-bottom: -2px; */
+    /* z-index: 11; */
+    /* background: darkgray; */
 }
-.bookmark, .bookmark:before, .bookmark:after{ 
-    box-sizing: border-box; 
-    -moz-box-sizing: border-box; 
-    -webkit-box-sizing: border-box; 
-} 
+.bookmark, .bookmark:before, .bookmark:after{
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
 .bookmark{
     display:inline-block;
     height: 70px;
     width: 50px;
     padding: 0px;
-    margin: 0 .5em;
+    margin: 0 .5em .5em;
     -webkit-transform: rotate(0deg) skew(0deg);
     transform: rotate(0deg) skew(0deg);
     border-left: 25px solid red;
     border-right: 25px solid red;
     border-bottom: 25px solid transparent;
     /* z-index: 10; */
-    
     cursor: pointer;
-
+    vertical-align: middle;
+    position: relative;
 }
 
+.bookmark:before{
+  content: "Chick me to  Bookmark";
+  position: absolute;
+  /* right: -25px; */
+  left: -25px;
+  margin: auto;
+  /* padding-right: 10px; */
+  /* height: 100%; */
+  width: 50px;
+  /* display: inline-block; */
+  text-align: center;
+  font-size: .5em;
+  transform: scale(0.8);
+  /* color: #fff; */
+  /* color: red; */
+}
+.bookmark:after{
+  /* content: " "; */
+  position: absolute;
+  /* right: -25px; */
+  left: 25px;
+  /* margin: auto; */
+  padding-left: 10px;
+  height: 100%;
+  width: 100px;
+  /* display: inline-block; */
+  /* text-align: center; */
+  /* font-size: .5em; */
+  /* transform: scale(0.8); */
+  background: url(img/lao.png);
+  background-size: 100% 100%;
+}
 a.bookmark{
   text-decoration: none;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
@@ -843,6 +887,10 @@ a.bookmark:active {
     }
     #donate {
         /* margin-left: -75px; */
+    }
+    
+    .coinhive-miner{
+      display:inline-block;
     }
 }
 
@@ -912,9 +960,6 @@ a.movieannual2017:after{
 /*     margin-right: 4px; */
     background-image:url(https://coinhive.com/media/coinhive-icon.png);
     background-size:100%;
-}
-.coinhive-miner{
-  display:inline-block;
 }
 .coinhive-miner a{
   margin-right:.5em;
