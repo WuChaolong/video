@@ -263,8 +263,9 @@ iframe[sandbox="allow-same-origin allow-popups allow-forms allow-pointer-lock"]{
 }
 #data{
     padding:0 .5em;
-    max-width: 751px;
+    /* max-width: 751px; */
     margin: auto;
+    text-align: center;
 }
 code{
     word-break: break-all;
@@ -656,7 +657,16 @@ iframe{
 }
 .video-item{
   position:relative;
+  /* margin-top: 2em; */
+  display: inline-block;
+  max-width: 751px;
+  width: 100%; */
+  text-align: left;
+  vertical-align: top;
+  /* padding: .5em; */
   margin-top: 2em;
+  box-sizing: content-box;
+  text-align: left;
 }
 .is-it{
   text-align:center;
@@ -750,14 +760,20 @@ iframe{
 @media screen and (min-width:1000px){
     
     .share{
-        right:-5em;
+/*         right:-5em; */
+    }
+}
+
+@media screen and (max-width:1500px){
+    .share{
+/*         right:0; */
     }
 }
 #top{
     position: fixed;
     top: 0;
     left:0;
-    /* height:0; */
+    height:0;
     text-align:center;
     width: 100%;
     z-index: 10;
@@ -870,8 +886,10 @@ a.bookmark:active {
       max-width:751px;
       margin:auto;
     }
-    .video-item .is-it{
-      /* visibility: hidden; */
+
+    .video-item {
+      width: 751px;
+      padding: .5em;
     }
     
     .doubanList a {
@@ -937,18 +955,9 @@ a.movieannual2017:after{
 
 @media screen and (min-width:451px){
   .search-form button{
-      position: absolute;
-      /* left: 0; */
-      right: .5em;
-      bottom: -.75em;
-      margin: auto;
-      font-size: 1.5em;
-      /* float: left; */
-      width: 5em;
-      line-height: 1.5em;
-      z-index: 1;
       right: 0;
       bottom: 0;
+      /* left: 0; */
   }
 }
 
