@@ -1,7 +1,6 @@
 window.onload = function(){
     
 }
-
 String.prototype.format = function()
 {
     var args = arguments;
@@ -23,15 +22,9 @@ var config = {
             return this[config.userLang]||this.default;
         }
     }
-//     ,qrcode:{
-//         "zh-CN":"<p>手机版(Mobile version)</p><p>还是躲被窝里舒服。</p>"
-//         ,"default":"Bookmark me,if u have next time"
-//         ,string:function(){
-//             return this[config.userLang]||this.default;
-//         }
-//     }
 };
-    
+
+locationParameterChanged() ;    
 
 function setHeight(input,height){
         input.style.height = height;
@@ -111,16 +104,10 @@ function locationParameterChanged() {
             setDoubanSearchList(subjects,"searchTop",true);
 //             loadShare();
         }
-//         else{
-            setDoubanTop(undefined,true,function(){
-                loadShare();
-    //             addCoinhive();
-            });
-//         }
-            
-//         input.onblur=function(e){
-            
-//         };
+        
+        setDoubanTop(undefined,true,function(){
+            loadShare();
+        });
 //         syncIsIt().getAll();
         
         return;
