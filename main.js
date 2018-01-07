@@ -1061,27 +1061,30 @@ function setDoubanSearch(value,success,id){
     if(window.doubanRequest){
         window.doubanRequest.abort();
     }
-    var api = "https://api.douban.com/v2/movie/search?callback=setDoubanSearchCallback&q="+value;
-    window.doubanRequest = importScript(api,success);    
+    if(id!="searchBottom"){
+        var api = "https://api.douban.com/v2/movie/search?callback=setDoubanSearchCallback&q="+value;
+        window.doubanRequest = importScript(api,success);  
+    }else{
+        var api = "https://api.douban.com/v2/movie/search?q="+value;
+        var uri = config.nodeUrl+"cross?api="+api;
+        window.doubanRequest = ajax(uri,function(data){
 
+            var subjects = JSON.parse(data).subjects;
+            if(subjects){
+                setDoubanSearchList(subjects,id);
+                var searchs = JSON.parse(localStorage.getItem("doubanSearchs"))||[];
+                if(!isExist(subjects[0].title,searchs,"title")){
+                    searchs.unshift(subjects[0]);
+                    searchs = JSON.stringify(searchs);
+                    localStorage.setItem("doubanSearchs",searchs);
+                }
+                searchs=subjects=data=null;
+            }
 
-//     var uri = config.nodeUrl+"cross?api="+api;
-//     window.doubanRequest = ajax(uri,function(data){
-        
-//         var subjects = JSON.parse(data).subjects;
-//         if(subjects){
-//             setDoubanSearchList(subjects,id);
-//             var searchs = JSON.parse(localStorage.getItem("doubanSearchs"))||[];
-//             if(!isExist(subjects[0].title,searchs,"title")){
-//                 searchs.unshift(subjects[0]);
-//                 searchs = JSON.stringify(searchs);
-//                 localStorage.setItem("doubanSearchs",searchs);
-//             }
-//             searchs=subjects=data=null;
-//         }
-        
-//         success();
-//     });
+            success();
+        });
+    }  
+
 }
 function setDoubanSearchCallback(data){
     var subjects = data.subjects;
