@@ -2,6 +2,9 @@ html,body{
     min-height: 100%;
     /* margin: 0; */
 }
+img{
+  max-width:100%;
+}
 .baidu-video {
     width: 100%;
     height: 470px;
@@ -39,6 +42,7 @@ body{
     box-sizing: border-box;
     z-index: -2;
     overflow-x: hidden;
+    /* background-color: rgba(255,255,255,1); */
 }
 .search-form{
     /* padding-top: 2em; */
@@ -50,6 +54,7 @@ body{
     margin: 0;
     position: relative;
     z-index: 1;
+    /* overflow: hidden; */
 }
 .search-form input{font-size: 1.5em;padding: 0 5px;}
 
@@ -59,6 +64,8 @@ body{
     transition: font-size .2s, height .2s;
     /* text-align: center; */
     min-height: 2em;
+    /* background: none; */
+    background-color: rgba(255,255,255,.8);
 }
 .search-form button{
     /*     position: absolute;
@@ -77,6 +84,7 @@ body{
     /* width: 100%; */
     position: absolute;
     /* margin-top: -2px; */
+    /* display: none; */
     }
 .search-form button:after{
   content:"↵";
@@ -397,14 +405,14 @@ i.thepiratebay:before{
 }
 .doubanList{
     /* height: 50%; */
-    /* overflow-x: scroll; */
-    /* white-space: nowrap; */
+    overflow-x: scroll;
+    white-space: nowrap;
     padding: .5em;
     /* display:none; */
     /* margin-bottom: 5em; */
     text-align: center;
     box-sizing: border-box;
-    background-color: white;
+    background-color: rgba(255,255,255,.8);
     width: 100%;
     /* overflow: auto; */
     /* min-height: 50%; */
@@ -433,8 +441,8 @@ i.thepiratebay:before{
     text-align:center;
     display:inline-block;
     /* height: 10em; */
-    margin: .5em 0;
-    width: 50%;
+    margin: .5em;
+    /* width: 50%; */
     overflow: hidden;
     opacity: 1;
     vertical-align: top;
@@ -891,9 +899,12 @@ a.bookmark:active {
       width: 751px;
       padding: .5em;
     }
-    
+    .doubanList{
+      overflow-x: auto;
+      white-space: initial;
+    }
     .doubanList a {
-        width: 11em;
+        width: 9em;
         /* width: auto; */
     }
     .share-other{
@@ -937,7 +948,7 @@ a.bookmark:active {
 a.movieannual2017 {
     /* position: absolute; */
     display: inline-block;
-    /* width: 186px; */
+    width: 186px;
     height: 96px;
     text-align:right;
     /*     top: 9px;
@@ -948,7 +959,7 @@ a.movieannual2017 {
     #db-nav-movie a.movieannual2017:hover, #db-nav-movie a.movieannual2017:visited, #db-nav-movie a.movieannual2017:active {
       background-color: transparent;
 }
-a.movieannual2017:after{
+a.movieannual2017:after,ad:after{
   content:"广告";
   font-size:.5em;
 }

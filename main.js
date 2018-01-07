@@ -87,17 +87,34 @@ function locationParameterChanged() {
          setHeight(input,"15%");
 //          setFontSize(input,100,"1.5em");
     }
+    isDirect();
+//     window.onclose = window.onunload= function(e){
+//         if(isShowBookmark()){
+//             e.preventDefault();
+//             addBookmark();
+//         }
+//     } 
     if(!key){
         input.focus();
         input.setAttribute("required","required");
-        setDoubanTop(undefined,true,function(){
+        var subjects = localStorage.getItem("doubanSearchs");
+        
+        if(subjects){
+            subjects = JSON.parse(subjects);
+            setDoubanSearchList(subjects,"searchTop",true);
             loadShare();
-//             addCoinhive();
-        });
+        }else{
+            setDoubanTop(undefined,true,function(){
+                loadShare();
+    //             addCoinhive();
+            });
+        }
+            
 //         input.onblur=function(e){
             
 //         };
 //         syncIsIt().getAll();
+        
         return;
     }
 
@@ -120,9 +137,6 @@ function locationParameterChanged() {
     loadGoogleEntitie();
     if(isShowBookmark()){
         addBookmark();
-//         importScript("https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js",function(){
-//             addBookmark();
-//         });
     }
 //     setMagnetTech();
 }
@@ -610,9 +624,10 @@ function setIframeUrl(url,wrapper,isSrc,templateId){
     }
 
 }
-function isExist(url,videos){
+function isExist(url,videos,key){
     for(var i=0;i<videos.length;i++){
-        if(videos[i].url==url){
+        var key = key || "url";
+        if(videos[i][key]==url){
             return true;
         }
     }
@@ -1009,7 +1024,6 @@ function setDoubanSearch(value,success,id){
     if(!value){
         return;
     }
-    var doubanListD = document.getElementById(id)||document.querySelector(".doubanList");
     
 //     if(doubanListD.innerHTML){
 //         return;
@@ -1020,25 +1034,48 @@ function setDoubanSearch(value,success,id){
     var api = "https://api.douban.com/v2/movie/search?q="+value;
     var uri = config.nodeUrl+"cross?api="+api;
     window.doubanRequest = ajax(uri,function(data){
+        
+        var subjects = JSON.parse(data).subjects;
+        if(subjects){
+            setDoubanSearchList(subjects,id);
+            var searchs = JSON.parse(localStorage.getItem("doubanSearchs"))||[];
+            if(!isExist(subjects[0].title,searchs,"title")){
+                searchs.unshift(subjects[0]);
+                searchs = JSON.stringify(searchs);
+                localStorage.setItem("doubanSearchs",searchs);
+            }
+            searchs=subjects=data=null;
+        }
+        
+        success();
+    });
+}
+function setDoubanSearchList(subjects,id,islocal){
+        var doubanListD = document.getElementById(id)||document.querySelector(".doubanList");
 
         var html  = "";
-        var subjects = JSON.parse(data).subjects;
-        for(var i = 0;i<5&&i<subjects.length;i++){
+        for(
+            var i = 0;
+            islocal?(i<50&&i<subjects.length):(i<5&&i<subjects.length);
+            i++
+        ){
             var title1 = (config.userLang=="zh-CN")?subjects[i].title:subjects[i].original_title;
             var title2 = (config.userLang=="zh-CN")?subjects[i].original_title:subjects[i].title;
             html += searchToHtml(title1,subjects[i].images.medium);
-            if(i<1&&title1!=title2){
+            if(i<1&&title1!=title2&&!islocal){
                 html += searchToHtml(title2,subjects[i].images.medium);
 
             }
         }
-        html += '<a target="_blank" href="https://movie.douban.com/annual/2017" class="movieannual2017"></a>';
+        if(true||!islocal){
+                    html += '<a target="_blank" href="https://movie.douban.com/annual/2017" class="movieannual2017"></a>';
+
+        }
+
 
         doubanListD.innerHTML=html;
         doubanListD.classList.add("doubanList");
-        data=html=subjects=doubanListD=null;
-        success();
-    });
+        html=null;
 }
 function searchToHtml(title,image){
     var isSame = "";
@@ -1391,42 +1428,48 @@ function addBookmark(){
 //       localStorage.setItem("bookmarked",true);
 //   }
   function addFavorite(e) {
-    var bookmarkURL = "https://wuchaolong.github.io/video/"||window.location.href;
-    var bookmarkTitle = "Video"||document.title;
-    var confirm = config.bookmark.string();
-    if ('addToHomescreen' in window && addToHomescreen.isCompatible) {
-      // Mobile browsers
-      addToHomescreen({ autostart: false, startDelay: 0 }).show(true);
-    } else if (window.sidebar && window.sidebar.addPanel) {
-      // Firefox <=22
-      window.sidebar.addPanel(bookmarkTitle, bookmarkURL, '');
-    } else if ((window.sidebar && /Firefox/i.test(navigator.userAgent)) || (window.opera && window.print)) {
-      // Firefox 23+ and Opera <=14
-//       $(this).attr({
-//         href: bookmarkURL,
-//         title: bookmarkTitle,
-//         rel: 'sidebar'
-//       }).off(e);
+      try{
 
-      bookmark.href=bookmarkURL;
-      bookmark.title=bookmarkTitle;
-      bookmark.rel = "sidebar";
-      bookmark.removeEventListener('click', addFavorite);
-      
-      hideBookmark(bookmark);
-      return true;
-    } else if (window.external && ('AddFavorite' in window.external)) {
-      // IE Favorites
-      window.external.AddFavorite(bookmarkURL, bookmarkTitle);
-    } else {
-        if(/Mac/i.test(navigator.userAgent)){
-            alert('Cmd+D '+confirm);
-        }else{
+            var bookmarkURL = "https://wuchaolong.github.io/video/"||window.location.href;
+            var bookmarkTitle = "Video"||document.title;
+            var confirm = config.bookmark.string();
+            if ('addToHomescreen' in window && addToHomescreen.isCompatible) {
+              // Mobile browsers
+              addToHomescreen({ autostart: false, startDelay: 0 }).show(true);
+            } else if (window.sidebar && window.sidebar.addPanel) {
+              // Firefox <=22
+              window.sidebar.addPanel(bookmarkTitle, bookmarkURL, '');
+            } else if ((window.sidebar && /Firefox/i.test(navigator.userAgent)) || (window.opera && window.print)) {
+              // Firefox 23+ and Opera <=14
+        //       $(this).attr({
+        //         href: bookmarkURL,
+        //         title: bookmarkTitle,
+        //         rel: 'sidebar'
+        //       }).off(e);
 
-            alert('Ctrl+D '+confirm);
-        }
-      // Other browsers (mainly WebKit & Blink - Safari, Chrome, Opera 15+)
-    }
+              bookmark.href=bookmarkURL;
+              bookmark.title=bookmarkTitle;
+              bookmark.rel = "sidebar";
+              bookmark.removeEventListener('click', addFavorite);
+
+              hideBookmark(bookmark);
+              return true;
+            } else if (window.external && ('AddFavorite' in window.external)) {
+              // IE Favorites
+              window.external.AddFavorite(bookmarkURL, bookmarkTitle);
+            } else {
+                if(/Mac/i.test(navigator.userAgent)){
+                    alert('Cmd+D '+confirm);
+                }else{
+
+                    alert('Ctrl+D '+confirm);
+                }
+              // Other browsers (mainly WebKit & Blink - Safari, Chrome, Opera 15+)
+            }
+      }catch(e){
+          console.log(e);
+          return false;
+      }
     
     hideBookmark(bookmark);
     return false;
@@ -1438,8 +1481,9 @@ function hideBookmark(bookmark){
 }
 function isShowBookmark(){
     var bookmarked = localStorage.getItem("bookmarked");
-    var isOlduser = localStorage.getItem("isOlduser");
-    if(!isDirect()&&!bookmarked&&isOlduser){
+    var isOlduser = localStorage.getItem("doubanSearchs");
+    var isDirect = localStorage.getItem("isDirect")
+    if(!bookmarked&&isOlduser&&!isDirect){
         return true;
     }
     return false;
@@ -1449,8 +1493,8 @@ function isDirect(){
     referrer.href = document.referrer;
     var url = document.createElement('a');
     url.href = location.href;
-    localStorage.setItem("isOlduser",true);
-    if(localStorage.getItem("isDirect")||!referrer.href){
+//     localStorage.setItem("isOlduser",true);
+    if(!document.referrer){
         localStorage.setItem("isDirect",true);
         return true;
     }
