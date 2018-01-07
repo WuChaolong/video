@@ -843,7 +843,9 @@ function magnetFetcher(key){
 }
 
 function loadError (oError) {
-  throw new URIError("The script " + oError.target.src + " is not accessible.");
+     console.log("The script " + oError.target.src + " is not accessible.");
+
+//   throw new URIError("The script " + oError.target.src + " is not accessible.");
 }
 
 function importScript (sSrc, fOnload) {
@@ -858,8 +860,29 @@ function importScript (sSrc, fOnload) {
       document.body.appendChild(oScript);
   }
   oScript.src = sSrc;
-}
+  oScript.abort = ()=>{
+    return trigger(oScript,'error');
+  };
+  return oScript;
 
+
+  
+}
+//[trigger 触发事件]
+function trigger(element,event){
+  if( !typeof event == "string" ) {
+    return;
+  }
+  if ( element.dispatchEvent ){
+    let evt = document.createEvent('Events');// initEvent接受3个参数
+    evt.initEvent(event, true, true);
+    element.dispatchEvent(evt);
+  }else if ( element.fireEvent ){ //IE
+    element.fireEvent('on'+event);
+  }else{
+    element['on'+event]();
+  }
+}
 function progress(host){
 
     var _progress = document.getElementById(host+'Progress');
@@ -1031,31 +1054,47 @@ function setDoubanSearch(value,success,id){
     if(!value){
         return;
     }
-    
+    window.doubanListId = id;
 //     if(doubanListD.innerHTML){
 //         return;
 //     }
     if(window.doubanRequest){
         window.doubanRequest.abort();
     }
-    var api = "https://api.douban.com/v2/movie/search?q="+value;
-    var uri = config.nodeUrl+"cross?api="+api;
-    window.doubanRequest = ajax(uri,function(data){
+    var api = "https://api.douban.com/v2/movie/search?callback=setDoubanSearchCallback&q="+value;
+    window.doubanRequest = importScript(api,success);    
+
+
+//     var uri = config.nodeUrl+"cross?api="+api;
+//     window.doubanRequest = ajax(uri,function(data){
         
-        var subjects = JSON.parse(data).subjects;
-        if(subjects){
-            setDoubanSearchList(subjects,id);
-            var searchs = JSON.parse(localStorage.getItem("doubanSearchs"))||[];
-            if(!isExist(subjects[0].title,searchs,"title")){
-                searchs.unshift(subjects[0]);
-                searchs = JSON.stringify(searchs);
-                localStorage.setItem("doubanSearchs",searchs);
-            }
-            searchs=subjects=data=null;
+//         var subjects = JSON.parse(data).subjects;
+//         if(subjects){
+//             setDoubanSearchList(subjects,id);
+//             var searchs = JSON.parse(localStorage.getItem("doubanSearchs"))||[];
+//             if(!isExist(subjects[0].title,searchs,"title")){
+//                 searchs.unshift(subjects[0]);
+//                 searchs = JSON.stringify(searchs);
+//                 localStorage.setItem("doubanSearchs",searchs);
+//             }
+//             searchs=subjects=data=null;
+//         }
+        
+//         success();
+//     });
+}
+function setDoubanSearchCallback(data){
+    var subjects = data.subjects;
+    if(subjects){
+        setDoubanSearchList(subjects,window.doubanListId);
+        var searchs = JSON.parse(localStorage.getItem("doubanSearchs"))||[];
+        if(!isExist(subjects[0].title,searchs,"title")){
+            searchs.unshift(subjects[0]);
+            searchs = JSON.stringify(searchs);
+            localStorage.setItem("doubanSearchs",searchs);
         }
-        
-        success();
-    });
+        searchs=data=null;
+    }
 }
 function setDoubanSearchList(subjects,id,islocal){
         var doubanListD = document.getElementById(id)||document.querySelector(".doubanList");
@@ -1079,9 +1118,8 @@ function setDoubanSearchList(subjects,id,islocal){
 
         }
 
-
-        doubanListD.innerHTML=html;
         doubanListD.classList.add("doubanList");
+        doubanListD.innerHTML=html;
         html=null;
 }
 function searchToHtml(title,image){
@@ -1098,7 +1136,6 @@ function searchToHtml(title,image){
     
 }
 function setDoubanTop(tab,isLazy,success){
-    var doubanListD = document.getElementById("searchTop")||document.querySelector(".doubanList");
     
 //     if(doubanListD.innerHTML){
 //         return;
@@ -1106,27 +1143,50 @@ function setDoubanTop(tab,isLazy,success){
     if(window.doubanRequest){
         window.doubanRequest.abort();
     }
-    var random = parseInt(Math.random()*230);
-    var api = "http://api.douban.com/v2/movie/top250?apikey=0df993c66c0c636e29ecbb5344252a4a&start="+random;
-    var uri = config.nodeUrl+"cross?api="+api;
-    window.doubanRequest = ajax(uri,function(data){
-        var html  = "";
-        var subjects = JSON.parse(data).subjects;
-        var value = config.key;
-        for(var i = 0;i<subjects.length;i++){
-            var subject = subjects[i];
 
-            var title = (config.userLang=="zh-CN")?subjects[i].title:subjects[i].original_title;
-            html += searchToHtml(title,subjects[i].images.medium);
+
+    var random = parseInt(Math.random()*230);
+    var api = "http://api.douban.com/v2/movie/top250?apikey=0df993c66c0c636e29ecbb5344252a4a&start="+random+"&&callback=setDoubanTopCallback";
+    window.doubanRequest = importScript(api,success);
+
+//     var uri = config.nodeUrl+"cross?api="+api;
+//     window.doubanRequest = ajax(uri,function(data){
+//         var html  = "";
+//         var subjects = JSON.parse(data).subjects;
+//         var value = config.key;
+//         for(var i = 0;i<subjects.length;i++){
+//             var subject = subjects[i];
+
+//             var title = (config.userLang=="zh-CN")?subjects[i].title:subjects[i].original_title;
+//             html += searchToHtml(title,subjects[i].images.medium);
             
-        }
+//         }
+// //         html += '<a target="_blank" href="https://movie.douban.com/top250" class="douban-more icon-douban">Top 250<i>﹀</i></a>';
+//         html += '<a target="_blank" href="https://movie.douban.com/annual/2017" class="movieannual2017"></a>';
+//         doubanListD.innerHTML+=html;
+//         doubanListD.classList.add("doubanList");
+//         data=html=subjects=doubanListD=null;
+//         success();
+//     });
+}
+
+function setDoubanTopCallback(data){
+    var html  = "";
+    var subjects = data.subjects;
+    var value = config.key;
+    for(var i = 0;i<subjects.length;i++){
+        var subject = subjects[i];
+
+        var title = (config.userLang=="zh-CN")?subjects[i].title:subjects[i].original_title;
+        html += searchToHtml(title,subjects[i].images.medium);
+
+    }
 //         html += '<a target="_blank" href="https://movie.douban.com/top250" class="douban-more icon-douban">Top 250<i>﹀</i></a>';
-        html += '<a target="_blank" href="https://movie.douban.com/annual/2017" class="movieannual2017"></a>';
-        doubanListD.innerHTML+=html;
-        doubanListD.classList.add("doubanList");
-        data=html=subjects=doubanListD=null;
-        success();
-    });
+    html += '<a target="_blank" href="https://movie.douban.com/annual/2017" class="movieannual2017"></a>';
+    var doubanListD = document.getElementById("searchTop")||document.querySelector(".doubanList");
+    doubanListD.innerHTML+=html;
+    doubanListD.classList.add("doubanList");
+    data=html=subjects=doubanListD=null;
 }
 
 function setMagnetTech(tab){
