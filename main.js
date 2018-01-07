@@ -1553,7 +1553,7 @@ function hideBookmark(bookmark){
 function isShowBookmark(){
     var bookmarked = localStorage.getItem("bookmarked");
     var isOlduser = localStorage.getItem("doubanSearchs");
-    var isDirect = localStorage.getItem("isDirect")
+    var isDirect = localStorage.getItem("isDirect");
     if(!bookmarked&&isOlduser&&!isDirect){
         return true;
     }
