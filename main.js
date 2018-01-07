@@ -132,7 +132,6 @@ function locationParameterChanged() {
             
         loadShare(input.value);
         
-        addCoinhive();
     },"searchBottom");
     loadGoogleEntitie();
     if(isShowBookmark()){
@@ -1380,6 +1379,8 @@ function importCSS(href,cssId){
     }
 }
 function loadShare(key){
+    
+    addCoinhive();
     importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/qrcode.js",function(){
         importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/social-share.js",function(){
     //         var ele = document.querySelector(".share-other");
@@ -1404,7 +1405,6 @@ function loadShare(key){
     
     importCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css","awesome");
     
-
 }
 function addDonate(){
     var donateTemplate = document.getElementById("donateTemplate");

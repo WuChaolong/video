@@ -418,6 +418,10 @@ i.thepiratebay:before{
     /* min-height: 50%; */
     /* overflow-y: scroll; */
 }
+#searchTop.doubanList{
+  
+    min-height: 50%;
+}
 .doubanList .loading{
     display:inline-block;
     min-width:110px;
