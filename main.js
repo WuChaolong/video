@@ -23,6 +23,13 @@ var config = {
             return this[config.userLang]||this.default;
         }
     }
+//     ,qrcode:{
+//         "zh-CN":"<p>手机版(Mobile version)</p><p>还是躲被窝里舒服。</p>"
+//         ,"default":"Bookmark me,if u have next time"
+//         ,string:function(){
+//             return this[config.userLang]||this.default;
+//         }
+//     }
 };
     
 

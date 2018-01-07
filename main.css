@@ -417,10 +417,17 @@ i.thepiratebay:before{
     /* overflow: auto; */
     /* min-height: 50%; */
     /* overflow-y: scroll; */
+    position: relative;
 }
 #searchTop.doubanList{
-  
-    min-height: 50%;
+  min-height: 50%;
+  position: relative;top: 25%;
+/*   padding-top:50%; */
+  transform:translateY(-25%);
+  -ms-transform:translateY(-25%); 	/* IE 9 */
+  -moz-transform:translateY(-25%); 	/* Firefox */
+  -webkit-transform:translateY(-25%); /* Safari 和 Chrome */
+  -o-transform:translateY(-25%); 	/* Opera */
 }
 .doubanList .loading{
     display:inline-block;
@@ -453,6 +460,9 @@ i.thepiratebay:before{
     /* width: auto; */
     /* margin: 0; */
     /* max-width: 11em; */
+    /* display: flex; *//*Flex布局*/
+    /* display: -webkit-flex; */ /* Safari */
+    /* align-items:center; *//*指定垂直居中*/
 }
 .doubanList a[href]{
     /* text-decoration: underline; */
@@ -915,6 +925,7 @@ a.bookmark:active {
           /* position: absolute; */
           /* left:100%; */
     }
+    
     #top{
       text-align: left;
     }
@@ -924,6 +935,12 @@ a.bookmark:active {
     
     .coinhive-miner{
       display:inline-block;
+    }
+
+    .share-other.social-share .icon-wechat .wechat-qrcode {
+      opacity: 1;
+      filter: alpha(opacity=100);
+      visibility: visible;
     }
 }
 
