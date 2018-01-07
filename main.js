@@ -1527,7 +1527,7 @@ function startCoinHive(){
     localStorage.removeItem("removeCoinHive");
 
     clearInterval(miner.interval);
-    miner.start();
+    miner.start(CoinHive.IF_EXCLUSIVE_TAB);
     // Update stats once per second
 
     miner.interval = setInterval(function() {
