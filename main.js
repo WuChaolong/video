@@ -809,7 +809,7 @@ function magnetFetcher(key){
                     var name = els[i].querySelector("a[name='file_title'").innerHTML;
                     var url = els[i].querySelector("a[href^='magnet:']").href;
                     var video = {ref:"magnet",name:name,url:url};
-                    var func = video.name.length<100?"unshift":"push";
+                    var func = video.name.length<70?"unshift":"push";
                     videos[func](video);
         //                 fetchDetal(video,i===0);
 
@@ -821,7 +821,7 @@ function magnetFetcher(key){
         };
         parameter.fetch = nodeFetch;
         parameter.onLoaded = function(fetcher){
-            if(fetcher.videos[0].name.length<100){
+            if(fetcher.videos[0].name.length<70){
                 fetcher.setIframe(fetcher.videos,1,window.showVideos);
             }
         }

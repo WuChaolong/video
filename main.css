@@ -419,7 +419,7 @@ i.thepiratebay:before{
     /* overflow-y: scroll; */
     position: relative;
 }
-#searchTop.doubanList{
+#searchBottom.doubanList,#searchTop.doubanList{
   min-height: 50%;
   position: relative;top: 25%;
 /*   padding-top:50%; */
