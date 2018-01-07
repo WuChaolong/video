@@ -1146,7 +1146,7 @@ function setDoubanTop(tab,isLazy,success){
 
 
     var random = parseInt(Math.random()*230);
-    var api = "http://api.douban.com/v2/movie/top250?apikey=0df993c66c0c636e29ecbb5344252a4a&start="+random+"&&callback=setDoubanTopCallback";
+    var api = "https://api.douban.com/v2/movie/top250?apikey=0df993c66c0c636e29ecbb5344252a4a&start="+random+"&&callback=setDoubanTopCallback";
     window.doubanRequest = importScript(api,success);
 
 //     var uri = config.nodeUrl+"cross?api="+api;
