@@ -102,13 +102,14 @@ function locationParameterChanged() {
         if(subjects){
             subjects = JSON.parse(subjects);
             setDoubanSearchList(subjects,"searchTop",true);
-            loadShare();
-        }else{
+//             loadShare();
+        }
+//         else{
             setDoubanTop(undefined,true,function(){
                 loadShare();
     //             addCoinhive();
             });
-        }
+//         }
             
 //         input.onblur=function(e){
             
@@ -1066,7 +1067,7 @@ function setDoubanSearchList(subjects,id,islocal){
 
             }
         }
-        if(true||!islocal){
+        if(true&&!islocal){
                     html += '<a target="_blank" href="https://movie.douban.com/annual/2017" class="movieannual2017"></a>';
 
         }
@@ -1114,7 +1115,7 @@ function setDoubanTop(tab,isLazy,success){
         }
 //         html += '<a target="_blank" href="https://movie.douban.com/top250" class="douban-more icon-douban">Top 250<i>﹀</i></a>';
         html += '<a target="_blank" href="https://movie.douban.com/annual/2017" class="movieannual2017"></a>';
-        doubanListD.innerHTML=html;
+        doubanListD.innerHTML+=html;
         doubanListD.classList.add("doubanList");
         data=html=subjects=doubanListD=null;
         success();
@@ -1379,7 +1380,7 @@ function importCSS(href,cssId){
     }
 }
 function loadShare(key){
-    
+
     addCoinhive();
     importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/qrcode.js",function(){
         importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/social-share.js",function(){
