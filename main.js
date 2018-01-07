@@ -24,7 +24,7 @@ var config = {
     }
 };
 
-locationParameterChanged() ;    
+locationParameterChanged() ;
 
 function setHeight(input,height){
         input.style.height = height;
