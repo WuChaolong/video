@@ -962,6 +962,7 @@ a.bookmark:active {
   /* border-left: 1px solid; */
   /* float: right; */
   /* margin-left: -75px; */
+  position:relative;
 }
 #donate:before{
   content:"............"
@@ -969,7 +970,14 @@ a.bookmark:active {
   vertical-align:middle;
   
 }
-
+#donate>span{
+  position:absolute;
+  left:0;
+  right:0;
+  top: 0;
+  margin:auto;
+  /* text-align: center; */
+}
 a.movieannual2017 {
     /* position: absolute; */
     display: inline-block;

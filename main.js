@@ -22,9 +22,14 @@ var config = {
             return this[config.userLang]||this.default;
         }
     }
+    ,feedback:{
+        "zh-CN":"<span>反馈意见?赏1分钱,支付宝留言.</span>"
+        ,"default":"<span>Feedback?PayPal message.</span>"
+        ,string:function(){
+            return this[config.userLang]||this.default;
+        }
+    }
 };
-
-locationParameterChanged() ;
 
 function setHeight(input,height){
         input.style.height = height;
@@ -1467,7 +1472,8 @@ function loadShare(key){
 function addDonate(){
     var donateTemplate = document.getElementById("donateTemplate");
     var donateD = document.getElementById("donate");
-    donateD.innerHTML = donateTemplate.innerHTML;
+    var spanHtml = config.feedback.string();
+    donateD.innerHTML = donateTemplate.innerHTML+spanHtml;
     donateTemplate = donateD = null;
 }
 function addBookmark(){
@@ -1487,10 +1493,20 @@ function addBookmark(){
 //   }
   function addFavorite(e) {
       try{
-
+            
             var bookmarkURL = "https://wuchaolong.github.io/video/"||window.location.href;
             var bookmarkTitle = "Video"||document.title;
             var confirm = config.bookmark.string();
+
+
+
+            if(/Mac/i.test(navigator.userAgent)){
+                alert('Cmd+D '+confirm);
+            }else{
+
+                alert('Ctrl+D '+confirm);
+            }
+            
             if ('addToHomescreen' in window && addToHomescreen.isCompatible) {
               // Mobile browsers
               addToHomescreen({ autostart: false, startDelay: 0 }).show(true);
@@ -1510,19 +1526,9 @@ function addBookmark(){
               bookmark.rel = "sidebar";
               bookmark.removeEventListener('click', addFavorite);
 
-              hideBookmark(bookmark);
-              return true;
             } else if (window.external && ('AddFavorite' in window.external)) {
               // IE Favorites
               window.external.AddFavorite(bookmarkURL, bookmarkTitle);
-            } else {
-                if(/Mac/i.test(navigator.userAgent)){
-                    alert('Cmd+D '+confirm);
-                }else{
-
-                    alert('Ctrl+D '+confirm);
-                }
-              // Other browsers (mainly WebKit & Blink - Safari, Chrome, Opera 15+)
             }
       }catch(e){
           console.log(e);
@@ -1632,4 +1638,17 @@ function setGoogleEntities(data){
     googleEntitiesD.style.display = "block";
     googleEntitiesD.classList.add("doubanList");
     data=html=subjects=googleEntitiesD=null;
+}
+
+function dedent(strings, ...values) {
+
+  let result = '';
+  for (let i = 0; i < strings.length; i++) {
+      if(values[i]){
+        result += strings[i].replace(/\n\s+/g, '\n') + values[i];
+      }else{
+          result += strings[i].replace(/\n\s+/g, '\n');
+      }
+  }
+  return result;
 }
