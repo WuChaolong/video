@@ -964,6 +964,10 @@ a.bookmark:active {
   /* margin-left: -75px; */
   position:relative;
 }
+#donate iframe{
+/*     box-shadow: 0 0 2px #aaa; */
+
+}
 #donate:before{
   content:"............"
   display:inline-block;
@@ -974,9 +978,27 @@ a.bookmark:active {
   position:absolute;
   left:0;
   right:0;
-  top: 0;
+  /* top: 0; */
+  /* bottom: 1em; */
+  bottom: 100%;
   margin:auto;
+  color: #555;
   /* text-align: center; */
+  background-color: #fff;
+  box-shadow: 0 2px 10px #aaa;
+}
+
+#donate>span:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    margin-left: -6px;
+    bottom: -13px;
+    width: 0;
+    height: 0;
+    border-width: 8px 6px 6px 6px;
+    border-style: solid;
+    border-color: #fff transparent transparent transparent;
 }
 a.movieannual2017 {
     /* position: absolute; */

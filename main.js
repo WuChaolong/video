@@ -1640,15 +1640,3 @@ function setGoogleEntities(data){
     data=html=subjects=googleEntitiesD=null;
 }
 
-function dedent(strings, ...values) {
-
-  let result = '';
-  for (let i = 0; i < strings.length; i++) {
-      if(values[i]){
-        result += strings[i].replace(/\n\s+/g, '\n') + values[i];
-      }else{
-          result += strings[i].replace(/\n\s+/g, '\n');
-      }
-  }
-  return result;
-}
