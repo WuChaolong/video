@@ -140,16 +140,21 @@ function locationParameterChanged() {
     
     if(inIframe()){
         
-        setDoubanSearch(input.value,function(){
+    setDoubanSearch(input.value,function(){
+            
+        
+        addCoinhive();
 
-            addCoinhive();
-
-            addDonate();
-
-        },"searchBottom");
+        addDonate();
+        
+    },"searchBottom");
         return;
     }
-
+    setDoubanSearch(input.value,function(){
+            
+        loadShare(input.value);
+        
+    },"searchBottom");
     loadGoogleEntitie();
 
     if(isShowBookmark()){
