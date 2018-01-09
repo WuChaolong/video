@@ -84,10 +84,18 @@ function locationParameterChanged() {
                 });
             }
     }
-    input.onfocus = function(){
-         setHeight(input,"50%");
-//          setFontSize(input,10);
+
+    if(inIframe()){
+        document.querySelector(".search-form").style.display = "none";
+        document.querySelector("#searchBottom").style.display = "none";
+    }else{
+        input.onfocus = function(){
+
+            setHeight(input,"50%");
+    //          setFontSize(input,10);
+        }
     }
+    
     document.getElementsByTagName("form")[0].onsubmit = function(){
          setHeight(input,"15%");
 //          setFontSize(input,100,"1.5em");
@@ -128,12 +136,18 @@ function locationParameterChanged() {
     if(config.userLang=="zh-CN"){
          window.tieba=tiebaFetcher(key);
     }
+    
+
     setDoubanSearch(input.value,function(){
             
         loadShare(input.value);
         
     },"searchBottom");
     loadGoogleEntitie();
+
+    if(inIframe()){
+        return;
+    }
     if(isShowBookmark()){
         addBookmark();
     }
@@ -1640,3 +1654,12 @@ function setGoogleEntities(data){
     data=html=subjects=googleEntitiesD=null;
 }
 
+
+
+function inIframe () {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
+}

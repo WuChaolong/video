@@ -423,8 +423,10 @@ i.thepiratebay:before{
 }
 #searchBottom.doubanList,#searchTop.doubanList{
   min-height: 50%;
-  position: relative;top: 25%;
-/*   padding-top:50%; */
+  /* min-height: 100px; */
+  position: relative;
+  top: 25%;
+  /*   padding-top:50%; */
   transform:translateY(-25%);
   -ms-transform:translateY(-25%); 	/* IE 9 */
   -moz-transform:translateY(-25%); 	/* Firefox */
@@ -964,6 +966,7 @@ a.bookmark:active {
   /* float: right; */
   /* margin-left: -75px; */
   position:relative;
+  margin: 2.5em 0;
 }
 #donate iframe{
 /*     box-shadow: 0 0 2px #aaa; */
