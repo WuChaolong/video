@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         豆瓣电影+资源
 // @namespace    undefined
-// @version      1.2
+// @version      1.5
 // @description  找百度网盘和种子不用打开一堆新标签,有的话会直接播放
 // @author       WuChaolong
 // @match        *://movie.douban.com/subject/*
@@ -22,7 +22,7 @@ var html = (dedent `<div id="wuchaolong">
           <a href="https://wuchaolong.github.io/video/?search=${key}" target="_blank">更多</a>
           )</span>
   </h2>
-<iframe  scrolling="no" src="https://wuchaolong.github.io/video/?search=${key}"></iframe>
+<iframe allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  scrolling="no" src="https://wuchaolong.github.io/video/?search=${key}"></iframe>
 <p class="wuchaolong-more">
 <span class="pl">
           (
