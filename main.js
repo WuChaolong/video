@@ -88,6 +88,7 @@ function locationParameterChanged() {
     if(inIframe()){
         document.querySelector(".search-form").style.display = "none";
         document.querySelector("#searchBottom").style.display = "none";
+        document.querySelector("#data").classList.add("iniframe");
     }else{
         input.onfocus = function(){
 

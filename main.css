@@ -12,6 +12,18 @@ img{
     /*     border-left: 1px inset; */
     position: relative;
 }
+#data.iniframe .baidu-video {
+      /* margin-left: calc(50% - 375px); */
+      width: 750px;
+      /*     overflow-x:scroll; */
+      height: 416px;
+}
+#data.iniframe .baidu-video-help{
+    overflow-x:scroll;
+}
+#data.iniframe .baidu-video iframe {
+    margin-top: -192px;
+}
 .magnet-video{
       position: relative;
       width: calc(100% - 4.5em);
