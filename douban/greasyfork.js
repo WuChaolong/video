@@ -1,7 +1,6 @@
 // ==UserScript==
 // @name         豆瓣电影+资源
-// @namespace    undefined
-// @version      1.5
+// @version      1.6
 // @description  找百度网盘和种子不用打开一堆新标签,有的话会直接播放
 // @author       WuChaolong
 // @match        *://movie.douban.com/subject/*

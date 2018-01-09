@@ -140,14 +140,14 @@ function locationParameterChanged() {
     
     if(inIframe()){
         
-    setDoubanSearch(input.value,function(){
-            
-        
-        addCoinhive();
+        setDoubanSearch(input.value,function(){
 
-        addDonate();
-        
-    },"searchBottom");
+
+            addCoinhive();
+
+            addDonate();
+
+        },"searchBottom");
         return;
     }
     setDoubanSearch(input.value,function(){
