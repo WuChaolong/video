@@ -137,6 +137,13 @@ function locationParameterChanged() {
          window.tieba=tiebaFetcher(key);
     }
     
+    if(inIframe()){
+        
+        addCoinhive();
+
+        addDonate();
+        return;
+    }
 
     setDoubanSearch(input.value,function(){
             
@@ -145,9 +152,6 @@ function locationParameterChanged() {
     },"searchBottom");
     loadGoogleEntitie();
 
-    if(inIframe()){
-        return;
-    }
     if(isShowBookmark()){
         addBookmark();
     }
@@ -1458,6 +1462,9 @@ function importCSS(href,cssId){
 function loadShare(key){
 
     addCoinhive();
+    
+    addDonate();
+
     importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/qrcode.js",function(){
         importScript("https://wuchaolong.github.io/sante/social-share.js/src/js/social-share.js",function(){
     //         var ele = document.querySelector(".share-other");
@@ -1470,7 +1477,6 @@ function loadShare(key){
             }
         });
     });
-    addDonate();
     
     importCSS("https://overtrue.github.io/share.js/dist/css/share.min.css");
 //     ajax("http://api.t.sina.com.cn/short_url/shorten.xml?source=3271760578&url_long=")
