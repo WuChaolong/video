@@ -994,6 +994,7 @@ a.bookmark:active {
   position:absolute;
   left:0;
   right:0;
+  width: 80%;
   /* top: 0; */
   /* bottom: 1em; */
   bottom: 100%;
