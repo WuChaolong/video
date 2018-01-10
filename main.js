@@ -56,7 +56,7 @@ function locationParameterChanged() {
     if(inIframe()){
         document.querySelector(".search-form").style.display = "none";
         document.querySelector("#searchBottom").style.display = "none";
-        if(!mobilecheck){
+        if(!mobilecheck()){
             document.querySelector("#data").classList.add("iniframe");
         }
         
@@ -1521,7 +1521,10 @@ function loadShare(key){
         },"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://wuchaolong.github.io/baiduShare/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
     
     importCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css","awesome");
-    document.querySelector(".nav-index").style.display = "block";
+    if(!inIframe()){
+            document.querySelector(".nav-index").style.display = "block";
+
+    }
 }
 function addDonate(){
     var donateTemplate = document.getElementById("donateTemplate");
