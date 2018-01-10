@@ -978,7 +978,7 @@ a.bookmark:active {
   /* float: right; */
   /* margin-left: -75px; */
   position:relative;
-  margin: 2.5em 0;
+  /* margin: 2.5em 0; */
 }
 #donate iframe{
 /*     box-shadow: 0 0 2px #aaa; */
@@ -995,9 +995,9 @@ a.bookmark:active {
   left:0;
   right:0;
   width: 80%;
-  /* top: 0; */
+  top: 0;
   /* bottom: 1em; */
-  bottom: 100%;
+  /* bottom: 100%; */
   margin:auto;
   color: #555;
   /* text-align: center; */

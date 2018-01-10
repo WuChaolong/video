@@ -137,19 +137,6 @@ function locationParameterChanged() {
     if(config.userLang=="zh-CN"){
          window.tieba=tiebaFetcher(key);
     }
-    
-    if(inIframe()){
-        
-        setDoubanSearch(input.value,function(){
-
-
-            addCoinhive();
-
-            addDonate();
-
-        },"searchBottom");
-        return;
-    }
     setDoubanSearch(input.value,function(){
             
         loadShare(input.value);
@@ -157,6 +144,10 @@ function locationParameterChanged() {
     },"searchBottom");
     loadGoogleEntitie();
 
+    
+    if(inIframe()){
+        return;
+    }
     if(isShowBookmark()){
         addBookmark();
     }
