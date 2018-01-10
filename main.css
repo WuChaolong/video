@@ -12,6 +12,10 @@ img{
     /*     border-left: 1px inset; */
     position: relative;
 }
+
+.passport-baidu{text-align: center;}
+
+.zh-CN .passport-baidu{display:none;}
 #data.iniframe .baidu-video {
       /* margin-left: calc(50% - 375px); */
       width: 750px;
@@ -990,7 +994,7 @@ a.bookmark:active {
   vertical-align:middle;
   
 }
-#donate>span{
+#donate span{
   position:absolute;
   left:0;
   right:0;
@@ -1005,7 +1009,7 @@ a.bookmark:active {
   box-shadow: 0 2px 10px #aaa;
 }
 
-#donate>span:after {
+#donate span:after {
     content: '';
     position: absolute;
     left: 50%;
