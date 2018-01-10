@@ -1433,9 +1433,9 @@ function isItClick(isIt){
     isIt.classList.add("checked");
     var share = document.querySelector(".share-other");
     share.setAttribute("checked",isIt.checked);
-    if(iniframe()){
-        addShare(key);
-    }
+//     if(iniframe()){
+//         addShare(key);
+//     }
 }
 
 function storageItTrue(key,isIt,remove){
@@ -1504,7 +1504,7 @@ function loadShare(key){
     importCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css","awesome");
 
     if(!inIframe()){
-        addShare(key)
+        addShare(key);
         document.querySelector(".nav-index").style.display = "block";
 
     }

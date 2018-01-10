@@ -58,7 +58,7 @@ body{
     box-sizing: border-box;
     z-index: -2;
     overflow-x: hidden;
-    /* background-color: rgba(255,255,255,1); */
+/*     background-color: rgba(255,255,255,1); */
 }
 .search-form{
     /* padding-top: 2em; */
@@ -430,7 +430,7 @@ i.thepiratebay:before{
     /* margin-bottom: 5em; */
     text-align: center;
     box-sizing: border-box;
-    background-color: rgba(255,255,255,.8);
+/*     background-color: rgba(255,255,255,.8); */
     width: 100%;
     /* overflow: auto; */
     /* min-height: 50%; */
@@ -966,7 +966,9 @@ a.bookmark:active {
         font-size: 1.5em;
     }
 }
-
+.coinhive-miner {
+    margin:1em 0;
+}
 #dataIsIt .is-it{
 /*   display:none; */
 }
