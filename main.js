@@ -16,8 +16,8 @@ var config = {
         }
     }
     ,feedback:{
-        "zh-CN":'<a href="#donate" onclick="showAlipay()"><span>反馈意见?赏1分钱,支付宝留言.</span></a>'
-        ,"default":'<a href="#donate" onclick="showPayPal()"><span>Feedback?PayPal message me.</span></a>'
+        "zh-CN":'<a href="#donate" onclick="showAlipay()"><span>反馈问题?支付宝留言我吧.</span></a>'
+        ,"default":'<a href="#donate" onclick="showPayPal()"><span>Feedback?<br/> PayPal leave a message.</span></a>'
         ,string:function(){
             return this[config.userLang]||this.default;
         }
