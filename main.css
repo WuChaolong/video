@@ -437,7 +437,7 @@ i.thepiratebay:before{
     /* overflow-y: scroll; */
     position: relative;
 }
-#searchBottom.doubanList,#searchTop.doubanList{
+#searchTop.doubanList{
   min-height: 50%;
   /* min-height: 100px; */
   position: relative;
@@ -450,8 +450,8 @@ i.thepiratebay:before{
   -o-transform:translateY(-25%); 	/* Opera */
 }
 #searchBottom.doubanList{
-  height: 20em;
-    min-height: initial;
+/*   height: 20em;
+    min-height: initial; */
 }
 .doubanList .loading{
     display:inline-block;
