@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         豆瓣电影 + 资源 || IMDB + Resources
-// @version      2.6
+// @version      2.7
 // @description  找百度网盘和种子不用打开一堆新标签,有的话会直接播放 || Show magnet and pan.baidu.com in movie detail page 
 // @author       WuChaolong
 // @match        *://movie.douban.com/subject/*
@@ -86,7 +86,7 @@ function createElementBy(key){
   <h2><i class="">${config.string(config.source)}</i>
                 
     </h2>
-  <iframe allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  scrolling="no" src="https://wuchaolong.github.io/video/?search=${key}"></iframe>
+  <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  scrolling="no" src="https://wuchaolong.github.io/video/?search=${key}"></iframe>
   <p class="wuchaolong-more">
   <span class="pl"><a href="${url}" target="_blank">${config.string(config.more)}</a></span>
   <link rel="stylesheet" href="http://wuchaolong.github.io/video/douban/greasyfork.css" />
