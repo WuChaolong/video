@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         豆瓣电影 + 资源 || IMDB + Resources 
-// @version      2.0
-// @description  找百度网盘和种子不用打开一堆新标签,有的话会直接播放 || Show magnet and pan.baidu.com resources in movie detail page
+// @name         豆瓣电影 + 资源 || IMDB + Resources
+// @version      2.6
+// @description  找百度网盘和种子不用打开一堆新标签,有的话会直接播放 || Show magnet and pan.baidu.com in movie detail page 
 // @author       WuChaolong
 // @match        *://movie.douban.com/subject/*
 // @match        *://www.imdb.com/title/*
@@ -34,8 +34,8 @@ function whatSite(host){
            }
       }
       ,
-//       'www.imdb.com':{
-      '127.0.0.1:8080':{
+      'www.imdb.com':{
+//       '127.0.0.1:8080':{
            getKey : function(){
               var key = document.querySelector('meta[property="og:title"]').getAttribute('content');
               key = key.split("(");
@@ -89,7 +89,7 @@ function createElementBy(key){
   <iframe allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  scrolling="no" src="https://wuchaolong.github.io/video/?search=${key}"></iframe>
   <p class="wuchaolong-more">
   <span class="pl"><a href="${url}" target="_blank">${config.string(config.more)}</a></span>
-  <link rel="stylesheet" href="http://127.0.0.1:8080/video/douban/greasyfork.css" />
+  <link rel="stylesheet" href="http://wuchaolong.github.io/video/douban/greasyfork.css" />
 
   </div>
   `);
