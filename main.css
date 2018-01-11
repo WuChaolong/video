@@ -449,6 +449,10 @@ i.thepiratebay:before{
   -webkit-transform:translateY(-25%); /* Safari 和 Chrome */
   -o-transform:translateY(-25%); 	/* Opera */
 }
+#searchBottom.doubanList{
+  height: 20em;
+    min-height: initial;
+}
 .doubanList .loading{
     display:inline-block;
     min-width:110px;

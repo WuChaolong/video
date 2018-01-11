@@ -55,7 +55,7 @@ function locationParameterChanged() {
 
     if(inIframe()){
         document.querySelector(".search-form").style.display = "none";
-        document.querySelector("#searchBottom").style.display = "none";
+//         document.querySelector("#searchBottom").style.display = "none";
         if(!mobilecheck()){
             document.querySelector("#data").classList.add("iniframe");
         }
@@ -1502,9 +1502,8 @@ function loadShare(key){
     
     addDonate();
     importCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css","awesome");
-
+    addShare(key);
     if(!inIframe()){
-        addShare(key);
         document.querySelector(".nav-index").style.display = "block";
 
     }
