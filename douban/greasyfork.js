@@ -105,6 +105,8 @@ function whatSite(host){
                     </div>
                     <div class="wl-ribbon poster not-inWL" style="
                       background-image: url(https://yun.baidu.com/res/static/images/favicon.ico);
+                      background-position: center;
+                      background-size: 70% auto;
                   "></div></a>`);
               return elementBy(html);
             }
