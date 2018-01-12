@@ -37,14 +37,14 @@ function whatSite(host){
               return whatSite('movie.douban.com').getKey();
            }
            ,insert:function(element){
-              var aside = document.querySelector(".type-list");
-              aside.appendChild(element, aside.childNodes[0]);
+              var aside = document.querySelector(".card");
+              aside.insertBefore(element, aside.querySelector(".subject-intro"));
               
            }
            ,createElement:function(key){
               var url = getWuchaolongUrl(key);
               var text = key+" in pan.baidu sharing";
-              var html = (dedent  `<li style="width: 93%;padding-left: 2px;"><a target="_blank" href="${url}" title="${text}">${text}<span></span></a></li>`);
+              var html = (dedent  `<section style="margin-top: -20px;" class="subject-mark"><div class="mark-item"><a target="_blank" href="${url}" title="${text}">${text}</a></div></section>`);
               return elementBy(html);
            }
       }
@@ -88,21 +88,24 @@ function whatSite(host){
               return whatSite('www.imdb.com').getKey();
            }
            ,insert:function(element){
-              var aside = document.querySelector("footer");
-              aside.insertBefore(element, aside.childNodes[0]);
+              var aside = document.querySelector("#titleOverview");
+              aside.insertBefore(element,aside.querySelector('[class="media"]+hr'));
               
            }
            ,createElement:function (key){
               var url = getWuchaolongUrl(key);
               var text = key+" in pan.baidu sharing";
-              var html = (dedent  `<div class="link-bar">
-              <a target="_blank" href="${url}" title="${text}" class="supplemental">
-                  <h3>
-                        <span class="mobile-sprite logo-imdb retina"></span>
-                    ${text}
-                  </h3>
-              </a>
-              </div>`);
+              var html = (dedent  `<a class="full-wl-button ribbonize" target="_blank" href="${url}" title="${text}">
+                  <div class="wl-ribbon fullsize not-inWL">
+                  <div class="container"><span style="
+                      color: white;
+                      padding-left: 17px;
+                  ">${text}
+                  </div>
+                    </div>
+                    <div class="wl-ribbon poster not-inWL" style="
+                      background-image: url(https://yun.baidu.com/res/static/images/favicon.ico);
+                  "></div></a>`);
               return elementBy(html);
             }
       }
