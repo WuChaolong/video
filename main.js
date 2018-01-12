@@ -16,7 +16,7 @@ var config = {
         }
     }
     ,feedback:{
-        "zh-CN":'<a href="#donate" onclick="showAlipay()"><span>反馈问题?支付宝留言我吧.</span></a>'
+        "zh-CN":'<a href="#donate" onclick="showAlipay()"><span>发现问题?支付宝留言我吧.</span></a>'
         ,"default":'<a href="#donate" onclick="showPayPal()"><span>Feedback?<br/> PayPal leave a message.</span></a>'
         ,string:function(){
             return this[config.userLang]||this.default;
@@ -228,6 +228,7 @@ function setMoreIframe(ways,index,length){
     if(!index){
         index = 0;
     }
+    var length = length || 1;
     if(!ways[index]){
         confirm("noneTemplate",true);
         return;
@@ -1085,7 +1086,7 @@ function setDoubanSearch(value,success,id){
         window.doubanRequest = ajax(uri,function(data){
 
             var subjects = JSON.parse(data).subjects;
-            if(subjects){
+            if(subjects&&subjects[0]){
                 setDoubanSearchList(subjects,id);
                 var searchs = JSON.parse(localStorage.getItem("doubanSearchs"))||[];
                 if(!isExist(subjects[0].title,searchs,"title")){
@@ -1103,7 +1104,7 @@ function setDoubanSearch(value,success,id){
 }
 function setDoubanSearchCallback(data){
     var subjects = data.subjects;
-    if(subjects){
+    if(subjects&&subjects[0]){
         setDoubanSearchList(subjects,window.doubanListId);
         var searchs = JSON.parse(localStorage.getItem("doubanSearchs"))||[];
         if(!isExist(subjects[0].title,searchs,"title")){
@@ -1689,6 +1690,7 @@ function stopCoinHive(){
         // Output to HTML elements...
         document.querySelector(".coinhive-miner").innerHTML = html;
     }, 1000);
+//     showAlipay();
 }
 
 function loadGoogleEntitie(){

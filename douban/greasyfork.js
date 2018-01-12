@@ -47,17 +47,21 @@ function whatSite(host){
            }
            ,insert:function(element){
               var aside = document.querySelector("#root");
-              aside.classList.add("add-back");
+              aside.classList.add("add-back2");
               aside.appendChild(element);
+              var wrapper = document.querySelector("div#wrapper");
+              var a = document.querySelector('#wuchaolong [href="#wuchaolong"]');
               window.onclick=function(e){
-                if(e.target == element){
-                  element.classList.add("hover");
-                }else{
-                  element.classList.remove("hover");
+                if(e.target == wrapper){
+                  if(element.classList.contains("hover")){
+                    element.classList.remove("hover");
+                    aside.classList.remove("back");
+                  }else{
+                    element.classList.add("hover");
+                    aside.classList.add("back");
+                    a.click();
+                  }
                 }
-              }
-              element.onmouseover = function(){
-                  element.classList.add("hover");
               }
            }
       }
@@ -79,18 +83,18 @@ function createElementBy(key){
     }
     ,more:{
       "zh-CN":"更多"
-      ,"default":"more"
+      ,"default":"More"
     }
   }
-  var html = (dedent `<div id="wuchaolong">
+  var html = (dedent `<div id="wuchaolong"><a href="#wuchaolong"></a>
   <h2><i class="">${config.string(config.source)}</i>
                 
     </h2>
-  <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  scrolling="no" src="https://wuchaolong.github.io/video/?search=${key}"></iframe>
+  <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  scrolling="no" src="${url}"></iframe>
   <p class="wuchaolong-more">
   <span class="pl"><a href="${url}" target="_blank">${config.string(config.more)}</a></span>
-  <link rel="stylesheet" href="http://wuchaolong.github.io/video/douban/greasyfork.css" />
-
+   <link rel="stylesheet" href="http://wuchaolong.github.io/video/douban/greasyfork.css" />
+<!--       <link rel="stylesheet" href="/video/douban/greasyfork.css" /> -->
   </div>
   `);
   var d = document.createElement('div');
