@@ -1,23 +1,19 @@
 // ==UserScript==
 // @name         豆瓣电影 + 资源 || IMDB + Resources
-// @version      2.7
+// @version      3
 // @description  找百度网盘和种子不用打开一堆新标签,有的话会直接播放 || Show magnet and pan.baidu.com in movie detail page 
 // @author       WuChaolong
 // @match        *://movie.douban.com/subject/*
-// @match        *://www.imdb.com/title/*
+// @match        *://*.imdb.com/title/*
+// @match        *://m.douban.com/movie/subject/*
 
 // ==/UserScript==
 
 ;(function() {
-
-
 var site = whatSite(location.host);
 var key = site.getKey();
-var element = createElementBy(key);
+var element = site.createElement(key);
 site.insert(element);
-
-
-
 
 function whatSite(host){
   var config = {
@@ -31,6 +27,25 @@ function whatSite(host){
            ,insert:function(element){
               var aside = document.querySelector(".aside");
               aside.insertBefore(element, document.getElementById("subject-others-interests"));
+           }
+           ,createElement:createElementBy
+      }
+      ,
+      'm.douban.com':{
+//       '127.0.0.1:8080':{
+           getKey : function(){
+              return whatSite('movie.douban.com').getKey();
+           }
+           ,insert:function(element){
+              var aside = document.querySelector(".type-list");
+              aside.appendChild(element, aside.childNodes[0]);
+              
+           }
+           ,createElement:function(key){
+              var url = getWuchaolongUrl(key);
+              var text = key+" in pan.baidu sharing";
+              var html = (dedent  `<li style="width: 93%;padding-left: 2px;"><a target="_blank" href="${url}" title="${text}">${text}<span></span></a></li>`);
+              return elementBy(html);
            }
       }
       ,
@@ -49,9 +64,8 @@ function whatSite(host){
               var aside = document.querySelector("#root");
               aside.classList.add("add-back2");
               aside.appendChild(element);
-              var wrapper = document.querySelector("div#wrapper");
-              var a = document.querySelector('#wuchaolong [href="#wuchaolong"]');
               window.onclick=function(e){
+                var wrapper = document.querySelector("div#wrapper");
                 if(e.target == wrapper){
                   if(element.classList.contains("hover")){
                     element.classList.remove("hover");
@@ -59,19 +73,49 @@ function whatSite(host){
                   }else{
                     element.classList.add("hover");
                     aside.classList.add("back");
+                    var a = document.querySelector('#wuchaolong [href="#wuchaolong"]');
                     a.click();
                   }
                 }
               }
            }
+           ,createElement:createElementBy
+      }
+      ,
+      'm.imdb.com':{
+//       '127.0.0.1:8080':{
+           getKey : function(){
+              return whatSite('www.imdb.com').getKey();
+           }
+           ,insert:function(element){
+              var aside = document.querySelector("footer");
+              aside.insertBefore(element, aside.childNodes[0]);
+              
+           }
+           ,createElement:function (key){
+              var url = getWuchaolongUrl(key);
+              var text = key+" in pan.baidu sharing";
+              var html = (dedent  `<div class="link-bar">
+              <a target="_blank" href="${url}" title="${text}" class="supplemental">
+                  <h3>
+                        <span class="mobile-sprite logo-imdb retina"></span>
+                    ${text}
+                  </h3>
+              </a>
+              </div>`);
+              return elementBy(html);
+            }
       }
 
    };
    return config[host]
 }
+function getWuchaolongUrl(key){
+  return (dedent `https://wuchaolong.github.io/video/?search=${key}`);
+}
 
 function createElementBy(key){
-  var url = (dedent `https://wuchaolong.github.io/video/?search=${key}`);
+  var url = getWuchaolongUrl(key);
   var config = {
     userLang:navigator.language || navigator.userLanguage
     ,string:function(text){
@@ -93,10 +137,14 @@ function createElementBy(key){
   <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  scrolling="no" src="${url}"></iframe>
   <p class="wuchaolong-more">
   <span class="pl"><a href="${url}" target="_blank">${config.string(config.more)}</a></span>
-   <link rel="stylesheet" href="http://wuchaolong.github.io/video/douban/greasyfork.css" />
+   <link rel="stylesheet" href="https://wuchaolong.github.io/video/douban/greasyfork.css" />
 <!--       <link rel="stylesheet" href="/video/douban/greasyfork.css" /> -->
   </div>
   `);
+  return elementBy(html);
+}
+
+function elementBy(html){
   var d = document.createElement('div');
   d.innerHTML = html;
   return d.childNodes[0];
