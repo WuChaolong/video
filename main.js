@@ -1542,7 +1542,12 @@ function addDonate(){
     donateD.innerHTML = spanHtml+donateTemplate.innerHTML;
 //     donateD.querySelector("span").click();
     donateTemplate = donateD = null;
-
+    if(config.userLang=="zh-CN"){
+        var iframe = document.querySelector("#donate iframe");
+        iframe.onload = function() {
+            showAlipay();
+        }
+    }
 
     
 }
