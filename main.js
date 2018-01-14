@@ -1539,7 +1539,7 @@ function addDonate(){
     var donateTemplate = document.getElementById("donateTemplate");
     var donateD = document.getElementById("donate");
     var spanHtml = config.feedback.string();
-    donateD.innerHTML = donateTemplate.innerHTML+spanHtml;
+    donateD.innerHTML = spanHtml+donateTemplate.innerHTML;
 //     donateD.querySelector("span").click();
     donateTemplate = donateD = null;
 
