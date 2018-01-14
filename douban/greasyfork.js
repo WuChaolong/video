@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         豆瓣电影 + 资源 || IMDB + Resources
+// @name         ! 豆瓣电影 + 资源 || IMDB + Resources
 // @version      3
 // @description  找百度网盘和种子不用打开一堆新标签,有的话会直接播放 || Show magnet and pan.baidu.com in movie detail page 
 // @author       WuChaolong

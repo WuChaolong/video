@@ -664,7 +664,7 @@ function isExist(url,videos,key){
     for(var i=0;i<videos.length;i++){
         var key = key || "url";
         if(videos[i][key]==url){
-            return true;
+            return {i:i};
         }
     }
     return false;
@@ -1124,12 +1124,16 @@ function setDoubanSearchCallback(data){
     if(subjects&&subjects[0]){
         setDoubanSearchList(subjects,window.doubanListId);
         var searchs = JSON.parse(localStorage.getItem("doubanSearchs"))||[];
-        if(!isExist(subjects[0].title,searchs,"title")){
+        var indexO = isExist(subjects[0].title,searchs,"title");
+        if(!indexO){
             searchs.unshift(subjects[0]);
             searchs.length = searchs.length>20?20:searchs.length;
-            searchs = JSON.stringify(searchs);
-            localStorage.setItem("doubanSearchs",searchs);
+            
+        }else{
+            searchs.move(indexO.i,0);
         }
+        searchs = JSON.stringify(searchs);
+        localStorage.setItem("doubanSearchs",searchs);
         subjects=searchs=data=null;
     }
 }
