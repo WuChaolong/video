@@ -14,7 +14,7 @@ var config = {
         }
     }
     ,feedback:{
-        "zh-CN":'<a href="#donate" onclick="showAlipay()"><span><img src="img/hb.jpg"/>红包不用浪费,赏我吧</span></a>'
+        "zh-CN":'<a href="#donate" onclick="showAlipay()"><span><img src="img/hb.jpg"/>红包赏给超龙吧,将感激不尽</span></a>'
         ,"default":'<a href="#donate" onclick="showPayPal()"><span>Feedback?<br/> PayPal leave a message.</span></a>'
         ,string:function(){
             return this[config.userLang]||this.default;
@@ -133,24 +133,23 @@ function locationParameterChanged() {
     }
 //     setMagnetTech();
 }
-function setHeight(input,height){
-        if(!input.animate){
-            set();
-        }else{
-            input.style.transition="initial";
-            input.animate([
-              // keyframes
-              { height: height }
-            ], { 
-              // timing options
-              duration: 200,
-              iterations: 1
-            });
-            setTimeout(set,200);
-        }
-        function set(){
-            input.style.height = height;
-        }
+function setHeight(input,height,isTransition){
+    if(isTransition){
+        input.style.height = height;
+    }else if(input.animate){
+        input.style.transition="initial";
+        input.animate([
+          // keyframes
+          { height: height }
+        ], { 
+          // timing options
+          duration: 200,
+          iterations: 1
+        });
+        setTimeout(setHeight(input,height,true),200);
+    }else{
+        setHeight(input,height,true);
+    }
 }
 
 function setFontSize(input,maxLength,fontSize){
@@ -1564,12 +1563,12 @@ function addDonate(){
     donateD.innerHTML = spanHtml+donateTemplate.innerHTML;
 //     donateD.querySelector("span").click();
     donateTemplate = donateD = null;
-//     if(config.userLang=="zh-CN"){
-//         var iframe = document.querySelector("#donate iframe");
-//         iframe.onload = function() {
-//             showAlipay();
-//         }
-//     }
+    if(config.userLang=="zh-CN"){
+        var iframe = document.querySelector("#donate iframe");
+        iframe.onload = function() {
+            showAlipay();
+        }
+    }
 
     
 }
