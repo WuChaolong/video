@@ -134,21 +134,26 @@ function locationParameterChanged() {
 //     setMagnetTech();
 }
 function setHeight(input,height,isTransition){
-    if(isTransition){
+    try{
+        if(input.animate){
+            input.style.transition="initial";
+            input.animate([
+              // keyframes
+              { height: height }
+            ], { 
+              // timing options
+              duration: 200,
+              iterations: 1
+            });
+            setTimeout(set,200);
+        }else{
+            set();
+        }
+    }catch(e){
+        set();
+    }
+    function set(){
         input.style.height = height;
-    }else if(input.animate){
-        input.style.transition="initial";
-        input.animate([
-          // keyframes
-          { height: height }
-        ], { 
-          // timing options
-          duration: 200,
-          iterations: 1
-        });
-        setTimeout(setHeight(input,height,true),200);
-    }else{
-        setHeight(input,height,true);
     }
 }
 
