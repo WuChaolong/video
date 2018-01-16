@@ -14,7 +14,7 @@ var config = {
         }
     }
     ,feedback:{
-        "zh-CN":'<a href="#donate" onclick="showAlipay()"><span><img src="img/hb.jpg"/>红包赏给超龙吧,将感激不尽</span></a>'
+        "zh-CN":'<a href="#donate" onclick="showAlipay()"><span><img src="img/hb.jpg"/>领后赏给超龙吧将非常感激</span></a>'
         ,"default":'<a href="#donate" onclick="showPayPal()"><span>Feedback?<br/> PayPal leave a message.</span></a>'
         ,string:function(){
             return this[config.userLang]||this.default;
@@ -1159,7 +1159,7 @@ function setDoubanSearchList(subjects,id,islocal){
             }
         }
         if(true&&!islocal){
-                    html += '<a target="_blank" href="https://movie.douban.com/annual/2017" class="movieannual2017"></a>';
+//                     html += '<a target="_blank" href="https://movie.douban.com/annual/2017" class="movieannual2017"></a>';
 
         }
 
@@ -1193,26 +1193,6 @@ function setDoubanTop(tab,isLazy,success){
     var random = parseInt(Math.random()*230);
     var api = "https://api.douban.com/v2/movie/top250?apikey=0df993c66c0c636e29ecbb5344252a4a&start="+random+"&&callback=setDoubanTopCallback";
     window.doubanRequest = importScript(api,success);
-
-//     var uri = config.nodeUrl+"cross?api="+api;
-//     window.doubanRequest = ajax(uri,function(data){
-//         var html  = "";
-//         var subjects = JSON.parse(data).subjects;
-//         var value = config.key;
-//         for(var i = 0;i<subjects.length;i++){
-//             var subject = subjects[i];
-
-//             var title = (config.userLang=="zh-CN")?subjects[i].title:subjects[i].original_title;
-//             html += searchToHtml(title,subjects[i].images.medium);
-            
-//         }
-// //         html += '<a target="_blank" href="https://movie.douban.com/top250" class="douban-more icon-douban">Top 250<i>﹀</i></a>';
-//         html += '<a target="_blank" href="https://movie.douban.com/annual/2017" class="movieannual2017"></a>';
-//         doubanListD.innerHTML+=html;
-//         doubanListD.classList.add("doubanList");
-//         data=html=subjects=doubanListD=null;
-//         success();
-//     });
 }
 
 function setDoubanTopCallback(data){
@@ -1568,12 +1548,12 @@ function addDonate(){
     donateD.innerHTML = spanHtml+donateTemplate.innerHTML;
 //     donateD.querySelector("span").click();
     donateTemplate = donateD = null;
-    if(config.userLang=="zh-CN"){
-        var iframe = document.querySelector("#donate iframe");
-        iframe.onload = function() {
-            showAlipay();
-        }
-    }
+//     if(config.userLang=="zh-CN"){
+//         var iframe = document.querySelector("#donate iframe");
+//         iframe.onload = function() {
+//             showAlipay();
+//         }
+//     }
 
     
 }

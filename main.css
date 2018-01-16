@@ -966,6 +966,11 @@ a.bookmark:active {
       opacity: 1;
       filter: alpha(opacity=100);
       visibility: visible;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    .social-share .icon-wechat .wechat-qrcode h4{
+      /* display:inline-block; */
     }
     #progressGroup {
         font-size: 1.5em;
