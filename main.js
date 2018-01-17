@@ -14,7 +14,7 @@ var config = {
         }
     }
     ,feedback:{
-        "zh-CN":'<a href="#donate" onclick="showAlipay()"><span><img src="img/hb.jpg"/>领后赏给超龙吧将非常感激</span></a>'
+        "zh-CN":'<a href="#donate" onclick="showAlipay()"><span><img src="img/hb.jpg"/>非常感谢领后赏给超龙的</span></a>'
         ,"default":'<a href="#donate" onclick="showPayPal()"><span>Feedback?<br/> PayPal leave a message.</span></a>'
         ,string:function(){
             return this[config.userLang]||this.default;

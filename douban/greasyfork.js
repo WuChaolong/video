@@ -7,6 +7,25 @@
 // @match        *://*.imdb.com/title/*
 // @match        *://m.douban.com/movie/subject/*
 
+// @match    *://*.iqiyi.com/*
+// @match    *://*.youku.com/*
+// @match    *://*.le.com/*
+// @match    *://*.letv.com/*
+// @match    *://v.qq.com/*
+// @match    *://*.tudou.com/*
+// @match    *://*.mgtv.com/*
+// @match    *://film.sohu.com/*
+// @match    *://tv.sohu.com/*
+// @match    *://*.acfun.cn/v/*
+// @match    *://*.bilibili.com/*
+// @match    *://vip.1905.com/play/*
+// @match    *://*.pptv.com/*
+// @match    *://v.yinyuetai.com/video/*
+// @match    *://v.yinyuetai.com/playlist/*
+// @match    *://*.fun.tv/vplay/*
+// @match    *://*.wasu.cn/Play/show/*
+// @match    *://*.56.com/*
+
 // ==/UserScript==
 
 ;(function() {
@@ -16,6 +35,7 @@ var element = site.createElement(key);
 site.insert(element);
 
 function whatSite(host){
+  
   var config = {
       'movie.douban.com':{
 //       '127.0.0.1:8080':{
@@ -104,17 +124,69 @@ function whatSite(host){
                   </div>
                     </div>
                     <div class="wl-ribbon poster not-inWL" style="
-                      background-image: url(https://yun.baidu.com/res/static/images/favicon.ico);
+                      background-image: url(https://wuchaolong.github.io/video/img/logo.png);
                       background-position: center;
                       background-size: 70% auto;
                   "></div></a>`);
               return elementBy(html);
             }
       }
+      ,"黄盐host":{
+//       ,'127.0.0.1:8080':{
+            getKey:function(){
+              var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
+              return document.title.split(pattern)[0].split(/\s|电视剧|电影/)[0];
+            }
+            ,insert:function(element){
+                try{
+                  var aside = document.querySelector("#TMHYul");
+                  aside.appendChild(element);
+                }catch(e){
+                  var div = this["create黄盐Element"]();
+                  div.querySelector("#TMHYul").appendChild(element);
+                  document.body.appendChild(div);
+//                   ajaxScript("https://raw.githubusercontent.com/woolition/greasyforks/master/hackVipVideosSet/破解VIP会员视频集合.user.js",function(script){
+//                       try{eval(script);}catch(e){
+//                         console.log(e);
+//                       }
+//                       whatSite('黄盐host').insert(element);
+//                   });
+                }
+            }
+            ,createElement:function (key){
+              var url = getWuchaolongUrl(key);
+              var text = key+" in pan.baidu sharing";
+              var html = (dedent  `<li class="TM1"><a target="_blank"  href="${url}" title="${text}"><span id="TMSet"><img width="100%" src="https://wuchaolong.github.io/video/img/logo.png"/>
+                  </span></a></li>`);
+              return elementBy(html);
+            }
+            ,"create黄盐Element":function(){
+              var html = `<div><style>#TMHYul { position: fixed; top: 5em; left: 0; padding: 0; z-index: 999999; } .TM1 { opacity: 0.3; position: relative; padding-right: .5em; width: 1.5em; cursor: pointer; list-style: none; } .TM1:hover { opacity: 1; } .TM1 span { display: block; border-radius: 0 .3em .3em 0; background-color: #ffff00; border: 0; font: bold 1em "微软雅黑"!important; color: #ff0000; margin: 0; padding: 1em .3em; } </style> <ul id="TMHYul"></ul></div>`;
+
+              return elementBy(html);
+            }
+      }
 
    };
-   return config[host]
+   return config[host]||config["黄盐host"];
 }
+
+// function ajaxScript(sSrc, fOnload,error){
+//         var sSrc = "https://charon-node.herokuapp.com/fetch?npm=node-fetch&api="+sSrc;
+//         var request = new XMLHttpRequest();
+//         request.open("get", sSrc);
+//         request.send(null);
+//         request.onload = fOnload;
+//         request.onload = function(e) {
+//             if (this.status == 200) {
+//                     fOnload(this.response,error);
+//             }else{
+//               error();
+//             }
+//         };
+//         request.onerror = error;
+// }
+
 function getWuchaolongUrl(key){
   return (dedent `https://wuchaolong.github.io/video/?search=${key}`);
 }
@@ -167,9 +239,5 @@ function dedent(strings, ...values) {
   }
   return result;
 }
-
-
-
-
 
 })()

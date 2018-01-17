@@ -305,7 +305,7 @@ code{
 
 progress{
     -webkit-appearance: none;
-    height: .8em;
+    height: .7em;
     width: 5em;
     vertical-align: inherit;
 }
@@ -1104,6 +1104,10 @@ a.movieannual2017:after,ad:after{
 	margin-right: auto;
 	left: 0;
 	right: 0;
+	/* background-image: url(img/logo.png); */
+	background-position: 0 center;
+	background-size: auto 50%;
+	background-repeat: no-repeat;
 }
 .googleList{
   
@@ -1118,4 +1122,15 @@ footer .nav-index{
   margin:auto;
   display:block;
   
+}
+footer .nav-index:before{
+  content:" ";
+  width:1em;
+  height:1em;
+  display:inline-block;
+  background-image: url(img/logo.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin: .5em;
+  vertical-align: middle;
 }
