@@ -34,7 +34,11 @@
 var site = whatSite(location.host);
 var key = site.getKey();
 var element = site.createElement(key);
-site.insert(element);
+if(isExist()) {
+  isExist() = element;
+}else{
+  site.insert(element);
+}
 
 function whatSite(host){
   var icon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAS1BMVEX////ycnLyampuu25muGby8nLy8mrl5eXk5OT8DAz8/AzPz8/z8zONvY3Nzc3d3d3b29v/AAAMnAwAmQD//wDMzMz19SmIu4j///+ks1oiAAAAEXRSTlMAwMfg5cDHgIj+/vD7/v7AxxKKtKIAAAABYktHRACIBR1IAAAACW9GRnMAAAEtAAABagBZv0KIAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAB3RJTUUH4gERCw82Bupv1AAAAAl2cEFnAAADGgAABGMAz64W0QAAAItJREFUaN7t2UkKgEAQBEF13Pfd///UQ4n0YQRBBIXMYzEaD+ggIPpZYaRCO7pYObMlqUrswyxX2TVQDKqw4zip0WzlrEr7sFpUBQAAAAAAAAAAAHBWr6p+C/D+CwAAAAAAAAAA4BnQbKp5C2iP71oAAAAAAAAAAID/AN6Ddderzmze2/SNgzXRJ9sBPp3K24JPMHQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTgtMDEtMTdUMTk6MTQ6NDIrMDg6MDBqGWm5AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE4LTAxLTE3VDE5OjE0OjQyKzA4OjAwG0TRBQAAAABJRU5ErkJggg=="
@@ -58,7 +62,7 @@ function whatSite(host){
            ,createElement:function(key){
               var url = getWuchaolongUrl(key);
               var text = key+" in pan.baidu sharing";
-              var html = (dedent  `<section style="margin-top: -20px;" class="subject-mark"><div class="mark-item"><a target="_blank" href="${url}" title="${text}"><img src="${icon}" style="max-width:1.5em;vertical-align: middle;"/>${text}</a></div></section>`);
+              var html = (dedent  `<section id="wuchaolong" style="margin-top: -20px;" class="subject-mark"><div class="mark-item"><a target="_blank" href="${url}" title="${text}"><img src="${icon}" style="max-width:1.5em;vertical-align: middle;"/>${text}</a></div></section>`);
               return elementBy(html);
            }
       }
@@ -97,7 +101,7 @@ function whatSite(host){
            ,createElement:function (key){
               var url = getWuchaolongUrl(key);
               var text = key+" in pan.baidu sharing";
-              var html = (dedent  `<a class="full-wl-button ribbonize" target="_blank" href="${url}" title="${text}">
+              var html = (dedent  `<a id="wuchaolong" class="full-wl-button ribbonize" target="_blank" href="${url}" title="${text}">
                   <div class="wl-ribbon fullsize not-inWL">
                   <div class="container"><span style="
                       color: white;
@@ -134,7 +138,7 @@ function whatSite(host){
             ,createElement:function (key){
               var url = getWuchaolongUrl(key);
               var text = key+" in pan.baidu sharing";
-              var html = (dedent  `<li class="TM1"><a target="_blank"  href="${url}" title="${text}"><span id="TMSet"><img width="100%" src="${icon}"/>
+              var html = (dedent  `<li class="TM1" id="wuchaolong"><a target="_blank"  href="${url}" title="${text}"><span id="TMSet"><img width="100%" src="${icon}"/>
                   </span></a></li>`);
               return elementBy(html);
             }
@@ -181,6 +185,9 @@ function whatSite(host){
       return elementBy(html);
     }
 
+}
+function isExist(){
+  return document.getElementById("wuchaolong");
 }
 function getKey(){
 //   var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
