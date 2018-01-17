@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         ! 豆瓣电影 + 资源 || IMDB + Resources
-// @version      3
-// @description  找百度网盘和种子不用打开一堆新标签,有的话会直接播放 || Show magnet and pan.baidu.com in movie detail page 
+// @name         ! 豆瓣电影 + 资源 |!' IMDB + Resources |!' 当Vip视频破解失败怎么办
+// @version      4
+// @description  找百度网盘和种子不用打开一堆新标签,有的话会直接播放 |!' Show magnet and pan.baidu.com in movie detail page |!' +=黄岩Style
 // @author       WuChaolong
 // @match        *://movie.douban.com/subject/*
 // @match        *://*.imdb.com/title/*
@@ -161,7 +161,7 @@ function whatSite(host){
               return elementBy(html);
             }
             ,"create黄盐Element":function(){
-              var html = `<div><style>#TMHYul { position: fixed; top: 5em; left: 0; padding: 0; z-index: 999999; } .TM1 { opacity: 0.3; position: relative; padding-right: .5em; width: 1.5em; cursor: pointer; list-style: none; } .TM1:hover { opacity: 1; } .TM1 span { display: block; border-radius: 0 .3em .3em 0; background-color: #ffff00; border: 0; font: bold 1em "微软雅黑"!important; color: #ff0000; margin: 0; padding: 1em .3em; } </style> <ul id="TMHYul"></ul></div>`;
+              var html = `<div><style>#TMHYul { position: fixed; top: 15em; left: 0; padding: 0; z-index: 999999; } .TM1 { opacity: 0.3; position: relative; padding-right: .5em; width: 1.5em; cursor: pointer; list-style: none; } .TM1:hover { opacity: 1; } .TM1 span { display: block; border-radius: 0 .3em .3em 0; background-color: #ffff00; border: 0; font: bold 1em "微软雅黑"!important; color: #ff0000; margin: 0; padding: 1em .3em; } </style> <ul id="TMHYul"></ul></div>`;
 
               return elementBy(html);
             }
