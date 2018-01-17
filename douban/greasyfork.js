@@ -1,8 +1,10 @@
 // ==UserScript==
-// @name         ! 豆瓣电影 + 资源 |!' IMDB + Resources |!' 当Vip视频破解失败怎么办
+// @name         ! 豆瓣电影 + 百度网盘 |!' IMDB + Magnet |!' 当破解VIP会员视频失败怎么办
 // @version      4
-// @description  找百度网盘和种子不用打开一堆新标签,有的话会直接播放 |!' Show magnet and pan.baidu.com in movie detail page |!' +=黄岩Style
+// @description  不用打开一堆新标签,有的话会直接播放 |!' Show magnet and pan.baidu.com in movie detail page |!' 兼容黄岩Style
 // @author       WuChaolong
+// @icon         data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAS1BMVEX////ycnLyampuu25muGby8nLy8mrl5eXk5OT8DAz8/AzPz8/z8zONvY3Nzc3d3d3b29v/AAAMnAwAmQD//wDMzMz19SmIu4j///+ks1oiAAAAEXRSTlMAwMfg5cDHgIj+/vD7/v7AxxKKtKIAAAABYktHRACIBR1IAAAACW9GRnMAAAEtAAABagBZv0KIAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAB3RJTUUH4gERCw82Bupv1AAAAAl2cEFnAAADGgAABGMAz64W0QAAAItJREFUaN7t2UkKgEAQBEF13Pfd///UQ4n0YQRBBIXMYzEaD+ggIPpZYaRCO7pYObMlqUrswyxX2TVQDKqw4zip0WzlrEr7sFpUBQAAAAAAAAAAAHBWr6p+C/D+CwAAAAAAAAAA4BnQbKp5C2iP71oAAAAAAAAAAID/AN6Ddderzmze2/SNgzXRJ9sBPp3K24JPMHQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTgtMDEtMTdUMTk6MTQ6NDIrMDg6MDBqGWm5AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE4LTAxLTE3VDE5OjE0OjQyKzA4OjAwG0TRBQAAAABJRU5ErkJggg==
+
 // @match        *://movie.douban.com/subject/*
 // @match        *://*.imdb.com/title/*
 // @match        *://m.douban.com/movie/subject/*
@@ -35,16 +37,11 @@ var element = site.createElement(key);
 site.insert(element);
 
 function whatSite(host){
-  
+  var icon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAS1BMVEX////ycnLyampuu25muGby8nLy8mrl5eXk5OT8DAz8/AzPz8/z8zONvY3Nzc3d3d3b29v/AAAMnAwAmQD//wDMzMz19SmIu4j///+ks1oiAAAAEXRSTlMAwMfg5cDHgIj+/vD7/v7AxxKKtKIAAAABYktHRACIBR1IAAAACW9GRnMAAAEtAAABagBZv0KIAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAB3RJTUUH4gERCw82Bupv1AAAAAl2cEFnAAADGgAABGMAz64W0QAAAItJREFUaN7t2UkKgEAQBEF13Pfd///UQ4n0YQRBBIXMYzEaD+ggIPpZYaRCO7pYObMlqUrswyxX2TVQDKqw4zip0WzlrEr7sFpUBQAAAAAAAAAAAHBWr6p+C/D+CwAAAAAAAAAA4BnQbKp5C2iP71oAAAAAAAAAAID/AN6Ddderzmze2/SNgzXRJ9sBPp3K24JPMHQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTgtMDEtMTdUMTk6MTQ6NDIrMDg6MDBqGWm5AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE4LTAxLTE3VDE5OjE0OjQyKzA4OjAwG0TRBQAAAABJRU5ErkJggg=="
   var config = {
       'movie.douban.com':{
 //       '127.0.0.1:8080':{
-           getKey : function(){
-              var key = document.querySelector('meta[name="keywords"]').getAttribute('content');
-              key = key.split(",")[0];
-              return key;
-           }
-           ,insert:function(element){
+           insert:function(element){
               var aside = document.querySelector(".aside");
               aside.insertBefore(element, document.getElementById("subject-others-interests"));
            }
@@ -53,10 +50,7 @@ function whatSite(host){
       ,
       'm.douban.com':{
 //       '127.0.0.1:8080':{
-           getKey : function(){
-              return whatSite('movie.douban.com').getKey();
-           }
-           ,insert:function(element){
+           insert:function(element){
               var aside = document.querySelector(".card");
               aside.insertBefore(element, aside.querySelector(".subject-intro"));
               
@@ -64,23 +58,14 @@ function whatSite(host){
            ,createElement:function(key){
               var url = getWuchaolongUrl(key);
               var text = key+" in pan.baidu sharing";
-              var html = (dedent  `<section style="margin-top: -20px;" class="subject-mark"><div class="mark-item"><a target="_blank" href="${url}" title="${text}">${text}</a></div></section>`);
+              var html = (dedent  `<section style="margin-top: -20px;" class="subject-mark"><div class="mark-item"><a target="_blank" href="${url}" title="${text}"><img src="${icon}" style="max-width:1.5em;vertical-align: middle;"/>${text}</a></div></section>`);
               return elementBy(html);
            }
       }
       ,
       'www.imdb.com':{
 //       '127.0.0.1:8080':{
-           getKey : function(){
-              var key = document.querySelector('meta[property="og:title"]').getAttribute('content');
-              key = key.split("(");
-              if(key.length>1){
-                key.length = key.length - 1;
-              }
-              key = key.join("(");
-              return key;
-           }
-           ,insert:function(element){
+           insert:function(element){
               var aside = document.querySelector("#root");
               aside.classList.add("add-back2");
               aside.appendChild(element);
@@ -104,10 +89,7 @@ function whatSite(host){
       ,
       'm.imdb.com':{
 //       '127.0.0.1:8080':{
-           getKey : function(){
-              return whatSite('www.imdb.com').getKey();
-           }
-           ,insert:function(element){
+           insert:function(element){
               var aside = document.querySelector("#titleOverview");
               aside.insertBefore(element,aside.querySelector('[class="media"]+hr'));
               
@@ -133,16 +115,12 @@ function whatSite(host){
       }
       ,"黄盐host":{
 //       ,'127.0.0.1:8080':{
-            getKey:function(){
-              var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
-              return document.title.split(pattern)[0].split(/\s|电视剧|电影/)[0];
-            }
-            ,insert:function(element){
+            insert:function(element){
                 try{
                   var aside = document.querySelector("#TMHYul");
                   aside.appendChild(element);
                 }catch(e){
-                  var div = this["create黄盐Element"]();
+                  var div = this["createDiv"]();
                   div.querySelector("#TMHYul").appendChild(element);
                   document.body.appendChild(div);
 //                   ajaxScript("https://raw.githubusercontent.com/woolition/greasyforks/master/hackVipVideosSet/破解VIP会员视频集合.user.js",function(script){
@@ -156,11 +134,11 @@ function whatSite(host){
             ,createElement:function (key){
               var url = getWuchaolongUrl(key);
               var text = key+" in pan.baidu sharing";
-              var html = (dedent  `<li class="TM1"><a target="_blank"  href="${url}" title="${text}"><span id="TMSet"><img width="100%" src="https://wuchaolong.github.io/video/img/logo.png"/>
+              var html = (dedent  `<li class="TM1"><a target="_blank"  href="${url}" title="${text}"><span id="TMSet"><img width="100%" src="${icon}"/>
                   </span></a></li>`);
               return elementBy(html);
             }
-            ,"create黄盐Element":function(){
+            ,"createDiv":function(){
               var html = `<div><style>#TMHYul { position: fixed; top: 15em; left: 0; padding: 0; z-index: 999999; } .TM1 { opacity: 0.3; position: relative; padding-right: .5em; width: 1.5em; cursor: pointer; list-style: none; } .TM1:hover { opacity: 1; } .TM1 span { display: block; border-radius: 0 .3em .3em 0; background-color: #ffff00; border: 0; font: bold 1em "微软雅黑"!important; color: #ff0000; margin: 0; padding: 1em .3em; } </style> <ul id="TMHYul"></ul></div>`;
 
               return elementBy(html);
@@ -168,9 +146,57 @@ function whatSite(host){
       }
 
    };
-   return config[host]||config["黄盐host"];
-}
+   var site = config[host]||config["黄盐host"];
+   site.getKey = site.getKey || getKey;
+   return site;
 
+
+    function createElementBy(key){
+      var url = getWuchaolongUrl(key);
+      var config = {
+        userLang:navigator.language || navigator.userLanguage
+        ,string:function(text){
+              return text[config.userLang]||text.default;
+          }
+        ,source:{
+          "zh-CN":"资源"
+          ,"default":"Resources"
+        }
+        ,more:{
+          "zh-CN":"更多"
+          ,"default":"More"
+        }
+      }
+      var html = (dedent `<div id="wuchaolong"><a href="#wuchaolong"></a>
+      <h2><i class="">${config.string(config.source)}</i><img src="${icon}" style="max-width:1.5em;vertical-align: middle;"/>
+
+        </h2>
+      <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  scrolling="no" src="${url}"></iframe>
+      <p class="wuchaolong-more">
+      <span class="pl"><a href="${url}" target="_blank">${config.string(config.more)}</a></span>
+       <link rel="stylesheet" href="https://wuchaolong.github.io/video/douban/greasyfork.css" />
+    <!--       <link rel="stylesheet" href="/video/douban/greasyfork.css" /> -->
+      </div>
+      `);
+      return elementBy(html);
+    }
+
+}
+function getKey(){
+//   var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
+  var pattern = /[\`\~\!\@\#\$\^\&\*\(\)\=\|\{\}\'\:\;\'\,\\\\\[\\\\\]\.\<\>\/\?\~\！\@\#\￥\……\&\*\（\）\——\|\{\}\【\】\‘\；\：\”\“\'\。\，\、\？]/
+  var value = getValue(document.title.split(pattern));
+  return getValue(value.split(/\s|-|_|电视剧|电影|《|》/));
+}
+function getValue(array,index){
+  var index = index || 0;
+  try{
+    var value = array[index];
+    return value||getValue(array,index+1);
+  }catch(e){
+    return "";
+  }
+}
 // function ajaxScript(sSrc, fOnload,error){
 //         var sSrc = "https://charon-node.herokuapp.com/fetch?npm=node-fetch&api="+sSrc;
 //         var request = new XMLHttpRequest();
@@ -191,35 +217,6 @@ function getWuchaolongUrl(key){
   return (dedent `https://wuchaolong.github.io/video/?search=${key}`);
 }
 
-function createElementBy(key){
-  var url = getWuchaolongUrl(key);
-  var config = {
-    userLang:navigator.language || navigator.userLanguage
-    ,string:function(text){
-          return text[config.userLang]||text.default;
-      }
-    ,source:{
-      "zh-CN":"资源"
-      ,"default":"Resources"
-    }
-    ,more:{
-      "zh-CN":"更多"
-      ,"default":"More"
-    }
-  }
-  var html = (dedent `<div id="wuchaolong"><a href="#wuchaolong"></a>
-  <h2><i class="">${config.string(config.source)}</i>
-                
-    </h2>
-  <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  scrolling="no" src="${url}"></iframe>
-  <p class="wuchaolong-more">
-  <span class="pl"><a href="${url}" target="_blank">${config.string(config.more)}</a></span>
-   <link rel="stylesheet" href="https://wuchaolong.github.io/video/douban/greasyfork.css" />
-<!--       <link rel="stylesheet" href="/video/douban/greasyfork.css" /> -->
-  </div>
-  `);
-  return elementBy(html);
-}
 
 function elementBy(html){
   var d = document.createElement('div');
