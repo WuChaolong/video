@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         ! 豆瓣电影 + 百度网盘 |!' IMDB + Magnet |!' 各大视频网站 +
+// @name         ! 豆瓣电影 + 百度网盘 |!' IMDB + Magnet |!' 当破解VIP会员视频失败?
 // @version      4
 // @description  找百度网盘和磁力种子不用打开一堆新标签,有的话会直接播放 |!' Show magnet and pan.baidu.com in movie detail page |!' 当破解VIP会员视频失败?去寻找对应的资源吧.兼容黄岩Style.
 // @author       WuChaolong
