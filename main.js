@@ -14,7 +14,7 @@ var config = {
         }
     }
     ,feedback:{
-        "zh-CN":'<a href="#donate" onclick="showAlipay()"><span><img src="img/hb.jpg"/>非常感谢领后赏给超龙的</span></a>'
+        "zh-CN":'<a href="#donate" onclick="showAlipay()"><span><img src="img/hb.jpg"/>领了后赏给超龙吧</span></a>'
         ,"default":'<a href="#donate" onclick="showPayPal()"><span>Feedback?<br/> PayPal leave a message.</span></a>'
         ,string:function(){
             return this[config.userLang]||this.default;
@@ -1545,6 +1545,7 @@ function addDonate(){
     var donateTemplate = document.getElementById("donateTemplate");
     var donateD = document.getElementById("donate");
     var spanHtml = config.feedback.string();
+//     var spanHtml = "";
     donateD.innerHTML = spanHtml+donateTemplate.innerHTML;
 //     donateD.querySelector("span").click();
     donateTemplate = donateD = null;
