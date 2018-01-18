@@ -62,7 +62,7 @@ function whatSite(host){
            ,createElement:function(key){
               var url = getWuchaolongUrl(key);
               var text = key+" in pan.baidu sharing";
-              var html = (dedent  `<section id="wuchaolong" style="margin-top: -20px;" class="subject-mark"><div class="mark-item"><a target="_blank" href="${url}" title="${text}"><img src="${icon}" style="max-width:1.5em;vertical-align: middle;"/>${text}</a></div></section>`);
+              var html = (dedent  `<section id="wuchaolong" style="margin-top: -20px;" class="subject-mark"><div class="mark-item"><a target="_blank" href="${url}" title="${text}"><img src="${icon}" style="max-width:1em;vertical-align: middle;"/>${text}</a></div></section>`);
               return elementBy(html);
            }
       }
@@ -172,7 +172,7 @@ function whatSite(host){
         }
       }
       var html = (dedent `<div id="wuchaolong"><a href="#wuchaolong"></a>
-      <h2><i class="">${config.string(config.source)}</i><img src="${icon}" style="max-width:1.5em;vertical-align: middle;"/>
+      <h2><i class="">${config.string(config.source)}</i><img src="${icon}" style="max-width:1em;vertical-align: middle;"/>
 
         </h2>
       <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  scrolling="no" src="${url}"></iframe>
