@@ -160,8 +160,8 @@ function whatSite(host){
       var config = {
         userLang:navigator.language || navigator.userLanguage
         ,string:function(text){
-              return text[config.userLang]||text.default;
-          }
+             return text[config.userLang]||text.default;
+        }
         ,source:{
           "zh-CN":"资源"
           ,"default":"Resources"
@@ -190,10 +190,16 @@ function isExist(){
   return document.getElementById("wuchaolong");
 }
 function getKey(){
+  try{
+    var title = document.querySelector('meta[property="og:title"]').content;
+  }catch(e){
+    title = document.title;
+  }
+  title = title || document.title;
 //   var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
   var pattern = /[\`\~\!\@\#\$\^\&\*\(\)\=\|\{\}\'\:\;\'\,\\\\\[\\\\\]\.\<\>\/\?\~\！\@\#\￥\……\&\*\（\）\——\|\{\}\【\】\‘\；\：\”\“\'\。\，\、\？]/
-  var value = getValue(document.title.split(pattern));
-  return getValue(value.split(/\s|-|_|电视剧|电影|《|》/));
+  var value = getValue(title.split(pattern));
+  return getValue(value.split(/\s|-|_|电视剧|电影|《|》|第/));
 }
 function getValue(array,index){
   var index = index || 0;
@@ -223,7 +229,6 @@ function getValue(array,index){
 function getWuchaolongUrl(key){
   return (dedent `https://wuchaolong.github.io/video/?search=${key}`);
 }
-
 
 function elementBy(html){
   var d = document.createElement('div');

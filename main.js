@@ -830,6 +830,7 @@ function magnetFetcher(key){
             function parseList(html){
 
                 var videos = [];
+                var videos2 = [];
                 var el = document.createElement( 'html' );
                 el.innerHTML = html;
 
@@ -842,16 +843,21 @@ function magnetFetcher(key){
                     var name = els[i].querySelector("a[name='file_title'").innerHTML;
                     var url = els[i].querySelector("a[href^='magnet:']").href;
                     var video = {ref:"magnet",name:name,url:url};
-                    videos.push(video);
+                    if(video.name.length>=70){
+                        videos2.push(video);
+                    }else{
+                        videos.push(video);
+                    }
         //                 fetchDetal(video,i===0);
                     
 
                 }
-                for(var i=0;i<videos.length;i++){
-                    if(videos[i].name.length>70){
-                        videos.move(i, videos.length-1)
-                    }
-                }
+                videos.concat(videos2);
+//                 for(var i=0;i<videos.length;i++){
+//                     if(videos[i].name.length>=70){
+//                         videos.move(i, videos.length-1)
+//                     }
+//                 }
                 html = el = els = null;
                 return videos;
             }
