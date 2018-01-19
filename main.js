@@ -1,6 +1,6 @@
 
 
-var config = {
+window.config = {
 //     nodeUrl:"http://127.0.0.1:8888/"
     nodeUrl:"//charon-node.herokuapp.com/"
     ,userLang:navigator.language || navigator.userLanguage
@@ -9,34 +9,24 @@ var config = {
     ,bookmark:{
         "zh-CN":"收藏我,不然下次找不到哦"
         ,"default":"Bookmark me,if u have next time"
-        ,string:function(){
-            return this[config.userLang]||this.default;
-        }
     }
     ,feedback:{
         "zh-CN":'<a href="#donate" onclick="showAlipay()"><span><img src="img/hb.jpg"/>领了后赏给超龙吧</span></a>'
-        ,"default":'<a href="#donate" onclick="showPayPal()"><span>Feedback?<br/> PayPal leave a message.</span></a>'
-        ,string:function(){
-            return this[config.userLang]||this.default;
-        }
+        ,"default":'<a href="#donate" onclick="showPayPal()"><span>Feedback?<br/> PayPal leave a message.</span></a>'       
     }
+    ,hiddenHistory:{
+        "zh-CN":'看过的被隐藏数量是'
+        ,"default":'History be hidden,count is'
+     }
+    ,fetchers:["panc","panduoduo","magnet","tieba"]
 };
-
+window.showVideos = [];
 
 //         alert(config.userLang);
 function locationParameterChanged() {
     var key = config.key;
     var input = document.getElementsByTagName("input")[0];
 
-//     var submit = document.querySelector('[type="submit"]');
-//     submit.onclick=function(e){
-
-//         if(!input.value){
-//             e.preventDefault();
-            
-//             input.focus();
-//         }
-//     }
     input.oninput = function(e){
             if(input.value){
                 setDoubanSearch(input.value,function(){
@@ -111,12 +101,10 @@ function locationParameterChanged() {
     }catch(e){
         console.log(e);
     }
-    window.panc=pancFetcher(key);
-    window.panduoduo=panduoduoFetcher(key);
-    magnetFetcher(key);
-    if(config.userLang=="zh-CN"){
-         window.tieba=tiebaFetcher(key);
-    }
+    var fetcherCache = JSON.parse(sessionStorage.getItem(config.key)||"{}");
+    hideShowedCache(fetcherCache.showVideos);
+    loadFetchers(fetcherCache.fetchers,config.key);
+    fetcherCache = null;
     setDoubanSearch(input.value,function(){
             
         loadShare(input.value);
@@ -132,6 +120,32 @@ function locationParameterChanged() {
         addBookmark();
     }
 //     setMagnetTech();
+}
+function hideShowedCache(showVideos){
+    if(showVideos){
+        document.getElementById("history").innerHTML = config.hiddenHistory.lang()+' <a class="history-number" href="javascript:" onclick="showHideVideos()" title="Show">'+showVideos.length+'</a>';
+    }
+    showVideos = null;
+}
+function showHideVideos(){
+   sessionStorage.removeItem(config.key);
+   location.reload();
+}
+function loadFetchers(fetchers,key){
+
+    (fetchers||config.fetchers).map(function(fetcher,index){
+        fetcher = fetcher||config.fetchers[index]
+        if(typeof fetcher === "object"&&fetcher.host){
+            window[fetcher.host] = eval(fetcher.host+"Fetcher")(key,fetcher);
+        }else if(typeof fetcher === "string"){
+            if(fetcher=="tieba"&&config.userLang!="zh-CN"){
+
+            }else{
+                window[fetcher] = eval(fetcher+"Fetcher")(key);
+            }
+        }
+    });
+    fetchers = null;
 }
 function setHeight(input,height,isTransition){
     try{
@@ -328,11 +342,11 @@ function fetcher(parameter){
         }
     }
     serf.fetch = parameter.fetch;
-    serf.load = function (){
+    serf.load = function (cache){
         serf.progress = innerProgress(serf.host,serf.fetchUrl);
         var success = function(html){
             var progress = serf.progress;
-            var videos = serf.parseVideos(html);
+            var videos = (typeof html== "object")?html:serf.parseVideos(html);
             if(!videos||videos.length===0){
                 progress.none();
 //                 confirm("noneTemplate");
@@ -340,22 +354,25 @@ function fetcher(parameter){
             }
             progress.success(videos.length);
             serf.videos = videos;
-            if(!window.showVideos){
-                window.showVideos = [];
-            }
+            
             serf.onLoaded();
             html = null;
 
         };
-        serf.fetch(serf.host,serf.fetchUrl,success);
+        if(cache){
+            setTimeout(success(cache.videos),100);
+        }else{
+            serf.fetch(serf.host,serf.fetchUrl,success);
+        }
         return serf;
     }
-    
-    return serf.load();
+    window[serf.host] = serf;
+    return serf.load(parameter.cache);
 }
 
-function panduoduoFetcher(key){
+function panduoduoFetcher(key,cache){
     var parameter = {};
+    parameter.cache = cache;
     parameter.host = "panduoduo";
     parameter.fetchUrl = "http://www.panduoduo.net/s/comb/n-"+key+"&ty-bd&f-f4";
     parameter.fetch = fetch;
@@ -441,9 +458,9 @@ function panduoduoFetcher(key){
 }
 
 
-function pancFetcher(key){
+function pancFetcher(key,cache){
 
-    var parameter = {};
+    var parameter = {};     parameter.cache = cache;
     parameter.host = "panc";
     parameter.fetchUrl = "https://www.panc.cc/s/"+key+"/td";
     parameter.fetch = nodeFetch;
@@ -631,11 +648,20 @@ function setIframe(video,isSrc,waitUrl,templateId,dataBoxId){
         setIframeUrl(url,wrapper,isSrc,templateId);
 
     }
-
-        
+    var fetcherCache = JSON.parse(sessionStorage.getItem(config.key)||"{}");
+    fetcherCache.fetchers=objectsByStrings(config.fetchers);
+    fetcherCache.showVideos=(fetcherCache.showVideos||[]).concat(showVideos);
+    sessionStorage.setItem(config.key, JSON.stringify(fetcherCache)); 
 //     confirm("");
-    dataBox = iframe = null;
+    fetcherCache = dataBox = iframe = null;
     return wrapper;
+}
+function objectsByStrings (strings){
+    var objects = [];
+    strings.map(function(s){
+        objects.push(window[s]);
+    });
+    return objects;
 }
 function setIframeUrl(url,wrapper,isSrc,templateId){
 
@@ -779,9 +805,14 @@ function isEnglish(string){
     }
     return true;
 }
-
-function magnetFetcher(key){
-    var parameter = {};
+function thepiratebayFetcher(key,cache){
+    return magnetFetcher(key,cache);
+}
+function diaosisouFetcher(key,cache){
+    return magnetFetcher(key,cache);
+}
+function magnetFetcher(key,cache){
+    var parameter = {};     parameter.cache = cache;
 
     if(isEnglish(key)){
 //         return null;
@@ -880,7 +911,7 @@ function magnetFetcher(key){
 //     }
     
     window[parameter.host] = fetcher(parameter);
-
+    return window[parameter.host];
 
     
 }
@@ -1241,9 +1272,9 @@ function reloadIframe(button){
 
 
 
-function tiebaFetcher(key){
+function tiebaFetcher(key,cache){
 
-    var parameter = {};
+    var parameter = {};     parameter.cache = cache;
     parameter.host = "tieba";
     parameter.fetchUrl = "http://tieba.baidu.com/f/search/res?ie=utf-8&qw="+key+" pan.baidu";
     parameter.fetch = cross;
@@ -1550,7 +1581,7 @@ function addShare(key){
 function addDonate(){
     var donateTemplate = document.getElementById("donateTemplate");
     var donateD = document.getElementById("donate");
-    var spanHtml = config.feedback.string();
+    var spanHtml = config.feedback.lang();
 //     var spanHtml = "";
     donateD.innerHTML = spanHtml+donateTemplate.innerHTML;
 //     donateD.querySelector("span").click();
@@ -1583,7 +1614,7 @@ function addBookmark(){
   var top = document.getElementById("top");
 //   top.innerHTML = '<span class="confirm-bookmark">Bookmark me</span>';
   top.appendChild(bookmark);
-//   var result = confirm(config.bookmark.string());
+//   var result = confirm(config.bookmark.lang());
 //   if(result){
       bookmark.click();
       
@@ -1594,7 +1625,7 @@ function addBookmark(){
             
             var bookmarkURL = "https://wuchaolong.github.io/video/"||window.location.href;
             var bookmarkTitle = "Video"||document.title;
-            var confirm = config.bookmark.string();
+            var confirm = config.bookmark.lang();
 
 
 
@@ -1773,6 +1804,9 @@ Array.prototype.move = function (old_index, new_index) {
     this.splice(new_index, 0, this.splice(old_index, 1)[0]);
     return this; // for testing purposes
 };
+Object.prototype.lang=function(){
+    return this[config.userLang]||this.default;
+}
 function addAnalytics(){
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

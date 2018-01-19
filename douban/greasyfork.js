@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         ! 豆瓣电影 + 百度网盘 |!' IMDB + Magnet |!' 各大视频网站 +
-// @version      4.1
+// @version      4.2
 // @description  找资源不用打开一堆新标签,有的话会直接播放 |!' Show magnet and pan.baidu.com in movie detail page |!' 当破解VIP会员电视剧失败?没准有网盘和磁力种子在分享呢.兼容黄岩Style.
 // @author       WuChaolong
 // @icon         data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAS1BMVEX////ycnLyampuu25muGby8nLy8mrl5eXk5OT8DAz8/AzPz8/z8zONvY3Nzc3d3d3b29v/AAAMnAwAmQD//wDMzMz19SmIu4j///+ks1oiAAAAEXRSTlMAwMfg5cDHgIj+/vD7/v7AxxKKtKIAAAABYktHRACIBR1IAAAACW9GRnMAAAEtAAABagBZv0KIAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAB3RJTUUH4gERCw82Bupv1AAAAAl2cEFnAAADGgAABGMAz64W0QAAAItJREFUaN7t2UkKgEAQBEF13Pfd///UQ4n0YQRBBIXMYzEaD+ggIPpZYaRCO7pYObMlqUrswyxX2TVQDKqw4zip0WzlrEr7sFpUBQAAAAAAAAAAAHBWr6p+C/D+CwAAAAAAAAAA4BnQbKp5C2iP71oAAAAAAAAAAID/AN6Ddderzmze2/SNgzXRJ9sBPp3K24JPMHQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTgtMDEtMTdUMTk6MTQ6NDIrMDg6MDBqGWm5AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE4LTAxLTE3VDE5OjE0OjQyKzA4OjAwG0TRBQAAAABJRU5ErkJggg==
@@ -51,6 +51,10 @@ function whatSite(host){
               aside.insertBefore(element, document.getElementById("subject-others-interests"));
            }
            ,createElement:createElementBy
+           ,getKey:function(){
+              var key = document.querySelector('meta[name="keywords"]').getAttribute('content');
+              return key.split(",")[0];
+           }
       }
       ,
       'm.douban.com':{
@@ -63,8 +67,11 @@ function whatSite(host){
            ,createElement:function(key){
               var url = getWuchaolongUrl(key);
               var text = key+" in pan.baidu sharing";
-              var html = (dedent  `<section id="wuchaolong" style="margin-top: -20px;" class="subject-mark"><div class="mark-item"><a target="_blank" href="${url}" title="${text}"><img src="${icon}" style="max-width:1em;vertical-align: middle;"/>${text}</a></div></section>`);
+              var html = (dedent  `<section id="wuchaolong" style="margin-top: -20px;" class="subject-mark"><div class="mark-item"><a target="_blank" href="${url}" title="${text}"><img src="${icon}" style="max-width:1em;vertical-align: text-top;"/>${text}</a></div></section>`);
               return elementBy(html);
+           }
+           ,getKey:function(){
+             return whatSite('movie.douban.com').getKey();
            }
       }
       ,
@@ -173,14 +180,15 @@ function whatSite(host){
         }
       }
       var html = (dedent `<div id="wuchaolong"><a href="#wuchaolong"></a>
-      <h2><i class="">${config.string(config.source)}</i><img src="${icon}" style="max-width:1em;vertical-align: middle;"/>
-
+      <h2><i class="">${config.string(config.source)}</i>
+<span class="pl"><a  href="${url}" target="_blank"><img src="${icon}" style="max-width:1em;vertical-align: middle;"/>${key}</a>
+            </span>
         </h2>
       <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  scrolling="no" src="${url}"></iframe>
       <p class="wuchaolong-more">
       <span class="pl"><a href="${url}" target="_blank">${config.string(config.more)}</a></span>
        <link rel="stylesheet" href="https://wuchaolong.github.io/video/douban/greasyfork.css" />
-    <!--       <link rel="stylesheet" href="/video/douban/greasyfork.css" /> -->
+           <!--<link rel="stylesheet" href="/video/douban/greasyfork.css" /> -->
       </div>
       `);
       return elementBy(html);
@@ -193,10 +201,10 @@ function isExist(){
 function getKey(){
   try{
     var title = document.querySelector('meta[property="og:title"]').content;
+    return title;
   }catch(e){
     title = document.title;
   }
-  title = title || document.title;
 //   var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
   var pattern = /[\`\~\!\@\#\$\^\&\*\(\)\=\|\{\}\'\:\;\'\,\\\\\[\\\\\]\.\<\>\/\?\~\！\@\#\￥\……\&\*\（\）\——\|\{\}\【\】\‘\；\：\”\“\'\。\，\、\？]/
   var value = getValue(title.split(pattern));

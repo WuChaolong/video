@@ -21,12 +21,14 @@ img{
       width: 750px;
       /*     overflow-x:scroll; */
       height: 416px;
+/*       width: 960px; */
 }
 #data.iniframe .baidu-video-help{
     overflow-x:scroll;
 }
 #data.iniframe .baidu-video iframe {
     margin-top: -192px;
+    width: 1200px;
 }
 .magnet-video{
       position: relative;
@@ -348,6 +350,7 @@ progress::-webkit-progress-value{
     display:none;
     text-align: left;
     /* margin: 2em 0; */
+    margin-top: 0;
     margin-bottom: 5em;
     transform: rotate(90deg);
     -ms-transform: rotate(90deg);  /* IE 9 */
@@ -1133,4 +1136,9 @@ footer .nav-index:before{
   background-repeat: no-repeat;
   margin: .5em;
   vertical-align: middle;
+}
+
+#history{
+  line-height:5em;
+  /* margin-bottom:-2em; */
 }
