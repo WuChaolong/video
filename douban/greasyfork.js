@@ -201,14 +201,13 @@ function isExist(){
 function getKey(){
   try{
     var title = document.querySelector('meta[property="og:title"]').content;
-    return title;
   }catch(e){
     title = document.title;
   }
 //   var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
   var pattern = /[\`\~\!\@\#\$\^\&\*\(\)\=\|\{\}\'\:\;\'\,\\\\\[\\\\\]\.\<\>\/\?\~\！\@\#\￥\……\&\*\（\）\——\|\{\}\【\】\‘\；\：\”\“\'\。\，\、\？]/
   var value = getValue(title.split(pattern));
-  return getValue(value.split(/\s|-|_|电视剧|电影|《|》|第/));
+  return getValue(value.split(/-|_|电视剧|电影|《|》|第/));
 }
 function getValue(array,index){
   var index = index || 0;
