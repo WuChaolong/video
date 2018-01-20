@@ -63,7 +63,7 @@
     position:relative;
     transform: rotateY(180deg);
 }
-.add-back2 #wuchaolong h2{left: -3.5em;width: 3.5em;background: inherit;line-height: 2em;text-align: center;position: absolute;box-shadow: -2px 2px 2px rgba(0,0,0,0.7);word-break: break-word;}
+.add-back2 #wuchaolong h2{left: -5.5em;width: 5.5em;background: inherit;line-height: 2em;text-align: center;position: absolute;box-shadow: -2px 2px 2px rgba(0,0,0,0.7);/* word-break: break-word; */}
 .add-back2 #wuchaolong{
     transform: rotateY(180deg);
     transition: transform 1s, z-index .5s , left .5s,right .5s,width .5s;
