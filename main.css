@@ -28,7 +28,7 @@ img{
 }
 #data.iniframe .baidu-video iframe {
     margin-top: -192px;
-    width: 1200px;
+/*     width: 1200px; */
 }
 .magnet-video{
       position: relative;
