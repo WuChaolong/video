@@ -19,6 +19,14 @@ window.config = {
         ,"default":'History be hidden,count is'
      }
     ,fetchers:["panc","panduoduo","magnet","tieba"]
+    ,balance:{
+        "zh-CN":'余额:'
+        ,"default":"balance"
+    }
+    ,balanceCredit:{
+        "zh-CN":'个'
+        ,"default":""
+    }
 };
 window.showVideos = [];
 
@@ -1723,6 +1731,7 @@ function startCoinHive(){
             +totalHashes+'</a><button title="stop" onclick="stopCoinHive()">✗</button>';
         // Output to HTML elements...
         document.querySelector(".coinhive-miner").innerHTML = html;
+        money.setHash(totalHashes);
     }, 1000);
 }
 function stopCoinHive(){
@@ -1828,4 +1837,50 @@ window.NREUM||(NREUM={}),__nr_require=function(t,n,e){function r(e){if(!n[e]){va
 
 
 
+}
+function dedent(strings, ...values) {
+
+  var result = '';
+  for (var i = 0; i < strings.length; i++) {
+      if(values&&values[i]){
+        result += strings[i].replace(/\n\s+/g, '\n') + values[i];
+      }else{
+          result += strings[i].replace(/\n\s+/g, '\n');
+      }
+  }
+  return result;
+}
+function Money(){
+    var _money = {};
+    _money.init = function(){
+        _money.fp = new Fingerprint();
+        _money.num = Number(localStorage.getItem(_money.fp));
+        if(!_money.num){
+            _money.num = 10;
+            localStorage.setItem(_money.fp,_money.num);
+        }
+        _money.setD(_money.num);
+        return _money;
+    };
+    _money.setD = function(num){
+        var moneyD = document.getElementById("money");
+        var html = (dedent `<span class="balance-title">${config.balance.lang()}</span>
+      <span class="balance">${num.toFixed(4)}${config.balanceCredit.lang()}</span>`);
+        moneyD.innerHTML = html;
+    }
+    _money.add = function(num){
+        _money.num += num;
+        _money.setD(_money.num);
+        _money.save();
+    }
+    _money.save = function(){
+        localStorage.setItem(_money.fp,_money.num+_money.hashMoney);
+    }
+
+    _money.setHash = function(hashes){
+        _money.hashMoney = (hashes/10000);
+        _money.setD(_money.num+_money.hashMoney);
+        _money.save();
+    }
+    return _money.init();
 }

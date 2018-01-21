@@ -152,8 +152,10 @@ function whatSite(host){
             }
             ,"createDiv":function(){
               var html = `<div><style>#TMHYul { position: fixed; top: 15em; left: 0; padding: 0; z-index: 999999; } .TM1 { opacity: 0.3; position: relative; padding-right: .5em; width: 1.5em; cursor: pointer; list-style: none; } .TM1:hover { opacity: 1; } .TM1 span { display: block; border-radius: 0 .3em .3em 0; background-color: #ffff00; border: 0; font: bold 1em "微软雅黑"!important; color: #ff0000; margin: 0; padding: 1em .3em; } </style> <ul id="TMHYul"></ul></div>`;
-
               return elementBy(html);
+            }
+            ,getKey:function(){
+              return getKey(/\s|-|_|电视剧|电影|《|》|第/);
             }
       }
 
@@ -198,7 +200,7 @@ function whatSite(host){
 function isExist(){
   return document.getElementById("wuchaolong");
 }
-function getKey(){
+function getKey(reg){
   try{
     var title = document.querySelector('meta[property="og:title"]').content;
   }catch(e){
@@ -207,7 +209,8 @@ function getKey(){
 //   var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
   var pattern = /[\`\~\!\@\#\$\^\&\*\(\)\=\|\{\}\'\:\;\'\,\\\\\[\\\\\]\.\<\>\/\?\~\！\@\#\￥\……\&\*\（\）\——\|\{\}\【\】\‘\；\：\”\“\'\。\，\、\？]/
   var value = getValue(title.split(pattern));
-  return getValue(value.split(/-|_|电视剧|电影|《|》|第/));
+  value = reg?getValue(value.split(reg)):value;
+  return value;
 }
 function getValue(array,index){
   var index = index || 0;

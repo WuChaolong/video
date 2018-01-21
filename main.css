@@ -239,6 +239,9 @@ footer{
     /* z-index: -11; */
     position: relative;
 }
+footer>*{
+    display:inline-block;
+}
 footer>a{
     margin-right:1em;
 }
@@ -1141,4 +1144,16 @@ footer .nav-index:before{
 #history{
   line-height:5em;
   /* margin-bottom:-2em; */
+}
+
+.balance:after{
+    content: " ";
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    background-image: url(img/logo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    /* margin: .5em; */
+    vertical-align: text-top;
 }
