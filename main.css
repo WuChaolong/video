@@ -1157,3 +1157,13 @@ footer .nav-index:before{
     /* margin: .5em; */
     vertical-align: text-top;
 }
+.account{
+  /* display:inline-block; */
+  height: 2em;
+  width: 2em;
+  overflow: hidden;
+  vertical-align: middle;
+  /* background-color: darkgray; */
+  /* border-radius: 50%; */
+  padding: .2em;
+}

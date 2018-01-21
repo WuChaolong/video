@@ -27,6 +27,10 @@ window.config = {
         "zh-CN":'个'
         ,"default":""
     }
+    ,accountTitle:{
+        "zh-CN":"帐号:"
+        ,"default":"Account number:"
+    }
 };
 window.showVideos = [];
 
@@ -1550,6 +1554,7 @@ function importCSS(href,cssId){
 }
 function loadShare(key){
 
+    window.money = Money();
     addCoinhive();
     
     addDonate();
@@ -1853,9 +1858,9 @@ function dedent(strings, ...values) {
 function Money(){
     var _money = {};
     _money.init = function(){
-        _money.fp = new Fingerprint();
+        _money.fp = new Fingerprint().get();
         _money.num = Number(localStorage.getItem(_money.fp));
-        if(!_money.num){
+        if(_money.num===NaN){
             _money.num = 10;
             localStorage.setItem(_money.fp,_money.num);
         }
@@ -1863,16 +1868,17 @@ function Money(){
         return _money;
     };
     _money.setD = function(num){
+        var num = num.toFixed(isInt(num)?0:4);
         var moneyD = document.getElementById("money");
-        var html = (dedent `<span class="balance-title">${config.balance.lang()}</span>
-      <span class="balance">${num.toFixed(4)}${config.balanceCredit.lang()}</span>`);
+        var html = (dedent `<span class="account" title="${config.accountTitle.lang()} ${_money.fp}">${config.accountTitle.lang()}${_money.fp}</span>
+      <span class="balance">${config.balance.lang()}${num}${config.balanceCredit.lang()}</span>`);
         moneyD.innerHTML = html;
     }
-    _money.add = function(num){
-        _money.num += num;
-        _money.setD(_money.num);
-        _money.save();
-    }
+//     _money.add = function(num){
+//         _money.num += num;
+//         _money.setD(_money.num);
+//         _money.save();
+//     }
     _money.save = function(){
         localStorage.setItem(_money.fp,_money.num+_money.hashMoney);
     }
@@ -1883,4 +1889,9 @@ function Money(){
         _money.save();
     }
     return _money.init();
+}
+function isInt(value) {
+  return !isNaN(value) && 
+         parseInt(Number(value)) == value && 
+         !isNaN(parseInt(value, 10));
 }
