@@ -1860,7 +1860,7 @@ function Money(){
     _money.init = function(){
         _money.fp = new Fingerprint().get();
         _money.num = Number(localStorage.getItem(_money.fp));
-        if(_money.num===NaN){
+        if(localStorage.getItem(_money.fp)===null){
             _money.num = 10;
             localStorage.setItem(_money.fp,_money.num);
         }
