@@ -165,7 +165,7 @@ function whatSite(host){
    return site;
 
 
-    function createElementBy(key){
+   function createElementBy(key){
       var url = getWuchaolongUrl(key);
       var config = {
         userLang:navigator.language || navigator.userLanguage
@@ -185,7 +185,7 @@ function whatSite(host){
       <h2><i class="">${config.string(config.source)}</i>
 <span class="pl"><a  href="${url}" target="_blank"><img src="${icon}" style="max-width:1em;vertical-align: middle;"/>${key}</a>
             </span>
-        </h2>
+      </h2>
       <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  scrolling="no" src="${url}"></iframe>
       <p class="wuchaolong-more">
       <span class="pl"><a href="${url}" target="_blank">${config.string(config.more)}</a></span>
@@ -194,20 +194,22 @@ function whatSite(host){
       </div>
       `);
       return elementBy(html);
-    }
+   }
 
 }
 function isExist(){
   return document.getElementById("wuchaolong");
 }
-function getKey(reg){
+function getKey(reg,t){
   try{
     var title = document.querySelector('meta[property="og:title"]').content;
   }catch(e){
     title = document.title;
   }
+  title = title.replace(/\【(.*?)\】/,"");
 //   var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
   var pattern = /[\`\~\!\@\#\$\^\&\*\(\)\=\|\{\}\'\:\;\'\,\\\\\[\\\\\]\.\<\>\/\?\~\！\@\#\￥\……\&\*\（\）\——\|\{\}\【\】\‘\；\：\”\“\'\。\，\、\？]/
+  
   var value = getValue(title.split(pattern));
   value = reg?getValue(value.split(reg)):value;
   return value;

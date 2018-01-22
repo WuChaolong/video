@@ -28,8 +28,8 @@ window.config = {
         ,"default":""
     }
     ,accountTitle:{
-        "zh-CN":"帐号:"
-        ,"default":"Account number:"
+        "zh-CN":"你的帐号:"
+        ,"default":"Your account:"
     }
 };
 window.showVideos = [];

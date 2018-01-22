@@ -241,6 +241,7 @@ footer{
 }
 footer>*{
     display:inline-block;
+    vertical-align: middle;
 }
 footer>a{
     margin-right:1em;
