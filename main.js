@@ -11,6 +11,8 @@ window.config = {
         ,"default":"Bookmark me,if u have next time"
     }
     ,feedback:{
+//         "zh-CN":''
+//         ,"default":''   
         "zh-CN":'<a href="#donate" onclick="showAlipay()"><span><img src="img/hb.jpg"/>领了后赏给超龙吧</span></a>'
         ,"default":'<a href="#donate" onclick="showPayPal()"><span>Feedback?<br/> PayPal leave a message.</span></a>'       
     }
