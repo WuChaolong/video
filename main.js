@@ -1,43 +1,46 @@
 
+function init(){
+    window['config'] = {
+    //     nodeUrl:"http://127.0.0.1:8888/"
+        nodeUrl:"//charon-node.herokuapp.com/"
+        ,userLang:navigator.language || navigator.userLanguage
+        ,key:getURLParameter("search")
+        ,dataMin:screen.width>=1500?2:1
+        ,bookmark:{
+            "zh-CN":"收藏我,不然下次找不到哦"
+            ,"default":"Bookmark me,if u have next time"
+        }
+        ,feedback:{
+    //         "zh-CN":''
+    //         ,"default":''   
+            "zh-CN":'<a href="#donate" onclick="showAlipay()"><span><img src="img/hb.jpg"/>领了后赏给超龙吧</span></a>'
+            ,"default":'<a href="#donate" onclick="showPayPal()"><span>Feedback?<br/> PayPal leave a message.</span></a>'       
+        }
+        ,hiddenHistory:{
+            "zh-CN":'看过的被隐藏数量是'
+            ,"default":'History be hidden,count is'
+         }
+        ,fetchers:["panc","panduoduo","magnet","tieba"]
+        ,balance:{
+            "zh-CN":'余额:'
+            ,"default":"balance"
+        }
+        ,balanceCredit:{
+            "zh-CN":'个'
+            ,"default":""
+        }
+        ,accountTitle:{
+            "zh-CN":"你的帐号:"
+            ,"default":"Your account:"
+        }
+    };
+    window['showVideos'] = [];
 
-window.config = {
-//     nodeUrl:"http://127.0.0.1:8888/"
-    nodeUrl:"//charon-node.herokuapp.com/"
-    ,userLang:navigator.language || navigator.userLanguage
-    ,key:getURLParameter("search")
-    ,dataMin:screen.width>=1500?2:1
-    ,bookmark:{
-        "zh-CN":"收藏我,不然下次找不到哦"
-        ,"default":"Bookmark me,if u have next time"
-    }
-    ,feedback:{
-//         "zh-CN":''
-//         ,"default":''   
-        "zh-CN":'<a href="#donate" onclick="showAlipay()"><span><img src="img/hb.jpg"/>领了后赏给超龙吧</span></a>'
-        ,"default":'<a href="#donate" onclick="showPayPal()"><span>Feedback?<br/> PayPal leave a message.</span></a>'       
-    }
-    ,hiddenHistory:{
-        "zh-CN":'看过的被隐藏数量是'
-        ,"default":'History be hidden,count is'
-     }
-    ,fetchers:["panc","panduoduo","magnet","tieba"]
-    ,balance:{
-        "zh-CN":'余额:'
-        ,"default":"balance"
-    }
-    ,balanceCredit:{
-        "zh-CN":'个'
-        ,"default":""
-    }
-    ,accountTitle:{
-        "zh-CN":"你的帐号:"
-        ,"default":"Your account:"
-    }
-};
-window.showVideos = [];
+}
 
 //         alert(config.userLang);
 function locationParameterChanged() {
+    init();
     var key = config.key;
     var input = document.getElementsByTagName("input")[0];
 
