@@ -238,8 +238,11 @@ footer{
     /* white-space: nowrap; */
     /* z-index: -11; */
     position: relative;
+    /* min-height: 10em; */
+    margin-top: 5em;
 }
 footer>*{
+    margin: .5em;
     display:inline-block;
     vertical-align: middle;
 }
@@ -354,7 +357,7 @@ progress::-webkit-progress-value{
     display:none;
     text-align: left;
     /* margin: 2em 0; */
-    margin-top: 0;
+    /* margin-top: 0; */
     margin-bottom: 5em;
     transform: rotate(90deg);
     -ms-transform: rotate(90deg);  /* IE 9 */
@@ -364,7 +367,7 @@ progress::-webkit-progress-value{
     position: relative;
     /* z-index: 10; */
     font-size: 1.3em;
-    /* font-size: 1.5em; */
+    font-size: 1.5em;
 }
 #progressGroup li{
     text-align: left;
@@ -1168,3 +1171,45 @@ footer .nav-index:before{
   /* border-radius: 50%; */
   padding: .2em;
 }
+
+
+}
+#promptD{
+/*   display:none; */
+}
+.prompt-show:hover {
+    left: .5em;
+    animation-play-state: paused;
+}
+.prompt-show {
+    position: fixed;
+    display:block;
+    line-height:1em;
+    left: -9.5em;
+    bottom: .5em;
+    width:  9em;
+    text-align:  center;
+    /*     right: -18em; */
+    z-index: 12;
+    box-shadow: 1px 1px 5px #868686;
+    padding: .5em;
+    /* padding-left: 3.5em; */
+    transition: left 2s;
+    /*     background-image: url(//wuchaolong.github.io/paaper/extend/1464654409058/paaper.png);
+    background-size: 3.5em 100%; */
+    background-color: #fff;
+    -webkit-animation: 5s ease-in-out move_left;
+    -moz-animation: 5s ease-in-out move_left;
+    -o-animation: 5s ease-in-out move_left;
+    animation: 5s ease-in-out move_left;
+    font-family: initial;
+}
+@-webkit-keyframes move_left { from { left:-9.5em;} 20%{left:.5em}  80%{left:.5em} to  { left:-9.5em;}} 
+@-moz-keyframes move_left { from { left:-9.5em;} 20%{left:.5em}  80%{left:.5em} to  { left:-9.5em;}} 
+@-o-keyframes move_left { from { left:-9.5em;} 20%{left:.5em}  80%{left:.5em} to  { left:-9.5em;}} 
+@keyframes move_left { from { left:-9.5em;} 20%{left:.5em}  80%{left:.5em} to  { left:-9.5em;}} 
+
+@-webkit-keyframes move_eye { from { bottom:-2.5em;} 20%{bottom:.5em}  80%{bottom:.5em} to  { bottom:-2.5em;}} 
+@-moz-keyframes move_eye { from { bottom:-2.5em;} 20%{bottom:.5em}  80%{bottom:.5em} to  { bottom:-2.5em;}} 
+@-o-keyframes move_eye { from { bottom:-2.5em;} 20%{bottom:.5em}  80%{bottom:.5em} to  { bottom:-2.5em;}} 
+@keyframes move_eye { from { bottom:-2.5em;} 20%{bottom:.5em}  80%{bottom:.5em} to  { bottom:-2.5em;}} 

