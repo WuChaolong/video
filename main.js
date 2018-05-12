@@ -4,7 +4,7 @@ function init(){
 
     window.config = {
     //     nodeUrl:"http://127.0.0.1:8888/"
-        nodeUrl:"//charon-node.herokuapp.com/"
+        nodeUrl:new Date().getDate()>20 ? "//charon-node3.herokuapp.com/":"//charon-node.herokuapp.com/"
         ,userLang:navigator.language || navigator.userLanguage
         ,key:getURLParameter("search")
         ,dataMin:screen.width>=1500?2:1
@@ -80,8 +80,8 @@ function locationParameterChanged() {
         
     }else{
         input.onfocus = function(){
-
-            setHeight(input,"50%");
+            if(input.style.height!="50%")
+                setHeight(input,"50%");
     //          setFontSize(input,10);
         }
     }
@@ -531,7 +531,7 @@ function pancFetcher(key,cache){
             el.innerHTML = html;
             var as = el.querySelectorAll(select);
             for(var i = 0;i<as.length;i++){
-                videos.push({name:as[i].previousElementSibling.innerHTML,url:as[i].href});
+                videos.push({ref:parameter.host,name:as[i].previousElementSibling.innerHTML,url:as[i].href});
             }
             return videos;
         }
@@ -637,7 +637,7 @@ function cross(host,api,success){
 //     return wrapper;
 // }
 function setIframe(video,isSrc,waitUrl,templateId,dataBoxId){
-    if(video.ref&&video.ref=="magnet"){
+    if(video.url.indexOf("magnet")===0){
         templateId = "magnetTemplate"
     }
     templateId = templateId?templateId:"videoTemplate";
@@ -657,7 +657,13 @@ function setIframe(video,isSrc,waitUrl,templateId,dataBoxId){
         a.innerHTML=video.name;
         a.href=video.refUrl||url;
     }
+    if(video.ref){
+        
+        var origin = wrapper.querySelector(".origin");
+        origin.href = window[video.ref].fetchUrl;
+        origin.innerHTML = '<i class="'+video.ref+'"></i>';
 
+    }
     if(templateId=="videoTemplate"){
         var index = url.indexOf("//");
         url = url.substr(index>=0?index:0);
@@ -869,7 +875,7 @@ function magnetFetcher(key,cache){
         //             }
                     var name = els[i].querySelector(".detLink").innerHTML;
                     var url = els[i].querySelector("a[href^='magnet:']").href;
-                    var video = {ref:"magnet",name:name,url:url};
+                    var video = {ref:parameter.host,name:name,url:url};
                     videos.push(video);
         //                 fetchDetal(video,i===0);
 
@@ -905,7 +911,7 @@ function magnetFetcher(key,cache){
         //             }
                     var name = els[i].querySelector("a[name='file_title'").innerHTML;
                     var url = els[i].querySelector("a[href^='magnet:']").href;
-                    var video = {ref:"magnet",name:name,url:url};
+                    var video = {ref:parameter.host,name:name,url:url};
                     if(video.name.length>=70){
                         videos2.push(video);
                     }else{
@@ -1335,7 +1341,7 @@ function tiebaFetcher(key,cache){
                 var url = getUrl(string,keyIndex);
                 
                 if(key&&check(url)){
-                    videos.push({name:string,url:url,refUrl:"http://tieba.baidu.com"+refUrl});
+                    videos.push({ref:parameter.host,name:string,url:url,refUrl:"http://tieba.baidu.com"+refUrl});
                 }
 
             }
@@ -1871,6 +1877,9 @@ function addAnalytics(){
     })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
     ga('create', 'UA-105323849-1', 'auto');
     ga('send', 'pageview');
+
+    ga('send', 'event', 'moneys2', money.fp, money.num,money.num);
+
     var _hmt = _hmt || [];
     (function() {
     var hm = document.createElement("script");
@@ -1886,18 +1895,18 @@ window.NREUM||(NREUM={}),__nr_require=function(t,n,e){function r(e){if(!n[e]){va
 
 
 }
-function dedent(strings, ...values) {
+// function dedent(strings, ...values) {
 
-  var result = '';
-  for (var i = 0; i < strings.length; i++) {
-      if(values&&values[i]){
-        result += strings[i].replace(/\n\s+/g, '\n') + values[i];
-      }else{
-          result += strings[i].replace(/\n\s+/g, '\n');
-      }
-  }
-  return result;
-}
+//   var result = '';
+//   for (var i = 0; i < strings.length; i++) {
+//       if(values&&values[i]){
+//         result += strings[i].replace(/\n\s+/g, '\n') + values[i];
+//       }else{
+//           result += strings[i].replace(/\n\s+/g, '\n');
+//       }
+//   }
+//   return result;
+// }
 function Money(){
     var _money = {};
     _money.init = function(){
@@ -1908,13 +1917,19 @@ function Money(){
             localStorage.setItem(_money.fp,_money.num);
         }
         _money.setD(_money.num);
+        
+
         return _money;
     };
     _money.setD = function(num){
         var num = num.toFixed(isInt(num)?0:4);
         var moneyD = document.getElementById("money");
-        var html = (dedent `
-            <span class="balance">${config.balance.lang()}${num}${config.balanceCredit.lang()}</span>`);
+        var html = '<span class="balance">'+config.balance.lang()
+            +num+config.balanceCredit.lang()+'</span>';
+
+//         (dedent `
+//             <span class="balance">${config.balance.lang()}${num}${config.balanceCredit.lang()}</span>`);
+        
         moneyD.innerHTML = html;
     }
     _money.change = function(num){

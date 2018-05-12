@@ -1,2 +1,30 @@
-<link rel="stylesheet" href="addFetcher.css" />
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- <link rel="stylesheet" href="addFetcher.css" /> --> <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- <script src="https://js.stripe.com/v3/"></script>
+<script>
+var stripe = Stripe('pk_live_fR2SGVXOqQkbHuFPInqQRKnL');
+
+stripe.createSource({
+  type: 'alipay',
+  amount: 1099,
+  currency: 'usd',
+  redirect: {
+    return_url: 'http://127.0.0.1:8080/video/pay.html',
+  },
+}).then(function(result) {
+    location = result.source.redirect.url;
+  // handle result.error or result.source
+});
+
+</script>
+ -->
+<form method="post" action="https://pay.bbbapi.com/">
+<input name="istype" value="1"/>
+<input name="notify_url" value="https://socket-taifu.herokuapp.com/notify"/>
+<input name="orderid" value="1"/>
+<input name="orderuid" value="1"/>
+<input name="price" value="10"/>
+<input name="return_url" value="http://127.0.0.1:8080/video/"/>
+<input name="uid" value="6e443bb3cb9c61874f1af085"/>
+<input name="key" value="0d451f861b7c3261a510ff8bafb44a6e"/>
+<input type="submit"/>
+</form>

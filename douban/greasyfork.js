@@ -202,7 +202,8 @@ function isExist(){
 }
 function getKey(reg,t){
   try{
-    var title = document.querySelector('meta[property="og:title"]').content;
+    var title = document.querySelector('meta[property="og:title"]').content
+      ||document.querySelector('meta[name="keywords"]').content;
   }catch(e){
     title = document.title;
   }

@@ -374,19 +374,24 @@ progress::-webkit-progress-value{
     list-style: none;
     /* line-height: .8em; */
 }
-#progressGroup li i:before{
+#progressGroup li i:before,.origin i:before {
    content: '';
    display: inline-block;
    height: .8em;
    width: .8em;
    /* background-image: url(); */
-   margin-right: .5em;
    background-size: 100%;
+}
+#progressGroup li i:before{
+   margin-right: .5em;
    transform: rotate(-90deg);
    -ms-transform: rotate(-90deg);
    -moz-transform: rotate(-90deg);
    -webkit-transform: rotate(-90deg);
    -o-transform: rotate(-90deg);
+}
+.origin i:before{
+  
 }
 #progressGroup li.more{
   text-align:center;
@@ -973,11 +978,11 @@ a.bookmark:active {
     }
 
     .share-other.social-share .icon-wechat .wechat-qrcode {
-      opacity: 1;
+      /* opacity: 1; */
       filter: alpha(opacity=100);
-      visibility: visible;
+      /* visibility: visible; */
       border-radius: 50%;
-      overflow: hidden;
+      /* overflow: hidden; */
     }
     .social-share .icon-wechat .wechat-qrcode h4{
       /* display:inline-block; */
@@ -1133,7 +1138,7 @@ footer .nav-index{
   display:block;
   
 }
-footer .nav-index:before{
+.logo:before{
   content:" ";
   width:1em;
   height:1em;
@@ -1213,3 +1218,33 @@ footer .nav-index:before{
 @-moz-keyframes move_eye { from { bottom:-2.5em;} 20%{bottom:.5em}  80%{bottom:.5em} to  { bottom:-2.5em;}} 
 @-o-keyframes move_eye { from { bottom:-2.5em;} 20%{bottom:.5em}  80%{bottom:.5em} to  { bottom:-2.5em;}} 
 @keyframes move_eye { from { bottom:-2.5em;} 20%{bottom:.5em}  80%{bottom:.5em} to  { bottom:-2.5em;}} 
+
+
+.good{
+  height: 260px;
+  /* display:block; */
+  width: 150px;
+}
+.price{
+  
+}
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%) rotate(45deg);
+          transform: translate(-50%, -50%) rotate(45deg);
+  border: 5px solid transparent;
+  border-top-color: #999;
+  border-right-color: #999;
+  border-radius: 100%;
+  pointer-events: none;
+}
+widget[type="ticket"] .rip:before {
+  left: -10px;
+}
+widget[type="ticket"] .rip:after {
+  -webkit-transform: translate(-50%, -50%) rotate(225deg);
+          transform: translate(-50%, -50%) rotate(225deg);
+  right: -40px;
+}
+widget .-bold {
+  font-weight: bold;
+}

@@ -1,0 +1,18 @@
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+</head>
+<h1>吴超龙的shadowsocks服务器使用教程</h1>
+<h4>1,安装nodejs</h4>
+<p>https://nodejs.org/zh-cn/ 下载并安装
+<h4>2,下载shadowsocks client </h4>
+<p>https://github.com/WuChaolong/shadowsocks-heroku/archive/master.zip 下载并解压
+<h4>3,使用nodejs 运行 shadowsocks client</h4>
+<p>shadowsocks client 解压后文件夹里，按住shift点击鼠标右键，打
+开命令行 执行下面的
+<p>npm install
+<p>node local.js -s shadowsocks-taifu.herokuapp.com -l 1082 -m rc4-md5 -k 521xueweihan -r 80
+<p><img height=300 src="img/Screenshot12-40-59.png"/>
+<h4>4,设置chrome代理</h4>
+<p>在SwitchyOmega Options中New profile
+<p>socks5  127.0.0.1  8082
+<p><img height=300 src="img/Screenshot12-47-22.png"/><img height=300 src="img/Screenshot12-47-49.png"/>

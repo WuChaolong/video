@@ -1,0 +1,137 @@
+body{
+  overflow: hidden;
+  margin: 0;
+}
+.logo:before{
+  content:" ";
+  width:1em;
+  height:1em;
+  display:inline-block;
+  background-image: url(img/logo.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin: .5em;
+  vertical-align: middle;
+}
+.price .lable{
+    margin: .5em;
+}
+widget {
+  -webkit-filter: drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.3));
+  color:  #fff;
+}
+widget[type="ticket"] {
+  /* width: 255px; */
+}
+widget[type="ticket"] .top > div,
+widget[type="ticket"] .bottom > div {
+  padding: 0 18px;
+}
+widget[type="ticket"] .top > div:first-child,
+widget[type="ticket"] .bottom > div:first-child {
+  /* padding-top: 18px; */
+}
+widget[type="ticket"] .top > div:last-child,
+widget[type="ticket"] .bottom > div:last-child {
+  /* padding-bottom: 18px; */
+}
+widget[type="ticket"] .top img,
+widget[type="ticket"] .bottom img {
+  border:  5px solid;
+  margin: 18px auto;
+}
+widget[type="ticket"] .top,
+widget[type="ticket"] .bottom,
+widget[type="ticket"] .rip {
+  background-color: #000;
+}
+widget[type="ticket"] .top {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+widget[type="ticket"] .top .deetz {
+  padding-bottom: 10px !important;
+  line-height: 2em;
+}
+widget[type="ticket"] .bottom {
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  /* padding: 18px; */
+  /* height: 30px; */
+  /* padding-top: 10px; */
+  text-align:  center;
+  /* min-height: 146px; */
+}
+widget[type="ticket"] .bottom .barcode {
+  /* background-image: url(img/10.png); */
+  background-repeat: no-repeat;
+  /* min-width: 58px; */
+  /* height:  100px; */
+  /* width: 100px; */
+  background-size: auto 80%;
+  background-position:  center;
+  /* display: block; */
+  /* margin: .5em; */
+  min-height:  150px;
+  width: 100%;
+  line-height: 150px;
+  position: relative;
+}
+widget[type="ticket"] .bottom .buy {
+  display: inline-block;
+  margin: 1em auto;
+  font-size: 12px;
+  font-weight: bold;
+  background-color: #5D9CEC;
+  padding: 0 18px;
+  line-height: 30px;
+  border-radius: 15px;
+  color: #000;
+  text-decoration: none;
+}
+widget[type="ticket"] .rip {
+  height: 20px;
+  margin: 0 10px;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAACCAYAAAB7Xa1eAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAAAaSURBVBhXY5g7f97/2XPn/AcCBmSMQ+I/AwB2eyNBlrqzUQAAAABJRU5ErkJggg==);
+  background-size: 4px 2px;
+  background-repeat: repeat-x;
+  background-position: center;
+  position: relative;
+  box-shadow: 0 1px 0 0 #000, 0 -1px 0 0 #000;
+}
+widget[type="ticket"] .rip:before, widget[type="ticket"] .rip:after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%) rotate(45deg);
+          transform: translate(-50%, -50%) rotate(45deg);
+  border: 5px solid transparent;
+  border-top-color: #000;
+  border-right-color: #000;
+  border-radius: 100%;
+  pointer-events: none;
+}
+widget[type="ticket"] .rip:before {
+  left: -10px;
+}
+widget[type="ticket"] .rip:after {
+  -webkit-transform: translate(-50%, -50%) rotate(225deg);
+          transform: translate(-50%, -50%) rotate(225deg);
+  right: -40px;
+}
+widget .-bold {
+  font-weight: bold;
+}
+widget[type="ticket"] .bottom img.alypay-icon{
+  border:  0;
+  width: 1.5em;
+  position:  absolute;
+  top:  0;
+  bottom:  0;
+  left:  0;
+  right:  0;
+  margin: auto;
+}
