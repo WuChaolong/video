@@ -163,6 +163,7 @@ function showHideVideos(){
 }
 function loadFetchers(fetchers,key){
     if(!fetchers){
+        
         money.change(-1);
     }
     (fetchers||config.fetchers).map(function(fetcher,index){
@@ -366,6 +367,7 @@ function fetcher(parameter){
         }
     }
     serf.onLoaded=function(){
+        
         if(parameter.onLoaded){
             parameter.onLoaded(serf);
         }else{
@@ -1597,9 +1599,11 @@ function loadShare(key){
     importCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css","awesome");
     addShare(key);
     if(!inIframe()){
-        document.querySelector(".nav-index").style.display = "block";
+        document.querySelector(".nav-index").style.display = "inline-block";
 
     }
+    document.querySelector("footer").style.display = "block";
+
 }
 function addShare(key){
 

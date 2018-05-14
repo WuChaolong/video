@@ -455,15 +455,16 @@ i.thepiratebay:before{
 }
 #searchTop.doubanList{
   min-height: 50%;
-  /* min-height: 100px; */
+  /* min-height: 500px; */
   position: relative;
   top: 25%;
   /*   padding-top:50%; */
   transform:translateY(-25%);
   -ms-transform:translateY(-25%); 	/* IE 9 */
-  -moz-transform:translateY(-25%); 	/* Firefox */
+  -moz-transform:translateY(-25%); 	/* Firefox */ 
   -webkit-transform:translateY(-25%); /* Safari 和 Chrome */
-  -o-transform:translateY(-25%); 	/* Opera */
+    -o-transform:translateY(-25%); 	/* Opera */
+  /* height: 50%; */
 }
 #searchBottom.doubanList{
 /*   height: 20em;
@@ -788,12 +789,12 @@ iframe{
   /* z-index: -1; */
 }
 .share-other{
-  display: inline-block;
+  /* display: inline-block; */
   /* position: absolute; */
   /* width: 20em; */
   /* right: 0; */
   text-align: center;
-  background: rgba(255,255,255,.9);
+  /* background: rgba(255,255,255,.9); */
   /* display: inline-block; */
   /* margin: auto; */
   position: relative;
@@ -804,12 +805,19 @@ iframe{
 .is-it:checked+.share-other{
   display:block;
 }
-.share-other[checked='true']{
+footer>*[checked='true'],.share-other[checked='true']{
     position: fixed;
     bottom: 0;
     right: -100px;
     left: -100px;
     z-index: 11;
+    margin: 0 auto;
+    width: 100%;
+    /* text-align:  center; */
+    background: rgba(255,255,255,.9);
+}
+.money[checked='true']{
+    height:100%;
 }
 
 
@@ -982,7 +990,7 @@ a.bookmark:active {
       filter: alpha(opacity=100);
       /* visibility: visible; */
       border-radius: 50%;
-      /* overflow: hidden; */
+      overflow: hidden;
     }
     .social-share .icon-wechat .wechat-qrcode h4{
       /* display:inline-block; */
@@ -1128,16 +1136,7 @@ a.movieannual2017:after,ad:after{
   
 }
 
-footer .nav-index{
-/*   position:absolute; */
-/*   top:300px; */
-  left:0;
-  right:0;
-  bottom:1em;
-  margin:auto;
-  display:block;
-  
-}
+footer .nav-index{/*   position:absolute; *//*   top:300px; */left:0;right:0;bottom:1em;margin:auto;/* display:block; */}
 .logo:before{
   content:" ";
   width:1em;
@@ -1224,6 +1223,8 @@ footer .nav-index{
   height: 260px;
   /* display:block; */
   width: 150px;
+  /* display:  inline; */
+  margin: auto;
 }
 .price{
   
@@ -1247,4 +1248,37 @@ widget[type="ticket"] .rip:after {
 }
 widget .-bold {
   font-weight: bold;
+}
+.qq:before{
+  /* content:" "; */
+  /* width: 2em; */
+  /* height: 2em; */
+  /* background: center/ contain  no-repeat url(http://wpa.qq.com/pa?p=2:752761705:52); */
+  /* display:  inline-block; */
+  /* vertical-align:middle; */
+  content: "\f11a";
+}
+.qq:after{
+  content:"客服";
+}
+.qq{
+    font-family: "socialshare" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+}
+
+.flex-center{
+  display: flex;
+    align-items: center;
+    min-height: 50%;
+}
+.prompt-blance{
+  display:none;
+  font-size:2em;
+  line-height:2em;
+}
+[checked="true"] .prompt-blance{
+  display:block;
 }

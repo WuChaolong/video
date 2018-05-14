@@ -25,7 +25,10 @@
     <input required type="search" list="doubanList" name="search"/><button type="submit">Search</button>
 
 </form>
-<div id="searchTop"></div>
+<!-- <div class="flex-center">
+</div> -->
+
+  <div id="searchTop"></div>
 <div id="googleEntities"></div>
 <div id="dataIsIt"></div>
 <div id="data"><a href="#data"></a></div>
@@ -39,22 +42,31 @@
 
 </div>
 <div id="searchBottom"></div>
-<footer>
+<footer
+ style="display:none;" 
+ >
 <!--   <div id="user">
    
   </div> -->
-   <div id="money"></div>
-   <div class="coinhive-miner"></div>
-   <div class="good">
-      <iframe src="pay10.html" style="overflow-x:hidden;overflow-y:hidden; border:0px; min-height:250px; width:100%;"  frameborder="0" scrolling="no"></iframe>
+  <div class="money">
+     <div class="prompt-blance">你的余额不足，请充值！</div>
+     <div id="money"></div>
+     <div class="coinhive-miner"></div>
+     <div class="good">
+        <iframe src="pay10.html" style="overflow-x:hidden;overflow-y:hidden; border:0px; min-height:250px; width:100%;"  frameborder="0" scrolling="no"></iframe>
 
-   </div>
-  <div id="donate">
+     </div>
+    <div id="donate">
+    </div>
+        <a class="social-share-icon icon-qq qq" target="_blank" href="https://wpa.qq.com/msgrd?v=3&uin=752761705&site=qq&menu=yes"></a>
+    </div>
   </div>
+  <div>
   <div class="share-other" data-mobile-sites="qq,weibo,facebook,twitter" data-sites="qq,weibo,facebook,twitter,wechat"
     data-wechat-qrcode-helper="<p>手机版<br/>躲被窝的舒服</p>"
   ></div>
   <a class="nav-index logo" style="display:none;" href="https://wuchaolong.github.io/video/">https://wuchaolong.github.io/video/</a>
+  </div>
 </footer>
 <div id="promptD"></div>
 </body>
