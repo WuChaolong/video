@@ -6,7 +6,7 @@ var socketurl = "https://socket-taifu.herokuapp.com";
 var socket = io(socketurl);
 // var fptime = window.parent.money.fp+'-'+new Date().getTime();
 var message ;
-var timeout ;
+var timeout ={};
 loadNum();
 load();
 
@@ -55,7 +55,7 @@ socket.on('chat message', function(msg){
         log("已成功支付!");
         window.parent.money.change(num);
 //         timeout = setTimeout(load,1000);
-        clearTimeout(timeout)；
+        clearTimeout(timeout);
 
       }
     }
