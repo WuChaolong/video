@@ -39,9 +39,7 @@ function load(){
     ,checking:0
   }
 
-  addPaysapi();
   makeEr(message);
-  timeout = setTimeout(load,300000);
   promptBlance();
 }
 socket.on('chat message', function(msg){
@@ -51,13 +49,14 @@ socket.on('chat message', function(msg){
     if(message.fb==msg.fb&&message.time==msg.time){
       if(msg.checking===0){
         message.checking = 1;
+        addPaysapi();
         log("支付中...");
       }else if(msg.checking===2){
         log("已成功支付!");
         window.parent.money.change(num);
-        
-        setTimeout(
-        load,1000);
+//         timeout = setTimeout(load,1000);
+        clearTimeout(timeout)；
+
       }
     }
 
@@ -97,6 +96,8 @@ function makeEr(message){
 function addPaysapi(){
   var html = '    <iframe src="'+socketurl+'/payqrcode?orderno='+message.time+'&price=10&pay=1&phone='+message.fb+'" height="0"  frameborder="0" scrolling="no" sandbox="allow-same-origin allow-scripts allow-forms"></iframe>'
   document.querySelector(".payapi").innerHTML = html;
+    timeout = setTimeout(load,300000);
+
 
 }
 function mobilecheck() {
