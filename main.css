@@ -242,7 +242,7 @@ footer{
     margin-top: 5em;
 }
 footer>*{
-    margin: .5em;
+    margin: 1em;
     display:inline-block;
     vertical-align: middle;
 }
@@ -1000,7 +1000,7 @@ a.bookmark:active {
     }
 }
 .coinhive-miner {
-    margin:1em 0;
+    /* margin:1em 0; */
 }
 #dataIsIt .is-it{
 /*   display:none; */
@@ -1163,7 +1163,8 @@ footer .nav-index{/*   position:absolute; *//*   top:300px; */left:0;right:0;bot
     background-size: contain;
     background-repeat: no-repeat;
     /* margin: .5em; */
-    vertical-align: text-top;
+    vertical-align:  middle;
+    /* vertical-align: text-top; */
 }
 .account{
   /* display:inline-block; */
@@ -1220,11 +1221,12 @@ footer .nav-index{/*   position:absolute; *//*   top:300px; */left:0;right:0;bot
 
 
 .good{
-  height: 260px;
+  /* height: 260px; */
   /* display:block; */
   width: 150px;
   /* display:  inline; */
   margin: auto;
+  /* display: none; */
 }
 .price{
   

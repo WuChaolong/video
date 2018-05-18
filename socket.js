@@ -50,9 +50,9 @@ socket.on('chat message', function(msg){
       if(msg.checking===0){
         message.checking = 1;
         addPaysapi();
-        log("支付中...");
+        log('<div class="barcode">支付中...</div>');
       }else if(msg.checking===2){
-        log("已成功支付!");
+        log('<div class="barcode">已成功支付!');
         window.parent.money.change(num);
 //         timeout = setTimeout(load,1000);
         clearTimeout(timeout);
@@ -66,7 +66,7 @@ socket.on('chat message', function(msg){
 });
 
 function log(string){
-  var qrdiv = document.querySelector(".barcode");
+  var qrdiv = document.querySelector(".bottom");
     qrdiv.innerHTML = string;
 }
 function clearPay(){
@@ -80,15 +80,15 @@ function pay10(num){
    localStorage.setItem("pay10",pay10+num);
 }
 function makeEr(message){
-    var qrdiv = document.querySelector(".barcode");
+    var qrdiv = document.querySelector(".bottom");
     var url = socketurl+'/pay10?emitId='+JSON.stringify(message)+'&redirect=HTTPS://QR.ALIPAY.COM/FKX06210WMHA2IRIKCSW33';
     url = encodeURI(url);
     if(mobilecheck()){
-        qrdiv.innerHTML = '<a href="'+url+'" class="alipay-button" target="_blank">启动支付宝支付</a>';
+        qrdiv.innerHTML = '<div class="barcode"><a href="'+url+'" class="alipay-button" target="_blank">启动支付宝购买</a></div>';
     }else{
-        qrdiv.innerHTML = '<img class="alypay-icon" src="https://static.clewm.net/cli/images/logomb/version2/alipay.png"/>';
+        qrdiv.innerHTML = '<div class="barcode"><img class="alypay-icon" src="https://static.clewm.net/cli/images/logomb/version2/alipay.png"/></div>支付宝扫一扫购买 ';
 
-        new QRCode(qrdiv, {text: url, width: 100, height: 100});
+        new QRCode(qrdiv.querySelector(".barcode"), {text: url, width: 100, height: 100});
 
     }
 

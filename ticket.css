@@ -30,7 +30,7 @@ widget[type="ticket"] .bottom > div {
 }
 widget[type="ticket"] .top > div:first-child,
 widget[type="ticket"] .bottom > div:first-child {
-  /* padding-top: 18px; */
+  padding-top: .5em;
 }
 widget[type="ticket"] .top > div:last-child,
 widget[type="ticket"] .bottom > div:last-child {
@@ -39,7 +39,8 @@ widget[type="ticket"] .bottom > div:last-child {
 widget[type="ticket"] .top img,
 widget[type="ticket"] .bottom img {
   border:  5px solid;
-  margin: 18px auto;
+  /* margin: 18px auto; */
+  margin: auto;
 }
 widget[type="ticket"] .top,
 widget[type="ticket"] .bottom,
@@ -51,13 +52,13 @@ widget[type="ticket"] .top {
   border-top-left-radius: 5px;
 }
 widget[type="ticket"] .top .deetz {
-  padding-bottom: 10px !important;
+  /* padding-bottom: 10px !important; */
   line-height: 2em;
 }
 widget[type="ticket"] .bottom {
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
-  /* padding: 18px; */
+  padding: .6em 0;
   /* height: 30px; */
   /* padding-top: 10px; */
   text-align:  center;
@@ -73,10 +74,12 @@ widget[type="ticket"] .bottom .barcode {
   background-position:  center;
   /* display: block; */
   /* margin: .5em; */
-  min-height:  150px;
-  width: 100%;
-  line-height: 150px;
+  min-height: 114px;
+  /* width: 100%; */
+  line-height: 114px;
   position: relative;
+  /* margin: 18px auto; */
+  /* line-height:  1.5em; */
 }
 widget[type="ticket"] .bottom .buy {
   display: inline-block;
@@ -137,7 +140,8 @@ widget[type="ticket"] .bottom img.alypay-icon{
 }
 .alipay-button{
     color: #fff;
-/*     background-color: #3071a9; */
-/*     border-color: #285e8e; */
-/*     padding: */
+    /*     background-color: #3071a9; */
+    /*     border-color: #285e8e; */
+    /*     padding: */
+    line-height: 114px;
 }
