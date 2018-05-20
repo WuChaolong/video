@@ -11,7 +11,9 @@
         "32": "hello_extensions.png",
         "48": "hello_extensions.png",
         "128": "hello_extensions.png"
-      }
+      },
+          "open_in_sidebar": true        // optional
+
     },
 "icons": {
   "16": "hello_extensions.png",
