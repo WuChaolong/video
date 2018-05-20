@@ -1,6 +1,6 @@
 var num = 1000;
 // var socketurl = "http://127.0.0.1:3000";
-var socketurl = "https://socket-taifu.herokuapp.com";
+var socketurl = "https://socket-taifu2.herokuapp.com";
 // var socketurl = "https://socket-taifu.herokuapp.com:37936";
 
 var socket = io(socketurl);
