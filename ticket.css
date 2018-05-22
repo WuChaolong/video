@@ -30,7 +30,7 @@ widget[type="ticket"] .bottom > div {
 }
 widget[type="ticket"] .top > div:first-child,
 widget[type="ticket"] .bottom > div:first-child {
-  padding-top: .5em;
+  /* padding-top: .5em; */
 }
 widget[type="ticket"] .top > div:last-child,
 widget[type="ticket"] .bottom > div:last-child {
@@ -50,6 +50,7 @@ widget[type="ticket"] .rip {
 widget[type="ticket"] .top {
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
+  padding-top: .5em;
 }
 widget[type="ticket"] .top .deetz {
   /* padding-bottom: 10px !important; */
