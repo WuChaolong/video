@@ -1,7 +1,6 @@
 var num = 1000;
 // var socketurl = "http://127.0.0.1:3000";
 var socketurl = "https://socket-taifu2.herokuapp.com";
-// var socketurl = "https://socket-taifu.herokuapp.com:37936";
 
 var socket = io(socketurl);
 // var fptime = window.parent.money.fp+'-'+new Date().getTime();
@@ -54,8 +53,8 @@ socket.on('chat message', function(msg){
       }else if(msg.checking===2){
         log('<div class="barcode">已成功支付!');
         window.parent.money.change(num);
-//         timeout = setTimeout(load,1000);
-        clearTimeout(timeout);
+        timeout = setTimeout(load,3000);
+//         clearTimeout(timeout);
 
       }
     }
@@ -96,7 +95,7 @@ function makeEr(message){
 function addPaysapi(){
   var html = '    <iframe src="'+socketurl+'/payqrcode?orderno='+message.time+'&price=10&pay=1&phone='+message.fb+'" height="0"  frameborder="0" scrolling="no" sandbox="allow-same-origin allow-scripts allow-forms"></iframe>'
   document.querySelector(".payapi").innerHTML = html;
-    timeout = setTimeout(load,300000);
+//     timeout = setTimeout(load,300000);
 
 
 }

@@ -800,7 +800,7 @@ iframe{
   position: relative;
 }
 .share-other.social-share{
-  padding:1em
+  padding:1em;
 }
 .is-it:checked+.share-other{
   display:block;
@@ -985,19 +985,20 @@ a.bookmark:active {
       display:inline-block;
     }
 
-    .share-other.social-share .icon-wechat .wechat-qrcode {
-      /* opacity: 1; */
-      filter: alpha(opacity=100);
-      /* visibility: visible; */
-      border-radius: 50%;
-      overflow: hidden;
-    }
+    
     .social-share .icon-wechat .wechat-qrcode h4{
       /* display:inline-block; */
     }
     #progressGroup {
         font-size: 1.5em;
     }
+}
+.share-other.social-share .icon-wechat .wechat-qrcode {
+  /* opacity: 1; */
+  filter: alpha(opacity=100);
+  /* visibility: visible; */
+  border-radius: 50%;
+  overflow: hidden;
 }
 .coinhive-miner {
     /* margin:1em 0; */
@@ -1136,7 +1137,12 @@ a.movieannual2017:after,ad:after{
   
 }
 
-footer .nav-index{/*   position:absolute; *//*   top:300px; */left:0;right:0;bottom:1em;margin:auto;/* display:block; */}
+footer .nav-index{/*   position:absolute; *//*   top:300px; */left:0;right:0;bottom:1em;margin:auto;display:block;}
+.social-share .nav-index{
+  display:block;
+  margin-top: 1em;
+}
+
 .logo:before{
   content:" ";
   width:1em;
@@ -1145,7 +1151,7 @@ footer .nav-index{/*   position:absolute; *//*   top:300px; */left:0;right:0;bot
   background-image: url(img/logo.png);
   background-size: contain;
   background-repeat: no-repeat;
-  margin: .5em;
+  /* margin: .5em; */
   vertical-align: middle;
 }
 

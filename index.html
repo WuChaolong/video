@@ -1,6 +1,6 @@
 <html>
 <head>
-<title data-bookmark="Video">Video in pan.baidu.com sharing</title>
+<title data-bookmark="Video">Video</title>
 
 <link href="img/logo.png" rel="shortcut icon">
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -10,6 +10,8 @@
 
 <link rel="stylesheet" href="main.css" />
 <script type="text/javascript" src="https://wuchaolong.github.io/fingerprintjs/fingerprint.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.6.0.js"></script>
+
 <script type="text/javascript" src="main.js?2018-5-20"></script>
 <link rel="preload" href="//charon-node.herokuapp.com">
 
@@ -57,10 +59,11 @@
     <div id="donate"></div>
   </div>
   <div>
-  <div class="share-other" data-mobile-sites="qq,weibo,facebook,twitter" data-sites="qq,weibo,facebook,twitter,wechat"
+    <div class="prompt-share small"></div>
+
+  <div class="share-other" data-sites="qq,weibo,facebook,twitter,wechat"
     data-wechat-qrcode-helper="<p>手机版<br/>躲被窝的舒服</p>"
   ></div>
-  <a class="nav-index logo" style="display:none;" href="https://wuchaolong.github.io/video/">https://wuchaolong.github.io/video/</a>
   </div>
 </footer>
 <div id="promptD"></div>
