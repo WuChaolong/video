@@ -437,6 +437,9 @@ i.panc:before{
 i.thepiratebay:before{
    background-image: url('https://thepiratebay.org/favicon.ico');
 }
+i.pansou:before {
+    background-image: url(http://pansou.com/favicon.ico);
+}
 .doubanList{
     /* height: 50%; */
     overflow-x: scroll;
