@@ -128,6 +128,7 @@ widget[type="ticket"] .rip:after {
 }
 widget .-bold {
   font-weight: bold;
+  text-align:  c;
 }
 widget[type="ticket"] .bottom img.alypay-icon{
   border:  0;
@@ -145,4 +146,7 @@ widget[type="ticket"] .bottom img.alypay-icon{
     /*     border-color: #285e8e; */
     /*     padding: */
     line-height: 114px;
+}
+.num{
+  text-align:  center;
 }
