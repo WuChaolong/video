@@ -1273,7 +1273,7 @@ widget .-bold {
   content: "\f11a";
 }
 .qq:after{
-  content:"客服";
+  content: "客服留言";
 }
 .qq{
     font-family: "socialshare" !important;
