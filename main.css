@@ -11,6 +11,7 @@ img{
     overflow: hidden;
     /*     border-left: 1px inset; */
     position: relative;
+    margin-top: 1em;
 }
 
 .passport-baidu{text-align: center;}
@@ -34,6 +35,7 @@ img{
       position: relative;
       width: calc(100% - 4.5em);
       /* overflow: hidden; */
+      margin: 1em 0;
 }
 .baidu-video iframe{
     width: 100%;
@@ -184,9 +186,9 @@ body{
 
 .title{
     /* margin-top:2em; */
-    margin-bottom:1em;
+    /* margin-bottom:1em; */
     font-weight: normal;
-    display: inline-block;
+    /* display: inline-block; */
     word-break:break-all;
 }
 a{
@@ -391,7 +393,8 @@ progress::-webkit-progress-value{
    -o-transform: rotate(-90deg);
 }
 .origin i:before{
-  
+  font-size: .8em;
+  margin-left: .5em;
 }
 #progressGroup li.more{
   text-align:center;
@@ -723,14 +726,14 @@ iframe{
 }
 .video-item{
   position:relative;
-  /* margin-top: 2em; */
+  margin-top: 2em;
   display: inline-block;
   max-width: 751px;
   width: 100%; */
   text-align: left;
   vertical-align: top;
   /* padding: .5em; */
-  margin-top: 2em;
+  /* margin: 1em 0; */
   box-sizing: content-box;
   text-align: left;
 }
