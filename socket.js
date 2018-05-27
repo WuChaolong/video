@@ -114,7 +114,6 @@ function makeEr(message){
             ,mtext:"玩玩这功能"
             ,text:"玩玩这功能"
          };
-        config.alErcode = "HTTPS://QR.ALIPAY.COM/FKX06596EKL1PWHHWJ9809";
     }
     var qrdiv = document.querySelector(".bottom");
     var url = socketurl+'/pay10?emitId='+JSON.stringify(message)+'&redirect='+config.alErcode;
