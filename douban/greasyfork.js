@@ -3,8 +3,8 @@
 // @name:zh-CN   ! 豆瓣电影 + 百度网盘 |!' 各大视频网站 +
 // @name:en      ! IMDB + Magnet
 // @version      4.4
-// @description         Show magnet and pan.baidu.com in movie detail page .
-// @description:zh-CN   找资源不用打开一堆新标签,有的话会直接播放 |!' 当破解VIP会员电视剧失败?没准有网盘和磁力种子在分享呢.兼容黄岩Style.
+// @description:en         Show magnet and pan.baidu.com in movie detail page .
+// @description:zh-CN   找资源不用打开一堆新标签,有的话会直接播放 |!'  当破解VIP会员电视剧失败?没准有网盘和磁力种子在分享呢.兼容黄岩Style.
 // @author       WuChaolong
 // @icon         data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAS1BMVEX////ycnLyampuu25muGby8nLy8mrl5eXk5OT8DAz8/AzPz8/z8zONvY3Nzc3d3d3b29v/AAAMnAwAmQD//wDMzMz19SmIu4j///+ks1oiAAAAEXRSTlMAwMfg5cDHgIj+/vD7/v7AxxKKtKIAAAABYktHRACIBR1IAAAACW9GRnMAAAEtAAABagBZv0KIAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAB3RJTUUH4gERCw82Bupv1AAAAAl2cEFnAAADGgAABGMAz64W0QAAAItJREFUaN7t2UkKgEAQBEF13Pfd///UQ4n0YQRBBIXMYzEaD+ggIPpZYaRCO7pYObMlqUrswyxX2TVQDKqw4zip0WzlrEr7sFpUBQAAAAAAAAAAAHBWr6p+C/D+CwAAAAAAAAAA4BnQbKp5C2iP71oAAAAAAAAAAID/AN6Ddderzmze2/SNgzXRJ9sBPp3K24JPMHQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTgtMDEtMTdUMTk6MTQ6NDIrMDg6MDBqGWm5AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE4LTAxLTE3VDE5OjE0OjQyKzA4OjAwG0TRBQAAAABJRU5ErkJggg==
 
@@ -34,6 +34,9 @@
 // @match    *://*.fun.tv/vplay/*
 // @match    *://*.wasu.cn/Play/show/*
 // @match    *://*.56.com/*
+
+
+// @match    *://www.youtube.com/*
 
 // @grant    GM_openInTab
 // ==/UserScript==
@@ -162,7 +165,7 @@ function whatSite(host){
               return elementBy(html);
             }
             ,getKey:function(){
-              return getKey(/\s|-|_|电视剧|电影|《|》|第/);
+              return getKey(/|-|_|电视剧|电影|《|》|第/);
             }
       }
 
