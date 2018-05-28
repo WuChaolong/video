@@ -165,7 +165,7 @@ function whatSite(host){
               return elementBy(html);
             }
             ,getKey:function(){
-              return getKey(/|-|_|电视剧|电影|《|》|第/);
+              return getKey(/-|_|电视剧|电影|《|》|第/);
             }
       }
 
