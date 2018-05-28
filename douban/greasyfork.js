@@ -2,7 +2,7 @@
 // @name         ! 豆瓣电影 + 百度网盘 |!' IMDB + Magnet |!' 各大视频网站 +
 // @name:zh-CN   ! 豆瓣电影 + 百度网盘 |!' 各大视频网站 +
 // @name:en      ! IMDB + Magnet
-// @version      4.4
+// @version      4.5
 // @description:en         Show magnet and pan.baidu.com in movie detail page .
 // @description:zh-CN   找资源不用打开一堆新标签,有的话会直接播放 |!'  当破解VIP会员电视剧失败?没准有网盘和磁力种子在分享呢.兼容黄岩Style.
 // @author       WuChaolong
