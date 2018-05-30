@@ -111,8 +111,8 @@ function makeEr(message){
     if(price==0.1){
         config={
            alErcode:"HTTPS://QR.ALIPAY.COM/FKX06596EKL1PWHHWJ9809"
-            ,mtext:"玩玩这功能"
-            ,text:"玩玩这功能"
+            ,mtext:"支付玩玩"
+            ,text:"扫一扫玩玩"
          };
     }
     var qrdiv = document.querySelector(".bottom");
@@ -131,7 +131,7 @@ function makeEr(message){
 function addPaysapi(){
   var html = '    <iframe src="'+socketurl+'/payqrcode?orderno='+message.time+'&price='+price+'&pay=1&phone='+message.fb+'" height="0"  frameborder="0" scrolling="no" sandbox="allow-same-origin allow-scripts allow-forms"></iframe>'
   document.querySelector(".payapi").innerHTML = html;
-//     timeout = setTimeout(load,300000);
+    timeout = setTimeout(load,300000);
 
 
 }

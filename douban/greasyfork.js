@@ -2,7 +2,7 @@
 // @name         ! 豆瓣电影 + 百度网盘 |!' IMDB + Magnet |!' 各大视频网站 +
 // @name:zh-CN   ! 豆瓣电影 + 百度网盘 |!' 各大视频网站 +
 // @name:en      ! IMDB + Magnet
-// @version      4.5
+// @version      4.6
 // @description:en         Show magnet and pan.baidu.com in movie detail page .
 // @description:zh-CN   找资源不用打开一堆新标签,有的话会直接播放 |!'  当破解VIP会员电视剧失败?没准有网盘和磁力种子在分享呢.兼容黄岩Style.
 // @author       WuChaolong
@@ -12,6 +12,7 @@
 // @match        *://movie.douban.com/celebrity/*
 
 // @match        *://*.imdb.com/title/*
+// @match        *://*.imdb.com/name/*
 // @match        *://m.douban.com/movie/subject/*
 // @match        *://m.douban.com/movie/celebrity/*
 
@@ -104,6 +105,10 @@ function whatSite(host){
                     a.click();
                   }
                 }
+              }
+              if(location.hash=="#wuchaolong"){
+                    document.querySelector("div#wrapper").click();
+
               }
            }
            ,createElement:createElementBy
@@ -252,6 +257,8 @@ function getValue(array,index){
 
 function getWuchaolongUrl(key){
   return (dedent `https://wuchaolong.github.io/video/?search=${key}`);
+//   return (dedent `http://127.0.0.1:8080/video/?search=${key}`);
+
 }
 
 function elementBy(html){
