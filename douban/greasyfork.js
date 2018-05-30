@@ -14,7 +14,6 @@
 // @match        *://*.imdb.com/title/*
 // @match        *://*.imdb.com/name/*
 // @match        *://m.douban.com/movie/subject/*
-// @match        *://m.douban.com/movie/celebrity/*
 
 
 // @match    *://*.iqiyi.com/*
