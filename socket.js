@@ -75,7 +75,7 @@ socket.on('chat message', function(msg){
       }else if(msg.checking===2){
         log('<div class="barcode">已成功支付!');
         window.parent.money.change(num);
-        timeout = setTimeout(load,3000);
+        timeout = setTimeout(load,5000);
 //         clearTimeout(timeout);
 
       }
