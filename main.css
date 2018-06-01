@@ -811,7 +811,7 @@ iframe{
 .is-it:checked+.share-other{
   display:block;
 }
-footer>*[checked='true'],.share-other[checked='true']{
+footer[checked='true'],footer>*[checked='true'],.share-other[checked='true']{
     position: fixed;
     bottom: 0;
     right: -100px;
@@ -1298,7 +1298,8 @@ widget .-bold {
 .prompt-blance{
   display:none;
   font-size:2em;
-  line-height:2em;
+  line-height: 1em;
+  /* margin-bottom: 1em; */
 }
 [checked="true"] .prompt-blance{
   display:block;
@@ -1375,4 +1376,18 @@ widget .-bold {
 }
 .checkbox .checkbox-input:disabled ~ label:after {
   background: #bcbcbc;
+}
+
+.close{
+  display:none;
+}
+.money[checked='true'] .close{
+  display:inline-block;
+  position:absolute;
+  top:.5em;
+  right:.5em;
+  font-size:2em;
+  border:0;
+  background:none;
+
 }

@@ -48,6 +48,7 @@ function loadNum(){
   var diffDays = parseInt(timeDiff / (1000 * 3600 * 24)); 
   num = num*Math.pow(0.9,diffDays);
   num = parseInt(num);
+  num = 100;
   document.querySelector(".num").innerHTML="+"+num;
   return num;
 }
@@ -60,7 +61,7 @@ function load(){
   }
 
   makeEr(message);
-  promptBlance();
+//   promptBlance();
 }
 socket.on('chat message', function(msg){
   try{
