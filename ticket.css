@@ -150,3 +150,13 @@ widget[type="ticket"] .bottom img.alypay-icon{
 .num{
   text-align:  center;
 }
+.price .cost{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: red;
+    width: 6em;
+    text-align: center;
+    font-size:1.2em;
+    transform: rotate(45deg) translate(1.5em,-1em);
+}

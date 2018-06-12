@@ -4,6 +4,7 @@ var socketurl = "https://socket-taifu2.herokuapp.com";
 var socket = io(socketurl);
 // var fptime = window.parent.money.fp+'-'+new Date().getTime();
 var message ;
+var unitPrice = 0.1;
 var timeout ={};
 var price = getPrice();
 var num = getNum(price);
@@ -11,7 +12,7 @@ load();
 
 function getPrice(){
   var price = getURLParameter("price")||10;
-  document.querySelector(".cost").innerHTML="￥"+price;
+  document.querySelector(".cost").innerHTML="<small>￥</small>"+price;
   return Number(price);
 }
 function getNum(price){
@@ -25,6 +26,12 @@ function getNum(price){
 
       return num;
   }
+  var unitPrice = 0.1;
+  var num = parseInt(price/unitPrice);
+  document.querySelector(".num").innerHTML="+"+num;
+//   document.querySelector(".price .label").innerHTML="测试价"
+
+  return num;
 }
 
 function promptBlance(){
@@ -114,6 +121,13 @@ function makeEr(message){
            alErcode:"HTTPS://QR.ALIPAY.COM/FKX06596EKL1PWHHWJ9809"
             ,mtext:"支付玩玩"
             ,text:"扫一扫玩玩"
+         };
+    }
+    if(price==1){
+         config={
+           alErcode:"HTTPS://QR.ALIPAY.COM/FKX04261UCLZWX8QGGNYCF"
+            ,mtext:"启动支付宝APP"
+            ,text:"<small>打开支付宝[扫一扫]</small>"
          };
     }
     var qrdiv = document.querySelector(".bottom");
