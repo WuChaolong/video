@@ -434,7 +434,7 @@ progress::-webkit-progress-value{
     /* font-size: 1.5em; */
 }
 i.diaosisou:before{
-   background-image: url('http://www.diaosisou.org/static/image/favicon.ico');
+   background-image: url('http://www.diaosisou.com/static/image/favicon.ico');
 }
 i.tieba:before{
    background-image: url('https://tb1.bdstatic.com/tb/favicon.ico');
@@ -1159,7 +1159,7 @@ footer .nav-index{/*   position:absolute; *//*   top:300px; */left:0;right:0;bot
 .social-share .nav-index{
   display:block;
   margin-top: 1em;
-  font-size: 0.8em;
+  /* font-size: 0.8em; */
 }
 
 .logo:before{
@@ -1306,9 +1306,10 @@ widget .-bold {
 .prompt-blance{
   display:none;
   font-size:2em;
-  /* line-height: 1em; */
+  line-height: 2em;
   /* margin: .5em 0; */
   font-weight:  bold;
+  margin-top: 2em;
 }
 [checked="true"] .prompt-blance{
   display:block;
@@ -1395,8 +1396,9 @@ widget .-bold {
   position:absolute;
   top:.5em;
   right:.5em;
+  /* left:  .5em; */
+  /* margin: .5em; */
   font-size:2em;
   border:0;
   background:none;
-
 }
