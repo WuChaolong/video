@@ -160,3 +160,15 @@ widget[type="ticket"] .bottom img.alypay-icon{
     font-size:1.2em;
     transform: rotate(45deg) translate(1.5em,-1em);
 }
+#paypal-button{
+  /* display: inline; */
+  /* position:  absolute; */
+  /* left:  -100%; */
+  /* right: -100%; */
+  /* top: 0; */
+  /* bottom: 0; */
+  margin: 1em auto;
+  height: 2em;
+  /* width: 100px; */
+  padding: 0;
+}

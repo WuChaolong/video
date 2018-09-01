@@ -68,7 +68,7 @@ function load(){
   }
 
   makeEr(message);
-//   promptBlance();
+  promptBlance();
 }
 socket.on('chat message', function(msg){
   try{
