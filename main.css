@@ -1228,10 +1228,10 @@ footer .nav-index{/*   position:absolute; *//*   top:300px; */left:0;right:0;bot
     /*     background-image: url(//wuchaolong.github.io/paaper/extend/1464654409058/paaper.png);
     background-size: 3.5em 100%; */
     background-color: #fff;
-    -webkit-animation: 5s ease-in-out move_left;
-    -moz-animation: 5s ease-in-out move_left;
-    -o-animation: 5s ease-in-out move_left;
-    animation: 5s ease-in-out move_left;
+    -webkit-animation: 10s ease-in-out move_left;
+    -moz-animation: 10s ease-in-out move_left;
+    -o-animation: 10s ease-in-out move_left;
+    animation: 10s ease-in-out move_left;
     font-family: initial;
 }
 @-webkit-keyframes move_left { from { left:-9.5em;} 20%{left:.5em}  80%{left:.5em} to  { left:-9.5em;}} 
