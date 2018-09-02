@@ -1311,6 +1311,10 @@ widget .-bold {
   font-weight:  bold;
   margin-top: 2em;
 }
+.prompt-blance span{
+  display:inline-block;
+  margin:auto .2em;
+}
 [checked="true"] .prompt-blance{
   display:block;
 }
