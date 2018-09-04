@@ -58,7 +58,19 @@
      <div id="money"></div>
      <div class="coinhive-miner"></div>
     <div id="donate"></div>
-         <button class="close" title="Close" onclick='document.querySelector(".money").setAttribute("checked",false);'>✗</button>
+         <button class="close" title="Close" onclick='
+         document.querySelector(".good-1").style.display="block";
+         '>
+           <div>
+              <div class="price --flex-column">
+        <!--           <div class="label">价格</div> -->
+                  <div class="cost -bold"><small>￥</small>0.1</div>
+               </div>
+            <span class="icon-close">✗</span>
+           </div>
+         </button>
+    
+    <div class="good-1 close-bg" onclick='this.style.display="none";'></div>
 
   </div>
   <div>
@@ -100,11 +112,20 @@
 
 <div class="good">
         
-<iframe src="pay10.html?price=1" class="good-iframe"  frameborder="0" scrolling="no"></iframe>
+<iframe src="pay10.html" class="good-iframe"  frameborder="0" scrolling="no"></iframe>
 
 <div>
         <a class="social-share-icon icon-qq qq" target="_blank" href="https://wpa.qq.com/msgrd?v=3&uin=752761705&site=qq&menu=yes"></a>
 </div>
+     </div>
+</script>
+<script id="pay1Template" type="text/html">
+
+<div class="good">
+        
+<iframe src="pay10.html?price=0.1" class="good-iframe"  frameborder="0" scrolling="no"></iframe>
+
+
      </div>
 </script>
 <script id="paypalTemplate" type="text/html">

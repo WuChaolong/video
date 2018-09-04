@@ -4,11 +4,12 @@ var socketurl = "https://socket-taifu2.herokuapp.com";
 var socket = io(socketurl);
 // var fptime = window.parent.money.fp+'-'+new Date().getTime();
 var message ;
-var unitPrice = 0.01;
+var unitPrice = 0.1;
 var timeout ={};
 var interval = {};
 var price = getPrice();
 var num = getNum(price);
+var moneyed = false;
 load();
 
 function getPrice(){
@@ -20,13 +21,14 @@ function getNum(price){
   if(price==10){
      return loadNum();
   }
-  if(price==0.1){
-      var num = 1;
-      document.querySelector(".num").innerHTML="+"+num;
-      document.querySelector(".price .label").innerHTML="测试价"
+//   if(price==0.1){
+//       var num = 1;
+//       document.querySelector(".num").innerHTML="+"+num;
+//       document.querySelector(".price .label").innerHTML="测试价"
 
-      return num;
-  }
+//       return num;
+//   }
+  
 //   var unitPrice = 0.1;
   var num = parseInt(price/unitPrice);
   document.querySelector(".num").innerHTML="+"+num;
@@ -37,7 +39,7 @@ function getNum(price){
 
 function promptBlance(){
 
-if(window.parent.money.num>=0){
+if(window.parent.money.num>=0||moneyed){
   var isOpen = "false";
 }else{
   var isOpen = "true";
@@ -88,7 +90,9 @@ socket.on('chat message', function(msg){
         interval = setInterval(log0,1000);
         
       }else if(msg.checking===2){
+
         log('<div class="barcode">已成功支付!');
+        moneyed = true;
         window.parent.money.change(num);
         setTimeout(load,5000);
         clearInterval(interval);
@@ -121,22 +125,22 @@ function makeEr(message,isAgain){
     if(price==10){
          config={
            alErcode:"HTTPS://QR.ALIPAY.COM/FKX06210WMHA2IRIKCSW33"
-            ,mtext:"启动支付宝购买"
-            ,text:"支付宝扫一扫购买 "
+            ,mtext:isAgain?"已超时，重新启动":"启动支付宝购买"
+            ,text:isAgain?"<small>已超时，请重新[扫一扫]</small>":"<small>支付宝[扫一扫]购买</small>"
          };
     }
     if(price==0.1){
         config={
            alErcode:"HTTPS://QR.ALIPAY.COM/FKX06596EKL1PWHHWJ9809"
-            ,mtext:"支付玩玩"
-            ,text:"扫一扫玩玩"
+            ,mtext:isAgain?"已超时，重新启动":"启动支付宝付钱"
+            ,text:isAgain?"<small>已超时，请重新[扫一扫]</small>":"<small>支付0.1元，紧急使用</small>"
          };
     }
     if(price==1){
          config={
            alErcode:"HTTPS://QR.ALIPAY.COM/FKX04261UCLZWX8QGGNYCF"
-            ,mtext:isAgain?"已超时，重新启动":"启动支付宝购买"
-            ,text:isAgain?"<small>已超时，请重新[扫一扫]</small>":"<small>支付宝[扫一扫]购买</small>"
+            ,mtext:isAgain?"已超时，重新启动":"启动支付宝付钱"
+            ,text:isAgain?"<small>已超时，请重新[扫一扫]</small>":"<small>支付1元，紧急使用</small>"
          };
     }
     var qrdiv = document.querySelector(".bottom");
