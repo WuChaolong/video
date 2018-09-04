@@ -4,7 +4,7 @@ var socketurl = "https://socket-taifu2.herokuapp.com";
 var socket = io(socketurl);
 // var fptime = window.parent.money.fp+'-'+new Date().getTime();
 var message ;
-var unitPrice = 0.1;
+var unitPrice = 0.01;
 var timeout ={};
 var price = getPrice();
 var num = getNum(price);
@@ -26,7 +26,7 @@ function getNum(price){
 
       return num;
   }
-  var unitPrice = 0.1;
+//   var unitPrice = 0.1;
   var num = parseInt(price/unitPrice);
   document.querySelector(".num").innerHTML="+"+num;
 //   document.querySelector(".price .label").innerHTML="测试价"
