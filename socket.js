@@ -6,6 +6,7 @@ var socket = io(socketurl);
 var message ;
 var unitPrice = 0.01;
 var timeout ={};
+var interval = {};
 var price = getPrice();
 var num = getNum(price);
 load();
@@ -60,15 +61,17 @@ function loadNum(){
   return num;
 }
 
-function load(){
+function load(isAgain){
   message = {
     fb:window.parent.money.fp
     ,time:new Date().getTime()
     ,checking:0
   }
-
-  makeEr(message);
+  makeEr(message,isAgain);
   promptBlance();
+
+  clearInterval(interval);
+  clearTimeout(timeout);
 }
 socket.on('chat message', function(msg){
   try{
@@ -78,12 +81,18 @@ socket.on('chat message', function(msg){
       if(msg.checking===0){
         message.checking = 1;
         addPaysapi();
-        log('<div class="barcode">支付中...</div>');
+        var intervalTime = 120;
+        var log0=function(){
+          log('<div class="barcode"><small>支付中,'+(intervalTime--)+'秒有效</small></div>');
+        }
+        interval = setInterval(log0,1000);
+        
       }else if(msg.checking===2){
         log('<div class="barcode">已成功支付!');
         window.parent.money.change(num);
-        timeout = setTimeout(load,5000);
-//         clearTimeout(timeout);
+        setTimeout(load,5000);
+        clearInterval(interval);
+        clearTimeout(timeout);
 
       }
     }
@@ -107,7 +116,7 @@ function pay10(num){
    var pay10 = Number(localStorage.getItem("pay10"));
    localStorage.setItem("pay10",pay10+num);
 }
-function makeEr(message){
+function makeEr(message,isAgain){
     var config = {};
     if(price==10){
          config={
@@ -126,8 +135,8 @@ function makeEr(message){
     if(price==1){
          config={
            alErcode:"HTTPS://QR.ALIPAY.COM/FKX04261UCLZWX8QGGNYCF"
-            ,mtext:"启动支付宝购买"
-            ,text:"<small>支付宝[扫一扫]购买</small>"
+            ,mtext:isAgain?"已超时，重新启动":"启动支付宝购买"
+            ,text:isAgain?"<small>已超时，请重新[扫一扫]</small>":"<small>支付宝[扫一扫]购买</small>"
          };
     }
     var qrdiv = document.querySelector(".bottom");
@@ -146,7 +155,9 @@ function makeEr(message){
 function addPaysapi(){
   var html = '    <iframe src="'+socketurl+'/payqrcode?orderno='+message.time+'&price='+price+'&pay=1&phone='+message.fb+'" height="0"  frameborder="0" scrolling="no" sandbox="allow-same-origin allow-scripts allow-forms"></iframe>'
   document.querySelector(".payapi").innerHTML = html;
-    timeout = setTimeout(load,300000);
+    
+        
+    timeout = setTimeout("load(true)",120000);
 
 
 }
