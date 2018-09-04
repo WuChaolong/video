@@ -126,7 +126,7 @@ function makeEr(message){
     if(price==1){
          config={
            alErcode:"HTTPS://QR.ALIPAY.COM/FKX04261UCLZWX8QGGNYCF"
-            ,mtext:"启动支付宝APP"
+            ,mtext:"启动支付宝购买"
             ,text:"<small>支付宝[扫一扫]购买</small>"
          };
     }
