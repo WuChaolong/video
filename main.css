@@ -1257,6 +1257,7 @@ footer .nav-index{/*   position:absolute; *//*   top:300px; */left:0;right:0;bot
 .price{
   position: relative;
   /* overflow:  hidden; */
+  display: none;
 }
   top: 50%;
   -webkit-transform: translate(-50%, -50%) rotate(45deg);
@@ -1420,6 +1421,7 @@ widget .-bold {
   text-align: center;
   /* font-size:1.2em; */
   transform: rotate(45deg) translate(1.5em,-1em);
+  /* display:  none; */
 }
 
 .icon-close{font-size: 4em;display: block;width: 1.5em;line-height:  1.5em;text-align:  center;}
@@ -1440,4 +1442,8 @@ widget .-bold {
 
 .money[checked='false'] .close-bg{
   display:none !important;
+}
+
+.cn .price{
+  display:block;
 }

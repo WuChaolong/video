@@ -5,7 +5,7 @@
 <link rel="preload" href="//socket-taifu2.herokuapp.com">
 
 </head>
-<body>
+<body style="display:none;">
 <widget type="ticket" class="--flex-column"> 
  <div class="top --flex-column">
 <!--             <div class="bandname -bold">Ghost Mice</div> -->
@@ -28,6 +28,7 @@
 
     <script src="https://www.paypalobjects.com/api/checkout.js"></script>
     <script>
+    document.body.style.display="block";
     paypal.Button.render({
       env: 'sandbox',
       client: {
