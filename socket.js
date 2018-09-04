@@ -127,7 +127,7 @@ function makeEr(message){
          config={
            alErcode:"HTTPS://QR.ALIPAY.COM/FKX04261UCLZWX8QGGNYCF"
             ,mtext:"启动支付宝APP"
-            ,text:"<small>打开支付宝[扫一扫]</small>"
+            ,text:"<small>支付宝[扫一扫]购买</small>"
          };
     }
     var qrdiv = document.querySelector(".bottom");
