@@ -828,7 +828,7 @@ footer[checked='true'],footer>*[checked='true'],.share-other[checked='true']{
     margin: 0 auto;
     width: 100%;
     /* text-align:  center; */
-    background: rgba(255,255,255,.6);
+    background: rgba(255,255,255,.8);
 }
 .money[checked='true']{
     height:100%;
