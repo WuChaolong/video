@@ -1217,7 +1217,7 @@ footer .nav-index{/*   position:absolute; *//*   top:300px; */left:0;right:0;bot
     line-height:1em;
     left: -9.5em;
     bottom: .5em;
-    width:  9em;
+    width:  9.5em;
     text-align:  center;
     /*     right: -18em; */
     z-index: 12;
@@ -1396,9 +1396,6 @@ widget .-bold {
 
 .close{
   display:none;
-}
-.money[checked='true'] .close{
-  display:inline-block;
   position:absolute;
   top:.5em;
   right:.5em;
@@ -1409,6 +1406,10 @@ widget .-bold {
   background:none;
   padding: 0;
   overflow:  hidden;
+}
+.money[checked='true'] .close{
+  display:inline-block;
+  
   /* z-index: 1; */
 }
 

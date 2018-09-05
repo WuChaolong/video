@@ -39,7 +39,7 @@ function getNum(price){
 
 function promptBlance(){
 
-if(window.parent.money.num>=0||moneyed){
+if(window.parent.money.num>=1||moneyed){
   var isOpen = "false";
 }else{
   var isOpen = "true";
