@@ -17,6 +17,30 @@
 #wuchaolong .pl:after{
     content:")";
 }
+.wuchaolong-more a{
+    vertical-align:  middle;
+    font-size: 1.5em;
+    position:relative;
+    overflow:hidden;
+    display:  inline-block;
+    line-height: 1.5em;
+    width: 4em;
+}
+.wuchaolong-more a:before{
+    content:"";
+}
+.wuchaolong-more a:after{
+    content:"收费";
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: red;
+    width: 6em;
+    line-height: 1.2em;
+    text-align: center;
+    font-size: .5em;
+    transform: rotate(45deg) translate(1.5em,-1em);
+}
 #wuchaolong h2 i:after{
     content:"· · · · · ·";
 
