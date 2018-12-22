@@ -440,7 +440,7 @@ i.tieba:before{
    background-image: url('https://tb1.bdstatic.com/tb/favicon.ico');
 }
 i.panduoduo:before{
-   background-image: url('http://139.196.166.21:8085/favicon.ico');
+   background-image: url('http://www.panduoduo.net/favicon.ico');
 }
 i.panc:before{
    background-image: url('https://api.goproxy.cc/static/css/pancss/img/favicon.ico');
@@ -471,14 +471,7 @@ i.pansou:before {
   min-height: 50%;
   /* min-height: 500px; */
   position: relative;
-  top: 25%;
-  /*   padding-top:50%; */
-  transform:translateY(-25%);
-  -ms-transform:translateY(-25%); 	/* IE 9 */
-  -moz-transform:translateY(-25%); 	/* Firefox */ 
-  -webkit-transform:translateY(-25%); /* Safari 和 Chrome */
-    -o-transform:translateY(-25%); 	/* Opera */
-  /* height: 50%; */
+  
 }
 #searchBottom.doubanList{
 /*   height: 20em;
@@ -795,8 +788,9 @@ iframe{
 .video-item:hover .is-it,.video-item .is-it:checked{
   visibility: visible;
 }
-.share{width: 4em;height: 4em;position: absolute;right: 0;top: 0;bottom: 0;margin: auto;z-index: 1;}
+.share{width: 4em;height: 4em;position: absolute;right: 0;top: 0;/* bottom: 0; *//* margin: auto; */z-index: 1;}
 
+.baidu-video-help{position:relative;}
 .magnet-video+.share{
   /* position: initial; */
   /* float: right; */
